@@ -1,0 +1,35 @@
+pkgname=weechat-git
+pkgver=0.4.2.rc2.13.g22b53c6
+pkgrel=1
+epoch=1
+pkgdesc="Fast, light & extensible IRC client (ncurses UI)"
+arch=('i686' 'x86_64')
+url="http://www.weechat.org/"
+license=('GPL3')
+depends=('gnutls')
+makedepends=('git' 'aspell' 'cmake' 'lua' 'perl' 'python2' 'ruby' 'tcl')
+optdepends=('aspell' 'lua' 'perl' 'python2' 'ruby' 'tcl')
+provides=('weechat')
+conflicts=('weechat')
+
+source=("$pkgname"::git://git.sv.gnu.org/weechat.git)
+md5sums=('SKIP')
+
+pkgver() {
+    cd "$pkgname"
+    ver="$(git describe)" ver="${ver//-/.}"
+    printf "%s\n" "${ver:1}"
+}
+
+build() {
+    cd "$pkgname"
+    cmake -DPREFIX=/usr \
+        -DWEECHAT_HOME=~/.config/weechat \
+        -DPYTHON_EXECUTABLE=/usr/bin/python2 \
+        -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so
+}
+
+package() {
+    cd "$pkgname"
+    make DESTDIR="$pkgdir" install
+}
