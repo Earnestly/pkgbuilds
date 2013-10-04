@@ -1,0 +1,32 @@
+pkgname=retroarch-git
+pkgver=0.9.9.922.gdcde156
+pkgrel=2
+pkgdesc="Simple frontend for the libretro API."
+arch=('i686' 'x86_64' 'arm' 'armv6h')
+url="http://github.com/libretro/RetroArch"
+license=('GPL')
+depends=('mesa' 'sdl_image')
+optdepends=('libretro-super-git: A collection of many libretro implementations.')
+makedepends=('git')
+provides=('retroarch')
+conflicts=('retroarch')
+
+source=("$pkgname"::'git://github.com/libretro/RetroArch.git')
+md5sums=('SKIP')
+
+pkgver() {
+    cd "$pkgname"
+    local ver="$(git describe --tags)" ver="${ver//-/.}"
+    printf "%s" "${ver:1}"
+}
+
+build() {
+    cd "$pkgname"
+    ./configure --prefix=/usr
+    make
+}
+
+package() {
+    cd "$pkgname"
+    make install DESTDIR="$pkgdir"
+}
