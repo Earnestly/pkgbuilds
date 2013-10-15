@@ -1,3 +1,5 @@
+# Maintainer: Earnestly <zibeon@gmail.com>
+
 pkgname=retroarch-git
 pkgver=0.9.9.922.gdcde156
 epoch=1
