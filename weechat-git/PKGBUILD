@@ -1,3 +1,5 @@
+# Maintainer: Earnestly <zibeon@gmail.com>
+
 pkgname=weechat-git
 pkgver=0.4.2.rc2.13.g22b53c6
 pkgrel=1
