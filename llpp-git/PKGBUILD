@@ -1,7 +1,7 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=llpp-git
-pkgver=1524.4983464
+pkgver=1543.0ee9a0b
 pkgrel=1
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF with hjkl patches.'
 arch=(i686 x86_64)
