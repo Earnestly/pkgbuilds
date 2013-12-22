@@ -1,9 +1,9 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=retroarch-git
-pkgver=0.9.9.922.gdcde156
+pkgver=9081.129b709
 epoch=1
-pkgrel=2
+pkgrel=1
 pkgdesc="Simple frontend for the libretro API."
 arch=('i686' 'x86_64' 'arm' 'armv6h')
 url="http://github.com/libretro/RetroArch"
@@ -19,8 +19,7 @@ md5sums=('SKIP')
 
 pkgver() {
     cd "$pkgname"
-    local ver="$(git describe --tags)" ver="${ver//-/.}"
-    printf "%s" "${ver:1}"
+    printf "%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
