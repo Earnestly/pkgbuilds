@@ -1,7 +1,7 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=retroarch-git
-pkgver=9081.129b709
+pkgver=9173.cfd487e
 epoch=1
 pkgrel=1
 pkgdesc="Simple frontend for the libretro API."
