@@ -1,7 +1,7 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=llpp-git
-pkgver=1543.0ee9a0b
+pkgver=17.r12.gee35251
 pkgrel=1
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF with hjkl patches.'
 arch=(i686 x86_64)
@@ -12,26 +12,25 @@ conflicts=(llpp)
 options=(!strip) # Required or failure reading pdf documents
 depends=(mesa libx11)
 makedepends=(git wget unzip ocaml)
-
-source=("$pkgname"::'git+http://repo.or.cz/r/llpp.git' 
+source=('git+http://repo.or.cz/r/llpp.git' 
         'llpp.desktop')
-
 md5sums=('SKIP' 
          '9c4891f779eac44569671ee3a9cc0335')
 
 pkgver() {
-    cd "$pkgname"
-    printf "%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    cd llpp
+    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {
-    cd "$pkgname"
+    cd llpp
     # Use upstreams buildscript, not executable - need to invoke shell
     sh buildall.sh
 }
 
 package() {
-    cd "$pkgname"
+    cd llpp
     install -Dm644 "$srcdir"/llpp.desktop "$pkgdir"/usr/share/applications/llpp.desktop
     install -Dm755 llpp "$pkgdir"/usr/bin/llpp
 }
+

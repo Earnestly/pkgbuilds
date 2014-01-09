@@ -1,9 +1,8 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=weechat-git
-pkgver=0.4.2.178.gc16dd6d
+pkgver=0.4.2.r209.g73eb256
 pkgrel=1
-epoch=1
 pkgdesc="Fast, light & extensible IRC client (ncurses UI)"
 arch=('i686' 'x86_64')
 url="http://www.weechat.org/"
@@ -14,17 +13,16 @@ optdepends=('aspell' 'lua' 'perl' 'python2' 'ruby' 'tcl')
 provides=('weechat')
 conflicts=('weechat')
 
-source=("$pkgname"::git://git.sv.gnu.org/weechat.git)
+source=(git://git.sv.gnu.org/weechat.git)
 md5sums=('SKIP')
 
 pkgver() {
-    cd "$pkgname"
-    ver="$(git describe)" ver="${ver//-/.}"
-    printf "%s\n" "${ver:1}"
+    cd weechat 
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {
-    cd "$pkgname"
+    cd weechat
     cmake -DPREFIX=/usr \
         -DWEECHAT_HOME=~/.config/weechat \
         -DPYTHON_EXECUTABLE=/usr/bin/python2 \
@@ -32,6 +30,7 @@ build() {
 }
 
 package() {
-    cd "$pkgname"
+    cd weechat
     make DESTDIR="$pkgdir" install
 }
+
