@@ -1,5 +1,5 @@
 pkgname=gvim-hg
-pkgver=7.4.135.r5577.de28b1568fc2
+pkgver=7.4.135.r2.de28b1568fc2
 pkgrel=1
 pkgdesc="Vi Improved, a highly configurable, improved version of the vi text editor."
 arch=('i686' 'x86_64')
@@ -17,7 +17,7 @@ md5sums=('SKIP'
 
 pkgver() {
     cd vim
-    hg log -r "." --template "{latesttag}.r{rev}.{node|short}" | sed 's/^v//; s/-/./g'
+    hg log -r "." --template "{sub('-', '.', strip(latesttag, 'v'))}.r{latesttagdistance}.{node|short}"
 }
 
 build() {
