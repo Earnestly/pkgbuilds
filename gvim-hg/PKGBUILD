@@ -23,21 +23,21 @@ pkgver() {
 build() {
     cd vim
     ./configure \
-        --enable-gpm \
         --enable-acl \
+        --enable-gpm \
         --with-x=yes \
         --prefix=/usr \
         --enable-cscope \
         --enable-gui=gtk2 \
-        --enable-multibyte \
         --enable-luainterp \
+        --enable-multibyte \
         --enable-perlinterp \
         --enable-rubyinterp \
         --with-features=huge \
         --disable-pythoninterp \
         --enable-python3interp \
         --localstatedir=/var/lib/vim \
-        --with-compiledby='Arch Linux' \
+        --with-compiledby='Arch Linux'
     make
 }
 
