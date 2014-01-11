@@ -3,15 +3,20 @@
 pkgname=llpp-git
 pkgver=17.r12.gee35251
 pkgrel=1
+
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF with hjkl patches.'
-arch=(i686 x86_64)
+arch=('i686' 'x86_64')
 url='http://repo.or.cz/w/llpp.git'
-license=(GPL)
-provides=(llpp)
-conflicts=(llpp)
+license=('GPL')
+
+provides=('llpp')
+conflicts=('llpp')
+
 options=(!strip) # Required or failure reading pdf documents
-depends=(mesa libx11)
-makedepends=(git wget unzip ocaml)
+
+depends=('mesa' 'libx11')
+makedepends=('git' 'wget' 'unzip' 'ocaml')
+
 source=('git+http://repo.or.cz/r/llpp.git' 
         'llpp.desktop')
 md5sums=('SKIP' 

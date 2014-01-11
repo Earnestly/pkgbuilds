@@ -1,15 +1,18 @@
 pkgname=retroarch-git
 pkgver=0.9.9.r2127.g7cd149c
 pkgrel=1
+
 pkgdesc="Simple frontend for the libretro API."
-arch=('i686' 'x86_64' 'arm' 'armv6h')
+arch=('i686' 'x86_64')
 url="http://github.com/libretro/RetroArch"
 license=('GPL')
+
 depends=('mesa' 'sdl_image')
-optdepends=('libretro-super-git: A collection of many libretro implementations.')
 makedepends=('git')
+
 provides=('retroarch')
 conflicts=('retroarch')
+
 source=('git://github.com/libretro/RetroArch.git')
 md5sums=('SKIP')
 

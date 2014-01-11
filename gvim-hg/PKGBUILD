@@ -1,15 +1,20 @@
 pkgname=gvim-hg
 pkgver=7.4.135.r2.de28b1568fc2
 pkgrel=1
+
 pkgdesc="Vi Improved, a highly configurable, improved version of the vi text editor."
 arch=('i686' 'x86_64')
 url="http://www.vim.org/"
 license=('custom:vim')
+
 groups=('editors')
+
 makedepends=('mercurial')
 depends=('gtk2' 'python3')
+
 conflicts=('vim' 'gvim' 'vim-runtime')
 provides=('vim' 'gvim' 'vim-runtime')
+
 source=(vim::'hg+https://vim.googlecode.com/hg/'
         'gvim.desktop')
 md5sums=('SKIP'

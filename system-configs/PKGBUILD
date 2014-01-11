@@ -1,10 +1,12 @@
 pkgname=system-configs
 pkgver=1.0.5
 pkgrel=1
+
 pkgdesc='Personal system configurations'
 arch=('any')
 url='https://github.com/Earnestly'
 license=('custom')
+
 depends=('systemd' 'offlineimap' 'xorg-server' 'xf86-video-intel'
          'xf86-input-synaptics')
 
