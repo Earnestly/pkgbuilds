@@ -1,0 +1,33 @@
+pkgname=dmenu-pango-imlib-git
+pkgver=4.5.3.r8.gfc4d1aa
+pkgrel=1
+
+pkgdesc="Dynamic X menu - with pango and imlib support"
+url="https://github.com/Cloudef/dmenu-pango-imlib"
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('libxinerama' 'libxft' 'pango' 'imlib2')
+
+conflicts=('dmenu' 'dmenu-xft')
+provides=('dmenu' 'dmenu-pango-imlib')
+
+source=('git://github.com/Cloudef/dmenu-pango-imlib')
+md5sums=('SKIP')
+
+pkgver() {
+    cd dmenu-pango-imlib
+    git describe | sed 's/-/.r/; s/-/./'
+}
+
+build() {
+    cd dmenu-pango-imlib
+    make 
+}
+
+package() {
+    cd dmenu-pango-imlib
+    make PREFIX=/usr DESTDIR=$pkgdir install
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
+
