@@ -1,0 +1,33 @@
+pkgname=hhpc-git
+pkgver=0.2.1
+pkgrel=1
+
+pkgdesc='A small utility to hide the mouse pointer with X.org'
+arch=('i686' 'x86_64')
+url='https://github.com/Aktau/hhpc'
+license=('BSD')
+
+depends=('libx11')
+makedepends=('git')
+
+provides=('hhpc')
+conflicts=('hhpc')
+
+source=('git://github.com/Aktau/hhpc.git')
+md5sums=('SKIP')
+
+pkgver() {
+    cd hhpc
+    git describe | sed 's/^v//'
+}
+
+build() {
+    cd hhpc
+    make
+}
+
+package() {
+    cd hhpc
+    install -Dm755 hhpc "$pkgdir"/usr/bin/hhpc
+}
+

@@ -1,0 +1,17 @@
+diff --git a/termite.cc b/termite.cc
+index 5f1e9d1..e6c0539 100644
+--- a/termite.cc
++++ b/termite.cc
+@@ -684,10 +684,10 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info)
+                 vte_terminal_search_find_previous(vte);
+                 vte_terminal_copy_primary(vte);
+                 break;
+-            case GDK_KEY_u:
++            case GDK_KEY_U:
+                 search(vte, url_regex, false);
+                 break;
+-            case GDK_KEY_U:
++            case GDK_KEY_u:
+                 search(vte, url_regex, true);
+                 break;
+             case GDK_KEY_o:

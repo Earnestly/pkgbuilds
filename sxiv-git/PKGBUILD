@@ -1,0 +1,40 @@
+pkgname=sxiv-git
+pkgver=1.1.1.r16.g9212030
+pkgrel=1
+
+pkgdesc='A simple X image viewer'
+url="https://github.com/Cloudef/sxiv"
+arch=('i686' 'x86_64')
+license=('GPL2')
+
+depends=('libx11' 'xproto' 'imlib2' 'giflib')
+makedepends=('git')
+
+provides=('sxiv')
+conflicts=('sxiv')
+
+source=('git://github.com/Cloudef/sxiv#branch=manga-personal'
+        'enable_gif_loop.patch')
+md5sums=('SKIP'
+         'df4344d52f87ac1dd6624794aa07c1fd')
+
+pkgver() {
+    cd sxiv
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+prepare() {
+    cd sxiv
+    patch -Np1 -i "$srcdir"/enable_gif_loop.patch
+}
+
+build() {
+    cd sxiv
+    make
+}
+
+package() {
+    cd sxiv
+    make PREFIX=/usr DESTDIR="$pkgdir" install
+}
+
