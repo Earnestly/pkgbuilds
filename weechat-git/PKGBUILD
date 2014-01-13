@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 url="http://www.weechat.org/"
 license=('GPL3')
 
-depends=('gnutls')
+depends=('ncurses-git' 'gnutls')
 makedepends=('git' 'aspell' 'cmake' 'lua' 'perl' 'python2' 'ruby' 'tcl')
 optdepends=('aspell' 'lua' 'perl' 'python2' 'ruby' 'tcl')
 
