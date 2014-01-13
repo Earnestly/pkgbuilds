@@ -2,16 +2,16 @@
 Various packages built from the latest VCS sources with small personal tweaks.
 
 ### [antimicro](https://github.com/Ryochan7/antimicro)
-Inspiried by `qjoypad` but with more features, more developed and actively maintained.
+Inspiried by [qjoypad](http://qjoypad.sourceforge.net/) but with more features, more developed and actively maintained.
       
 ### [dmenu-pango-imlib](https://github.com/Cloudef/dmenu-pango-imlib)
-Pango and imlib patches from @Cloudef applied to dmenu allowing for proper unicode fallback and image generation.
+Pango and imlib patches from Cloudef applied to dmenu allowing for proper unicode fallback and image generation.
 
 ### gvim
-There were no sane vim/gvim PKGBUILDs available.  This build uses python 3 instead of python 2.
+There were no sane vim/gvim PKGBUILDs available.  This build uses Python 3 instead of Python 2.
 
 ### [hhpc](https://github.com/aktau/hhpc)
-Hides the mouse after a specified time, a maintained clone of `unclutter`.
+Hides the mouse after a specified time, a maintained clone of [unclutter](http://unclutter.sourceforge.net/).
 
 ### llpp
 OpenGL accelerated mupdf based PDF reader.
@@ -23,7 +23,7 @@ Moscow ML, a lightweight implementation of Standard ML.
 Modular multi-system emulator frontend to libretro.
 
 ### [sxiv](https://github.com/Cloudef/sxiv)
-A simple image viewer with patches for faster image loading, image dimentions in the statusbar and better support for manga reading from @Cloudef
+A simple image viewer with patches for faster image loading, image dimentions in the statusbar and better support for manga reading from Cloudef
 
 ### system-configs 
 Just a small collection of personal configurations.
@@ -32,5 +32,5 @@ Just a small collection of personal configurations.
 Includes a small patch for reverse URL matching as most relevent output in terminals is at the bottom.
 
 ### weechat
-Built against `ncurses` from git which enables support for italics and configured to use `XDG_CONFIG_HOME/weechat`.
+Built against ncurses from git which enables support for italics and configured to use `XDG_CONFIG_HOME/weechat`.
 
