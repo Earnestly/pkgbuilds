@@ -1,9 +1,9 @@
-# PKGBUILD
+Personal PKGBUILDs
+==================
 Various packages built from the latest VCS sources with small personal tweaks
 
 * Ryochan7/antimicro
-
-  Inspiried by `qjoypad` but with more features, more developed and actively maintained.
+  Inspiried by ``qjoypad`` but with more features, more developed and actively maintained.
         
 * Cloudef/dmenu-pango-imlib
     Pango and imlib patches from @Cloudef applied to dmenu allowing for proper unicode fallback and image generation.
@@ -12,7 +12,7 @@ Various packages built from the latest VCS sources with small personal tweaks
     There were no sane vim/gvim PKGBUILDs available.    
 
 * aktau/hhpc
-    Hides the mouse after a specified time, a maintained clone of `unclutter`
+    Hides the mouse after a specified time, a maintained clone of ``unclutter``
 
 * llpp
     OpenGL accelerated mupdf based PDF reader.
@@ -33,5 +33,5 @@ Various packages built from the latest VCS sources with small personal tweaks
     Includes a small patch for reverse URL matching as most relevent output in terminals is at the bottom.
 
 * weechat
-    Built against `ncurses` from git which enables support for italics and configured to use `XDG_CONFIG_HOME/weechat`.
+    Built against ``ncurses`` from git which enables support for italics and configured to use ``XDG_CONFIG_HOME/weechat``.
 
