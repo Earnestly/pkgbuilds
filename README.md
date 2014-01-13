@@ -22,7 +22,7 @@ Moscow ML, a lightweight implementation of Standard ML.
 ### [retroarch](https://github.com/libretro/retroarch)
 Modular multi-system emulator frontend to libretro.
 
-### [sxiv](https://github.com/Cloudef/sxiv)
+### [sxiv](https://github.com/Cloudef/sxiv/tree/manga-personal)
 A simple image viewer with patches for faster image loading, image dimentions in the statusbar and better support for manga reading from Cloudef
 
 ### system-configs 
