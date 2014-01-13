@@ -2,7 +2,7 @@ Personal PKGBUILDs
 ==================
 Various packages built from the latest VCS sources with small personal tweaks
 
-Ryochan7/antimicro
+`antimicro <https://github.com/Ryochan7/antimicro>`_
     Inspiried by ``qjoypad`` but with more features, more developed and actively maintained.
       
 Cloudef/dmenu-pango-imlib
