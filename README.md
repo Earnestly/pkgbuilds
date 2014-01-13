@@ -28,7 +28,7 @@ A simple image viewer with patches for faster image loading, image dimentions in
 ### system-configs 
 Just a small collection of personal configurations.
 
-### https://github.com/thestinger/termite
+### [termite](https://github.com/thestinger/termite)
 Includes a small patch for reverse URL matching as most relevent output in terminals is at the bottom.
 
 ### weechat
