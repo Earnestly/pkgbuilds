@@ -2,7 +2,8 @@
 Various packages built from the latest VCS sources with small personal tweaks
 
 * Ryochan7/antimicro
-    Inspiried by `qjoypad` but with more features, more developed and actively maintained.
+
+  Inspiried by `qjoypad` but with more features, more developed and actively maintained.
         
 * Cloudef/dmenu-pango-imlib
     Pango and imlib patches from @Cloudef applied to dmenu allowing for proper unicode fallback and image generation.
