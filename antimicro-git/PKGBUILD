@@ -1,7 +1,7 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=antimicro-git
-pkgver=2.0.r23.gab412e4
+pkgver=2.0.r31.g2a84701
 pkgrel=1
 
 pkgdesc="Map keyboard and mouse actions to gamepad buttons, inspired by qjoypad."
