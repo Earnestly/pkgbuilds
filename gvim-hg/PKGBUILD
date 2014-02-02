@@ -2,20 +2,20 @@ pkgname=gvim-hg
 pkgver=7.4.160.r1.c9cad40b4181
 pkgrel=1
 
-pkgdesc="Vi Improved, a highly configurable, improved version of the vi text editor."
+pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
 arch=('i686' 'x86_64')
-url="http://www.vim.org/"
+url='http://www.vim.org/'
 license=('custom:vim')
 
 groups=('editors')
 
+depends=('gtk2' 'python3' 'ruby' 'lua' 'freetype2' 'libxt')
 makedepends=('mercurial')
-depends=('gtk2' 'python3')
 
 conflicts=('vim' 'gvim' 'vim-runtime')
 provides=('vim' 'gvim' 'vim-runtime')
 
-source=(vim::'hg+https://vim.googlecode.com/hg/'
+source=('vim'::'hg+https://vim.googlecode.com/hg/'
         'gvim.desktop')
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604')
@@ -29,13 +29,14 @@ build() {
     cd vim
     ./configure \
         --enable-acl \
-        --enable-gpm \
+        --disable-gpm \
         --with-x=yes \
         --prefix=/usr \
         --enable-cscope \
         --enable-gui=gtk2 \
         --enable-luainterp \
         --enable-multibyte \
+        --disable-netbeans \
         --enable-perlinterp \
         --enable-rubyinterp \
         --with-features=huge \
