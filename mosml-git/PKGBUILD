@@ -9,6 +9,7 @@ url="http://www.itu.dk/~sestoft/mosml.html"
 license=('GPL')
 arch=('i686' 'x86_64')
 
+depends=('glibc')
 makedepends=('git')
 
 provides=('mosml')
@@ -37,4 +38,3 @@ package() {
         install -Dm644 "$manual" "$pkgdir"/usr/share/man/man1/"$manual"
     done
 }
-

@@ -9,7 +9,8 @@ license=('custom:vim')
 
 groups=('editors')
 
-depends=('gtk2' 'python3' 'ruby' 'lua' 'freetype2' 'libxt')
+depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11'
+         'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python')
 makedepends=('mercurial')
 
 conflicts=('vim' 'gvim' 'vim-runtime')
@@ -17,6 +18,7 @@ provides=('vim' 'gvim' 'vim-runtime')
 
 source=('vim'::'hg+https://vim.googlecode.com/hg/'
         'gvim.desktop')
+
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604')
 
@@ -64,4 +66,3 @@ package() {
     install -Dm644 runtime/vim48x48.png "$pkgdir"/usr/share/pixmaps/gvim.png
     install -Dm644 runtime/doc/uganda.txt "$pkgdir"/usr/share/licenses/vim/license.txt
 }
-

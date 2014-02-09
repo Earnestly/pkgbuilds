@@ -9,13 +9,13 @@ arch=('i686' 'x86_64')
 url="https://github.com/Ryochan7/antimicro"
 license=('GPL3')
 
-depends=('libxtst' 'qt4' 'sdl')
+depends=('glibc' 'libxtst' 'qt4' 'sdl')
 makedepends=('git')
 
 provides=('antimicro')
 conflicts=('antimicro')
 
-install=antimicro-git.install
+install='antimicro-git.install'
 source=('git+https://github.com/Ryochan7/antimicro')
 md5sums=('SKIP')
 
@@ -34,4 +34,3 @@ package() {
     cd antimicro/src
     make INSTALL_ROOT="$pkgdir" install
 }
-

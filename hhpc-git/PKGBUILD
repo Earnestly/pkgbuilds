@@ -7,7 +7,7 @@ arch=('i686' 'x86_64')
 url='https://github.com/Aktau/hhpc'
 license=('BSD')
 
-depends=('libx11')
+depends=('glibc' 'libx11')
 makedepends=('git')
 
 provides=('hhpc')
@@ -30,4 +30,3 @@ package() {
     cd hhpc
     install -Dm755 hhpc "$pkgdir"/usr/bin/hhpc
 }
-

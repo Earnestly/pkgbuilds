@@ -9,16 +9,17 @@ arch=('i686' 'x86_64')
 url='http://repo.or.cz/w/llpp.git'
 license=('GPL')
 
+depends=('glibc' 'ncurses' 'glu' 'libgl' 'libx11')
+makedepends=('git' 'wget' 'unzip' 'ocaml')
+
 provides=('llpp')
 conflicts=('llpp')
 
 options=(!strip) # Required or failure reading pdf documents
 
-depends=('mesa' 'libx11')
-makedepends=('git' 'wget' 'unzip' 'ocaml')
-
 source=('git+http://repo.or.cz/r/llpp.git' 
         'llpp.desktop')
+
 md5sums=('SKIP' 
          '9c4891f779eac44569671ee3a9cc0335')
 
@@ -38,4 +39,3 @@ package() {
     install -Dm644 "$srcdir"/llpp.desktop "$pkgdir"/usr/share/applications/llpp.desktop
     install -Dm755 llpp "$pkgdir"/usr/bin/llpp
 }
-

@@ -7,7 +7,7 @@ arch=('i686' 'x86_64')
 url="http://github.com/libretro/RetroArch"
 license=('GPL')
 
-depends=('mesa' 'sdl_image')
+depends=('mesa' 'sdl')
 makedepends=('git')
 
 provides=('retroarch')
@@ -23,7 +23,7 @@ pkgver() {
 
 build() {
     cd RetroArch
-    ./configure --prefix=/usr
+    ./configure --prefix=/usr --enable-cg
     make
 }
 
@@ -31,4 +31,3 @@ package() {
     cd RetroArch
     make install DESTDIR="$pkgdir"
 }
-
