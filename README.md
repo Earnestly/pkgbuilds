@@ -24,6 +24,7 @@ Modular multi-system emulator frontend to libretro.
 
 ### [sxiv](https://github.com/Cloudef/sxiv/tree/manga-personal)
 A simple image viewer with patches for faster image loading, image dimentions in the statusbar and better support for manga reading from Cloudef
+This package enables looping gif animations and a new keyboard binding `C-x` for removing the current image.
 
 ### system-configs 
 Just a small collection of personal configurations.
