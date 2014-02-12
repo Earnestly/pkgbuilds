@@ -22,7 +22,7 @@ md5sums=('SKIP')
 
 pkgver() {
     cd dolphin-emu
-    git describe --tags | sed 's/-/.r/; s/-/./'
+    git describe | sed 's/-/.r/; s/-/./'
 }
 
 build() {
