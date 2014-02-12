@@ -7,8 +7,7 @@ url="https://github.com/thestinger/termite/"
 arch=('i686' 'x86_64')
 license=('GPL')
 
-depends=('atk' 'cairo' 'glibc' 'glib2' 'gcc-libs' 'gtk3' 'pango'
-         'vte3-select-text')
+depends=('atk' 'cairo' 'glibc' 'glib2' 'gcc-libs' 'gtk3' 'pango' 'vte3-select-text')
 makedepends=('git')
 
 provides=('termite')
@@ -19,6 +18,7 @@ backup=('etc/xdg/termite/config')
 source=('git+https://github.com/thestinger/termite'
         'git+https://github.com/thestinger/util'
         'reverse_url_search.patch')
+
 md5sums=('SKIP'
          'SKIP'
          '8d4e4216cee58a1b0df223dde2216bf1')

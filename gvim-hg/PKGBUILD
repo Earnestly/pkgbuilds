@@ -56,7 +56,6 @@ package() {
     rm "$pkgdir"/usr/bin/ex
     rm "$pkgdir"/usr/bin/view
 
-    # Not sure why globstar isn't enabled in makepkg
     shopt -s globstar
     rm "$pkgdir"/usr/share/man/**/ex.1*
     rm "$pkgdir"/usr/share/man/**/view.1*
