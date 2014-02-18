@@ -63,5 +63,5 @@ package() {
 
     install -Dm644 "$srcdir"/gvim.desktop "$pkgdir"/usr/share/applications/gvim.desktop
     install -Dm644 runtime/vim48x48.png "$pkgdir"/usr/share/pixmaps/gvim.png
-    install -Dm644 runtime/doc/uganda.txt "$pkgdir"/usr/share/licenses/vim/license.txt
+    install -Dm644 runtime/doc/uganda.txt "$pkgdir"/usr/share/licenses/"$pkgname"/license.txt
 }
