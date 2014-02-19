@@ -3,8 +3,8 @@ pkgver=0.9.6.r700.g5e4a076
 pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
-arch=('i686' 'x86_64')
 url='http://www.ppsspp.org/'
+arch=('i686' 'x86_64')
 license=('GPL2')
 
 depends=('zlib' 'sdl' 'ffmpeg')
@@ -44,14 +44,13 @@ package() {
     cd ppsspp
 
     # There is no `make install` yet
-    mkdir -p "$pkgdir"/usr/share/ppsspp
+    install -dm755 "$pkgdir"/usr/share/ppsspp
     cp -a PPSSPPSDL assets/* "$pkgdir"/usr/share/ppsspp
 
-    # Tidy up
+    # Tidy up, remove executable permission from various files
     chmod -x "$pkgdir"/usr/share/ppsspp/{icon.svg,icon-114.png}
 
     # Symlink to /usr/bin/ppsspp
-    mkdir -p "$pkgdir"/usr/bin
+    install -dm755 "$pkgdir"/usr/bin
     ln -sf /usr/share/ppsspp/PPSSPPSDL "$pkgdir"/usr/bin/ppsspp
 }
-
