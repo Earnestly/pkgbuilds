@@ -30,6 +30,9 @@ Just a small collection of personal configurations.
 ### [termite](https://github.com/thestinger/termite)
 Includes a small patch for reverse URL matching as most relevant output in terminals is at the bottom.
 
+### vte3-select-text
+vte3 from 0.36 branch including 24bit colour support patched with block selection support needed for [termite](https://github.com/thestinger/termite)
+
 ### weechat
 Built against ncurses from git which enables support for italics and configured to use `XDG_CONFIG_HOME/weechat`.
 
