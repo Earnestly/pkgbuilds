@@ -1,26 +1,32 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=llpp-git
-pkgver=17.r12.gee35251
+pkgver=17.r25.geca16bd
 pkgrel=1
 
-pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF with hjkl patches.'
+pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
 arch=('i686' 'x86_64')
 url='http://repo.or.cz/w/llpp.git'
 license=('GPL')
 
-depends=('glibc' 'ncurses' 'glu' 'libgl' 'libx11')
-makedepends=('git' 'wget' 'unzip' 'ocaml')
+depends=('glibc' 'ncurses' 'glu' 'libgl' 'libx11' 'mupdf')
+makedepends=('git' 'ocaml' 'ocaml-lablgl')
 
 provides=('llpp')
 conflicts=('llpp')
 
-options=(!strip) # Required or failure reading pdf documents
+#options=('!strip') # Required or failure reading pdf documents
 
 source=('git+http://repo.or.cz/r/llpp.git' 
+        'Makefile'
+        'use_xdg_env.patch'
+        'use_mupdf_1.3.patch'
         'llpp.desktop')
 
-md5sums=('SKIP' 
+md5sums=('SKIP'
+         '0d12ab15dbef04b40f86bfee3d4cd1e5'
+         'f50b5aa11e001d89b1d296791ffa84d4'
+         '12b6c9ed0dc3a51462d6f70598ec593e'
          '9c4891f779eac44569671ee3a9cc0335')
 
 pkgver() {
@@ -28,14 +34,19 @@ pkgver() {
     git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
+prepare() {
+    cd llpp
+    patch -p1 -i "$srcdir"/use_xdg_env.patch
+    patch -p1 -i "$srcdir"/use_mupdf_1.3.patch
+}
+
 build() {
     cd llpp
-    # Use upstreams buildscript, not executable - need to invoke shell
-    sh buildall.sh
+    make -f "$srcdir"/Makefile PREFIX=/usr
 }
 
 package() {
     cd llpp
+    make -f "$srcdir"/Makefile PREFIX=/usr DESTDIR=$pkgdir install
     install -Dm644 "$srcdir"/llpp.desktop "$pkgdir"/usr/share/applications/llpp.desktop
-    install -Dm755 llpp "$pkgdir"/usr/bin/llpp
 }
