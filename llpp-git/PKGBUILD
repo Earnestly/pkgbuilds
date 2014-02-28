@@ -15,8 +15,6 @@ makedepends=('git' 'ocaml' 'ocaml-lablgl')
 provides=('llpp')
 conflicts=('llpp')
 
-#options=('!strip') # Required or failure reading pdf documents
-
 source=('git+http://repo.or.cz/r/llpp.git' 
         'Makefile'
         'use_xdg_env.patch'
