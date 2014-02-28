@@ -32,7 +32,7 @@ prepare() {
     cd termite
     git submodule init
     git config submodule.util.url "$srcdir"/util
-    git submodule update
+    git submodule update util
     patch -Np1 -i "$srcdir"/reverse_url_search.patch
 }
 
