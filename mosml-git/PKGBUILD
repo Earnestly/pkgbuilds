@@ -16,7 +16,7 @@ makedepends=('git')
 provides=('mosml')
 conflicts=('mosml')
 
-source=('git+https://github.com/kfl/mosml')
+source=('git://github.com/kfl/mosml')
 md5sums=('SKIP')
 
 pkgver() {
