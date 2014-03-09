@@ -1,5 +1,5 @@
 pkgname=vte3-select-text-git
-pkgver=0.35.2.r1.g2af14ef
+pkgver=0.35.2.r3.gbe8407d
 pkgrel=1
 
 pkgdesc='Virtual Terminal Emulator widget for use with GTK3, patched for block selection support.'
@@ -11,7 +11,7 @@ depends=('gtk3' 'vte-common')
 makedepends=('intltool' 'gobject-introspection' 'gtk3' 'gtk-doc' 'gperf')
 
 conflicts=('vte3' 'vte3-select-text')
-provides=('vte3')
+provides=('vte3' 'vte3-select-text')
 
 options=('!libtool' '!emptydirs')
 
