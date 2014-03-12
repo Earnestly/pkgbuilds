@@ -1,6 +1,6 @@
 pkgname=ncurses-git
 pkgver=5.9.r143.gef2d993
-pkgrel=1
+pkgrel=2
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
@@ -22,9 +22,12 @@ pkgver() {
     git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
-build() {
+prepare() {
     mkdir ncurses-build
     mkdir ncursesw-build
+}
+
+build() {
     cd ncursesw-build
 
     # add --enable-ext-colors and --enable-ext-mouse with next soname bump
