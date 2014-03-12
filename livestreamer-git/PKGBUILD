@@ -1,0 +1,33 @@
+pkgname=livestreamer-git
+pkgver=1.7.3.r1.g01feb72
+pkgrel=1
+
+pkgdesc='CLI program that helps launch various streaming services in a real player instead of flash.'
+url='https://github.com/chrippa/livestreamer' 
+arch=('i686' 'x86_64')
+license=('GPL3')
+
+depends=('python' 'rtmpdump-git' 'python-distribute' 'python-sh' 'python-requests')
+makedepends=('git')
+
+conflicts=('livestreamer')
+provides=('livestreamer')
+
+source=('git://github.com/chrippa/livestreamer.git#branch=develop')
+
+md5sums=('SKIP')
+
+pkgver(){
+    cd livestreamer
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+build() {
+    cd livestreamer
+    python3 setup.py build
+}
+
+package(){
+    cd livestreamer
+    python3 setup.py install --root="$pkgdir"/ --optimize=1
+}
