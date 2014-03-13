@@ -34,7 +34,7 @@ help.ml: mkhelp.sh keystoml.ml KEYS
 .mli.cmi:
 	${CAMLOPT} -c -o $@ $<
 
-.PHONY: clean install
+.PHONY: clean install all
 
 clean:
 	${RM} llpp link.o help.ml ${OBJ} ${OBJ:.cmx=.cmi} ${OBJ:.cmx=.o}
