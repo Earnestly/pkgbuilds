@@ -2,9 +2,9 @@ pkgname=dolphin-emu-git
 pkgver=4.0.r720.g5d1db5d
 pkgrel=1
 
-pkgdesc="A GameCube / Wii / Triforce emulator"
-arch=('i686' 'x86_64')
+pkgdesc='A GameCube / Wii / Triforce emulator'
 url='http://www.dolphin-emu.org/'
+arch=('i686' 'x86_64')
 license=('GPL2')
 
 depends=('bluez-libs' 'ffmpeg' 'glew' 'libao' 'libusbx' 'miniupnpc' 'openal' 'portaudio' 'sdl2' 'soundtouch' 'wxgtk')
@@ -27,9 +27,10 @@ pkgver() {
 
 build() {
     cd dolphin-emu
-    cmake -Duserdir=.config/dolphin-emu \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=/usr
+
+    _xdgconf="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Duserdir="$_xdgconf"/dolphin-emu
     make
 }
 
@@ -37,4 +38,3 @@ package() {
     cd dolphin-emu
     make DESTDIR="$pkgdir" install
 }
-
