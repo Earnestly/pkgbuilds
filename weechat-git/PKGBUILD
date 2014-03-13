@@ -26,8 +26,10 @@ pkgver() {
 
 build() {
     cd weechat
-    cmake -DPREFIX=/usr \
-        -DWEECHAT_HOME=~/.config/weechat \
+
+    _xdgconf="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+    cmake -DPREFIX=/usr -DWEECHAT_HOME="$_xdgconf"/weechat \
         -DPYTHON_EXECUTABLE=/usr/bin/python2 \
         -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so
 }
