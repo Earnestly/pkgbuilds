@@ -7,9 +7,9 @@ url='https://github.com/Cloudef/dmenu-pango-imlib'
 arch=('i686' 'x86_64')
 license=('MIT')
 
-depends=('libxinerama' 'libxft' 'pango' 'imlib2')
+depends=('libxinerama' 'pango' 'imlib2')
 
-conflicts=('dmenu' 'dmenu-xft')
+conflicts=('dmenu' 'dmenu-pango-imlib')
 provides=('dmenu' 'dmenu-pango-imlib')
 
 source=('git://github.com/Cloudef/dmenu-pango-imlib')
