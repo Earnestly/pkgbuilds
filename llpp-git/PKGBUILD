@@ -1,5 +1,3 @@
-# Maintainer: Earnestly <zibeon@gmail.com>
-
 pkgname=llpp-git
 pkgver=17.r25.geca16bd
 pkgrel=1
@@ -15,7 +13,7 @@ makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf')
 provides=('llpp')
 conflicts=('llpp')
 
-source=('git+http://repo.or.cz/r/llpp.git' 
+source=('git://repo.or.cz/llpp.git' 
         'Makefile'
         'use_xdg_env.patch'
         'use_mupdf_1.3.patch'
@@ -34,8 +32,8 @@ pkgver() {
 
 prepare() {
     cd llpp
-    patch -p1 -i "$srcdir"/use_xdg_env.patch
-    patch -p1 -i "$srcdir"/use_mupdf_1.3.patch
+    patch -Np1 -i "$srcdir"/use_xdg_env.patch
+    patch -Np1 -i "$srcdir"/use_mupdf_1.3.patch
 }
 
 build() {
