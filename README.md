@@ -35,4 +35,3 @@ vte3 from 0.36 branch including 24bit colour support patched with block selectio
 
 ### weechat
 Built against ncurses from git which enables support for italics and configured to use `XDG_CONFIG_HOME/weechat`.
-
