@@ -1,6 +1,6 @@
 ## Personal PKGBUILDs
 Most of these PKGBUILDs were created because the ones found in the AUR were horribly written.  
-Some of the packages contain person changes and tweaks, they will be noted below along with ambigious packages.
+Some of the packages contain personal changes and tweaks, they will be noted below along with ambigious packages.
 
 ### [dmenu-pango-imlib](https://github.com/Cloudef/dmenu-pango-imlib)
 Pango and imlib patches from Cloudef applied to dmenu allowing for proper unicode fallback and image generation.
