@@ -1,12 +1,12 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=weechat-git
-pkgver=0.4.3200.rgbd06f0f
+pkgver=0.4.3383.rg2936476
 pkgrel=1
 
 pkgdesc="Fast, light & extensible IRC client (ncurses UI)"
+url='http://www.weechat.org/'
 arch=('i686' 'x86_64')
-url="http://www.weechat.org/"
 license=('GPL3')
 
 depends=('ncurses-git' 'gnutls')
@@ -16,7 +16,8 @@ optdepends=('aspell' 'lua' 'perl' 'python2' 'ruby' 'tcl')
 provides=('weechat')
 conflicts=('weechat')
 
-source=(git://git.sv.gnu.org/weechat.git)
+source=('git://github.com/weechat/weechat.git')
+
 md5sums=('SKIP')
 
 pkgver() {
