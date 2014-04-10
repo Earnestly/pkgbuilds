@@ -1,9 +1,9 @@
 pkgname=termite-git
-pkgver=7.r35.g3b078b8
+pkgver=7.r36.g85f8a26
 pkgrel=1
 
-pkgdesc="A simple VTE-based terminal"
-url="https://github.com/thestinger/termite/"
+pkgdesc='A simple VTE-based terminal'
+url='https://github.com/thestinger/termite/'
 arch=('i686' 'x86_64')
 license=('GPL')
 
@@ -15,8 +15,8 @@ conflicts=('termite')
 
 backup=('etc/xdg/termite/config')
 
-source=('git+https://github.com/thestinger/termite'
-        'git+https://github.com/thestinger/util'
+source=('git://github.com/thestinger/termite'
+        'git://github.com/thestinger/util'
         'reverse_url_search.patch')
 
 md5sums=('SKIP'
