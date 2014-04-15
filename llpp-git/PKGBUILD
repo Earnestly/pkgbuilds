@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=17.r31.g28ace17
+pkgver=18
 pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
@@ -8,7 +8,7 @@ url='http://repo.or.cz/w/llpp.git'
 license=('GPL')
 
 depends=('glibc' 'ncurses' 'glu' 'libgl' 'libx11' 'openjpeg2' 'jbig2dec' 'libjpeg-turbo' 'freetype2')
-makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf')
+makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf' 'mujs-git')
 
 provides=('llpp')
 conflicts=('llpp')
@@ -16,13 +16,11 @@ conflicts=('llpp')
 source=('git://repo.or.cz/llpp.git' 
         'Makefile'
         'use_xdg_env.patch'
-        'use_mupdf_1.3.patch'
         'llpp.desktop')
 
 md5sums=('SKIP'
-         '67ad4740ba7f05c96aae1ac7db6e317a'
+         'ef2404ad1f9253793cb5b7739789f4e4'
          'f50b5aa11e001d89b1d296791ffa84d4'
-         '12b6c9ed0dc3a51462d6f70598ec593e'
          '9c4891f779eac44569671ee3a9cc0335')
 
 pkgver() {
@@ -33,7 +31,6 @@ pkgver() {
 prepare() {
     cd llpp
     patch -Np1 -i "$srcdir"/use_xdg_env.patch
-    patch -Np1 -i "$srcdir"/use_mupdf_1.3.patch
 }
 
 build() {
