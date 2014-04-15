@@ -1,8 +1,7 @@
 CAMLOPT = ocamlopt
 
 INCS = -I/usr/include -I/usr/include/freetype2 -include config/ftheader.h
-LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmupdf-js-none -ljbig2dec \
-       -lz -lopenjp2 -ljpeg -lfreetype
+LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto -lz -lopenjp2 -ljpeg -lfreetype
 
 CFLAGS = -O ${INCS}
 LDFLAGS = ${LIBS}
