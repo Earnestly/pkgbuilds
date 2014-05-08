@@ -11,6 +11,7 @@ depends=('systemd' 'offlineimap' 'xorg-server' 'xf86-video-intel'
          'xf86-input-synaptics')
 
 source=('xorg-11-evdev-tweaks.conf'
+        'xorg-12-intel.conf'
         'xorg-51-synaptics-tweaks.conf'
         'mod-i915.conf'
         'mod-pcspkr.conf'
@@ -23,6 +24,7 @@ source=('xorg-11-evdev-tweaks.conf'
 package() {
     # xorg
     install -Dm644 xorg-11-evdev-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-evdev-tweaks.conf
+    install -Dm644 xorg-12-intel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-intel.conf
     install -Dm644 xorg-51-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
 
     # modprobe
@@ -40,6 +42,7 @@ package() {
 }
 
 md5sums=('d2a95d71a0699d07879259110ba63b6e'
+         'd526efa6772eaad38e5886b2b74e620c'
          'ab25a969c3f29787fa21ffc22cfc4ec0'
          'c22b36d72741425753bc13510dd7b8b5'
          '5e911efea681920bab3f169ffc2065de'
@@ -48,4 +51,3 @@ md5sums=('d2a95d71a0699d07879259110ba63b6e'
          'bcd27741d1fb714c724af2d6e4bab019'
          'b1177c58c7a33e78ae438991715afaef'
          '1d2e6d219cae7b36d697ddf6d49d0618')
-
