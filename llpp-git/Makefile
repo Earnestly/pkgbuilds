@@ -1,6 +1,6 @@
 CAMLOPT = ocamlopt
 
-INCS = -I/usr/include -I/usr/include/freetype2 -include config/ftheader.h
+INCS = -I/usr/include -I/usr/include/freetype2 -include ft2build.h
 LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto -lz -lopenjp2 -ljpeg -lfreetype
 
 CFLAGS = -O ${INCS}
@@ -33,10 +33,11 @@ help.ml: mkhelp.sh keystoml.ml KEYS
 .mli.cmi:
 	${CAMLOPT} -c -o $@ $<
 
-.PHONY: clean install all
+.PHONY: all clean install
 
 clean:
 	${RM} llpp link.o help.ml ${OBJ} ${OBJ:.cmx=.cmi} ${OBJ:.cmx=.o}
 
 install:
 	install -Dm755 llpp ${DESTDIR}${PREFIX}/bin/llpp
+
