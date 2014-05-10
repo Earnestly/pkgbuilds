@@ -1,6 +1,6 @@
 pkgname=ncurses-git
-pkgver=5.9.r143.gef2d993
-pkgrel=2
+pkgver=5.9.r151.gd129a54
+pkgrel=1
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
