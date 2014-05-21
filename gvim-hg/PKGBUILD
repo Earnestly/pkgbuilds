@@ -1,5 +1,5 @@
 pkgname=gvim-hg
-pkgver=7.4.274.r1.075eea398fff
+pkgver=7.4.295.r3.32de51778c27
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
@@ -44,8 +44,7 @@ build() {
         --with-features=huge \
         --disable-pythoninterp \
         --enable-python3interp \
-        --localstatedir=/var/lib/vim \
-        --with-compiledby='Arch Linux'
+        --localstatedir=/var/lib/vim
     make
 }
 
