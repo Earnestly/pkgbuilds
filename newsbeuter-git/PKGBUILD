@@ -1,0 +1,36 @@
+pkgname=newsbeuter-git
+pkgver=r1668.1427bdb
+pkgrel=1
+
+pkgdesc='A RSS feed reader for the text console with special Podcast support.'
+url='http://www.newsbeuter.org'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('sqlite3' 'curl' 'libxml2' 'stfl' 'json-c')
+makedepends=('git' 'swig' 'asciidoc' 'docbook-xsl' 'pkgconfig')
+
+provides=('newsbeuter')
+conflicts=('newsbeuter')
+
+source=('git://github.com/akrennmair/newsbeuter.git')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd newsbeuter
+    printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git describe --always)"
+}
+
+build() {
+    cd newsbeuter
+    ./config.sh
+    make
+    make doc
+}
+
+package() {
+    cd newsbeuter
+    make prefix=/usr DESTDIR="$pkgdir" install
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
