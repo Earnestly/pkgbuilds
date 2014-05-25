@@ -1,7 +1,7 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=weechat-git
-pkgver=0.4.3478.rg33450dd
+pkgver=0.4.3561.rg74c979d
 pkgrel=1
 
 pkgdesc="Fast, light & extensible IRC client (ncurses UI)"
@@ -10,8 +10,8 @@ arch=('i686' 'x86_64')
 license=('GPL3')
 
 depends=('ncurses-git' 'gnutls')
-makedepends=('git' 'aspell' 'cmake' 'lua' 'perl' 'python2' 'ruby' 'tcl')
-optdepends=('aspell' 'lua' 'perl' 'python2' 'ruby' 'tcl')
+makedepends=('git' 'aspell' 'cmake' 'lua' 'perl' 'python' 'ruby' 'tcl')
+optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl')
 
 provides=('weechat')
 conflicts=('weechat')
@@ -28,11 +28,12 @@ pkgver() {
 build() {
     cd weechat
 
-    _xdgconf="${XDG_CONFIG_HOME:-$HOME/.config}"
+    _xdg_config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-    cmake -DPREFIX=/usr -DWEECHAT_HOME="$_xdgconf"/weechat \
-        -DPYTHON_EXECUTABLE=/usr/bin/python2 \
-        -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so
+    cmake -DPREFIX=/usr \
+        -DENABLE_PYTHON3=ON \
+        -DPYTHON_LIBRARY=/usr/lib/libpython3.4m.so \
+        -DWEECHAT_HOME="$_xdg_config_home"/weechat
 }
 
 package() {
