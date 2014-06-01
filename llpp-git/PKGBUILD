@@ -19,7 +19,7 @@ source=('git://repo.or.cz/llpp.git'
         'llpp.desktop')
 
 md5sums=('SKIP'
-         'c3d903c70cd37fd0f3b52a77d0408179'
+         'f8bb7f30e2a110a1a9a7867f64f985c7'
          'f50b5aa11e001d89b1d296791ffa84d4'
          '9c4891f779eac44569671ee3a9cc0335')
 

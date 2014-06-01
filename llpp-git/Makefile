@@ -40,4 +40,3 @@ clean:
 
 install:
 	install -Dm755 llpp ${DESTDIR}${PREFIX}/bin/llpp
-
