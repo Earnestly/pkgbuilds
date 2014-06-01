@@ -40,6 +40,6 @@ build() {
 
 package() {
     cd llpp
-    make -f "$srcdir"/Makefile PREFIX=/usr DESTDIR=$pkgdir install
+    make -f "$srcdir"/Makefile PREFIX=/usr DESTDIR="$pkgdir" install
     install -Dm644 "$srcdir"/llpp.desktop "$pkgdir"/usr/share/applications/llpp.desktop
 }
