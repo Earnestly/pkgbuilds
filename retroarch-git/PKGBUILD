@@ -1,5 +1,5 @@
 pkgname=retroarch-git
-pkgver=0.9.9.r2999.g09d7155
+pkgver=0.9.9.r3424.g6aabd86
 pkgrel=1
 
 pkgdesc="Simple frontend for the libretro API."
