@@ -1,0 +1,97 @@
+pkgname=blender-git
+pkgver=2.70.rc1590.g8355955
+pkgrel=1
+
+pkgdesc='Development version of Blender'
+url='http://blender.org/'
+arch=('i686' 'x86_64')
+license=('GPL')
+
+depends=('libgl' 'python' 'desktop-file-utils' 'hicolor-icon-theme' 'sdl'
+        'ffmpeg' 'fftw' 'openal' 'freetype2' 'libxi' 'openimageio' 'opencolorio'
+        'openshadinglanguage' 'libtiff' 'libpng' 'libjpeg-turbo' 'boost-libs'
+        'libsndfile' 'openexr')
+makedepends=('git' 'cmake' 'boost' 'mesa')
+optdepends=('cuda: CUDA support in Cycles')
+
+provides=('blender')
+conflicts=('blender')
+
+install='blender.install'
+
+source=('git://git.blender.org/blender.git'
+        'git://git.blender.org/blender-addons.git'
+        'git://git.blender.org/blender-addons-contrib.git'
+        'git://git.blender.org/blender-translations.git'
+        'blender.desktop')
+
+md5sums=('SKIP' 'SKIP' 'SKIP' 'SKIP'
+         'e9c26e370839fd902eb76c98fe3b9589')
+
+pkgver() {
+    cd blender
+    git describe | sed 's/^v//; s/-/./; s/-//; s/-/./'
+}
+
+prepare() {
+    cd blender
+    git submodule init
+    git config submodule.release/scripts/addons.url "$srcdir"/blender-addons
+    git config submodule.release/scripts/addons_contrib.url "$srcdir"/blender-addons-contrib
+    git config submodule.release/datafiles/locale.url "$srcdir"/blender-translations
+    git submodule update release/scripts/addons release/scripts/addons_contrib release/datafiles/locale
+}
+
+build() {
+    # Blender won't let us build in the source tree directly
+    mkdir blender_build
+    cd blender_build
+    
+    if [[ "$CARCH" == i686 ]]; then
+        _BUILDCUDA="OFF"
+        else
+        _BUILDCUDA="ON"
+    fi
+
+    cmake "$srcdir"/blender \
+          -DWITH_LLVM=ON \
+          -DWITH_FFTW3=ON \
+          -DWITH_PLAYER=ON \
+          -DWITH_CYCLES=ON \
+          -DLLVM_STATIC=OFF \
+          -DLLVM_VERSION=3.4 \
+          -DPYTHON_VERSION=3.4 \
+          -DWITH_CYCLES_OSL=ON \
+          -DWITH_GAMEENGINE=ON \
+          -DWITH_SYSTEM_GLEW=ON \
+          -DWITH_OPENCOLLADA=ON \
+          -DWITH_CODEC_FFMPEG=ON \
+          -DWITH_MOD_OCEANSIM=ON \
+          -DWITH_CODEC_FFMPEG=ON \
+          -DWITH_CODEC_SNDFILE=ON \
+          -DPYTHON_LIBPATH=/usr/lib \
+          -DWITH_PYTHON_INSTALL=OFF \
+          -DCMAKE_INSTALL_PREFIX=/usr \
+          -DOPENIMAGEIO_ROOT_DIR=/usr \
+          -DPYTHON_LIBRARY=python3.4m \
+          -DWITH_INSTALL_PORTABLE=OFF \
+          -DWITH_CYCLES_CUDA_BINARIES="$_BUILDCUDA" \
+          -DPYTHON_INCLUDE_DIRS=/usr/include/python3.4m \
+          -DCMAKE_C_FLAGS_RELEASE="-fno-delete-null-pointer-checks -DNDEBUG" \
+          -DCMAKE_CXX_FLAGS_RELEASE="-fno-delete-null-pointer-checks -DNDEBUG"
+    make
+}
+
+package() {
+    cd blender_build
+    make DESTDIR="$pkgdir" install
+
+    # Track pyc files
+    python -m compileall "$pkgdir"/usr/share/blender
+    
+    if [[ -e "$pkgdir"/usr/share/blender/*/scripts/addons/cycles/lib/ ]]; then
+        # Make sure the CUDA kernels are not stripped while stripping everything
+        # else
+        chmod 444 "$pkgdir"/usr/share/blender/*/scripts/addons/cycles/lib/*
+    fi
+}
