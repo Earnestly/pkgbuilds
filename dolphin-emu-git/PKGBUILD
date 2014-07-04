@@ -14,8 +14,6 @@ optdepends=('pulseaudio: PulseAudio backend')
 provides=('dolphin-emu')
 conflicts=('dolphin-emu')
 
-options=('!emptydirs')
-
 source=('git+https://code.google.com/p/dolphin-emu/')
 
 md5sums=('SKIP')
@@ -28,9 +26,9 @@ pkgver() {
 build() {
     cd dolphin-emu
 
-    _xdgconf="${XDG_CONFIG_HOME:-$HOME/.config}"
+    _xdg_config="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Duserdir="$_xdgconf"/dolphin-emu
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Duserdir="$_xdg_config"/dolphin-emu
     make
 }
 

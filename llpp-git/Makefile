@@ -1,12 +1,14 @@
 CAMLOPT = ocamlopt
 
 INCS = -I/usr/include -I/usr/include/freetype2 -include ft2build.h
-LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto -lz -lopenjp2 -ljpeg -lfreetype
+LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto \
+       -lz -lopenjp2 -ljpeg -lfontconfig -lfreetype
 
-CFLAGS = -O ${INCS}
-LDFLAGS = ${LIBS}
+CPPFLAGS += -DUSE_FONTCONFIG
+CFLAGS += ${INCS} ${CPPFLAGS}
+LDFLAGS += ${LIBS}
 
-OBJ = help.cmx utils.cmx wsi.cmx parser.cmx main.cmx
+OBJ = help.cmx utils.cmx wsi.cmx parser.cmx config.cmx main.cmx
 MOD = unix.cmxa str.cmxa lablgl.cmxa
 LABLGL = -I +lablGL
 
@@ -15,7 +17,7 @@ all: llpp
 llpp: ${OBJ} link.o
 	${CAMLOPT} -o $@ ${MOD} ${LABLGL} link.o -cclib '${LDFLAGS}' ${OBJ}
 
-main.cmx: help.cmx utils.cmx wsi.cmx parser.cmx
+main.cmx: help.cmx utils.cmx wsi.cmx parser.cmx config.cmx
 
 wsi.cmx: wsi.cmi
 

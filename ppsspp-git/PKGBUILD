@@ -1,11 +1,11 @@
 pkgname=ppsspp-git
-pkgver=0.9.8.r1027.geda5d78
+pkgver=0.9.8.r1515.ge505655
 pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
 url='http://www.ppsspp.org/'
 arch=('i686' 'x86_64')
-license=('GPL2')
+license=('BSD' 'GPL2')
 
 depends=('zlib' 'sdl' 'ffmpeg')
 makedepends=('git' 'cmake')
@@ -49,6 +49,9 @@ package() {
 
     # Tidy up, remove executable permission from various files
     chmod -x "$pkgdir"/usr/share/ppsspp/{icon.svg,icon-114.png}
+
+    # Install this funky license
+    install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 
     # Symlink to /usr/bin/ppsspp
     install -dm755 "$pkgdir"/usr/bin

@@ -1,7 +1,7 @@
 # Maintainer: Earnestly <zibeon@gmail.com>
 
 pkgname=weechat-git
-pkgver=0.4.3569.rgd6d5763
+pkgver=0.4.3595.rgda8bc73
 pkgrel=1
 
 pkgdesc="Fast, light & extensible IRC client (ncurses UI)"

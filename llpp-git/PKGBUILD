@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=18.r2.g902143d
+pkgver=18.r22.gaaa7ee7
 pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
@@ -15,12 +15,12 @@ conflicts=('llpp')
 
 source=('git://repo.or.cz/llpp.git' 
         'Makefile'
-        'use_xdg_env.patch'
+        'use_xdg_config.patch'
         'llpp.desktop')
 
 md5sums=('SKIP'
-         'f8bb7f30e2a110a1a9a7867f64f985c7'
-         'f50b5aa11e001d89b1d296791ffa84d4'
+         '6c93919565f3752d2a8a69d7117600b0'
+         '3cefe08fa4e074adf7827f3159053084'
          '9c4891f779eac44569671ee3a9cc0335')
 
 pkgver() {
@@ -30,12 +30,12 @@ pkgver() {
 
 prepare() {
     cd llpp
-    patch -Np1 -i "$srcdir"/use_xdg_env.patch
+    patch -Np1 -i "$srcdir"/use_xdg_config.patch
 }
 
 build() {
     cd llpp
-    make -f "$srcdir"/Makefile PREFIX=/usr
+    make -f "$srcdir"/Makefile
 }
 
 package() {
