@@ -1,0 +1,12 @@
+# /etc/systemd/user/dbus.socket
+# Are we using kdbus yet?
+
+[Unit]
+Description=User D-Bus Message Bus Socket
+Before=sockets.target
+
+[Socket]
+ListenStream=/run/user/%U/bus
+
+[Install]
+WantedBy=default.target
