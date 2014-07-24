@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=0.9.8.r1515.ge505655
+pkgver=0.9.9.r12.g6fab8e2
 pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
