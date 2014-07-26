@@ -2,9 +2,13 @@ CAMLOPT = ocamlopt
 
 INCS = -I/usr/include -I/usr/include/freetype2 -include ft2build.h
 LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto \
-       -lz -lopenjp2 -ljpeg -lfontconfig -lfreetype
+       -lz -lopenjp2 -ljpeg -lfreetype
 
+ifdef fontconfig
 CPPFLAGS += -DUSE_FONTCONFIG
+LIBS += -lfontconfig
+endif
+
 CFLAGS += ${INCS} ${CPPFLAGS}
 LDFLAGS += ${LIBS}
 
@@ -17,7 +21,8 @@ all: llpp
 llpp: ${OBJ} link.o
 	${CAMLOPT} -o $@ ${MOD} ${LABLGL} link.o -cclib '${LDFLAGS}' ${OBJ}
 
-main.cmx: help.cmx utils.cmx wsi.cmx parser.cmx config.cmx
+main.cmx: main.ml help.cmx utils.cmx wsi.cmx parser.cmx config.cmx
+	${CAMLOPT} -c -o $@ ${LABLGL} -w A-4 -pp "sed -f pp.sed" -thread $^
 
 wsi.cmx: wsi.cmi
 
@@ -35,10 +40,11 @@ help.ml: mkhelp.sh keystoml.ml KEYS
 .mli.cmi:
 	${CAMLOPT} -c -o $@ $<
 
-.PHONY: all clean install
-
 clean:
 	${RM} llpp link.o help.ml ${OBJ} ${OBJ:.cmx=.cmi} ${OBJ:.cmx=.o}
 
 install:
 	install -Dm755 llpp ${DESTDIR}${PREFIX}/bin/llpp
+	install -Dm755 llppac ${DESTDIR}${PREFIX}/bin/llppac
+
+.PHONY: all clean install
