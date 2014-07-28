@@ -11,17 +11,18 @@ endif
 
 CFLAGS += ${INCS} ${CPPFLAGS}
 LDFLAGS += ${LIBS}
-
-OBJ = help.cmx utils.cmx wsi.cmx parser.cmx config.cmx main.cmx
+OBJ = help.cmx utils.cmx bo.cmx wsi.cmx parser.cmx config.cmx main.cmx
 MOD = unix.cmxa str.cmxa lablgl.cmxa
 LABLGL = -I +lablGL
+
+VPATH = be
 
 all: llpp
 
 llpp: ${OBJ} link.o
 	${CAMLOPT} -o $@ ${MOD} ${LABLGL} link.o -cclib '${LDFLAGS}' ${OBJ}
 
-main.cmx: main.ml help.cmx utils.cmx wsi.cmx parser.cmx config.cmx
+main.cmx: main.ml help.cmx utils.cmx bo.cmx wsi.cmx parser.cmx config.cmx
 	${CAMLOPT} -c -o $@ ${LABLGL} -w A-4 -pp "sed -f pp.sed" -thread $^
 
 wsi.cmx: wsi.cmi
