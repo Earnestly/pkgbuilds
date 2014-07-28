@@ -1,0 +1,35 @@
+pkgname=weston-git
+pkgver=1.4.93.r63.geb3cf22
+pkgrel=1
+
+pkgdesc='Reference implementation of a Wayland compositor'
+url='http://wayland.freedesktop.org'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('libxkbcommon' 'libunwind' 'poppler-glib' 'mtdev' 'libxcursor' 'glu' 'pango' 'colord')
+
+provides=('weston')
+conflicts=('weston')
+
+source=('git://anongit.freedesktop.org/wayland/weston')
+
+md5sums=('SKIP')
+
+pkgver() {
+    cd weston
+    git describe | sed 's/-/.r/; s/-/./'
+}
+
+build() {
+    cd weston
+    ./autogen.sh
+	./configure --prefix=/usr --libexecdir=/usr/lib/weston --enable-demo-clients-install
+	make
+}
+
+package() {
+    cd weston
+	make DESTDIR="$pkgdir" install
+	install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}
