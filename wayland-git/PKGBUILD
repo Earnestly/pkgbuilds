@@ -1,0 +1,33 @@
+pkgname=wayland-git
+pkgver=1.5.0.r11.g7ce8eab
+pkgrel=1
+
+pkgdesc='A computer display server protocol'
+url='http://wayland.freedesktop.org'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('libffi' 'expat')
+makedepends=('doxygen')
+
+source=('git://anongit.freedesktop.org/wayland/wayland')
+
+md5sums=('SKIP')
+
+pkgver() {
+    cd wayland
+    git describe | sed 's/-/.r/; s/-/./'
+}
+
+build() {
+    cd wayland
+    ./autogen.sh
+    ./configure --prefix=/usr --disable-static
+    make
+}
+
+package() {
+    cd wayland
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}
