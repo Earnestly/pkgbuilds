@@ -24,12 +24,12 @@ pkgver() {
 build() {
     cd weston
     ./autogen.sh
-	./configure --prefix=/usr --libexecdir=/usr/lib/weston --enable-demo-clients-install
-	make
+    ./configure --prefix=/usr --libexecdir=/usr/lib/weston --enable-demo-clients-install
+    make
 }
 
 package() {
     cd weston
-	make DESTDIR="$pkgdir" install
-	install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
