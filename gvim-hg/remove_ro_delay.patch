@@ -1,0 +1,11 @@
+diff -r 4d94c8a6758a src/misc1.c
+--- a/src/misc1.c	Wed Jul 30 17:21:58 2014 +0200
++++ b/src/misc1.c	Sun Aug 03 21:58:18 2014 +0100
+@@ -3302,7 +3302,6 @@
+ 	if (msg_silent == 0 && !silent_mode)
+ 	{
+ 	    out_flush();
+-	    ui_delay(1000L, TRUE); /* give the user time to think about it */
+ 	}
+ 	curbuf->b_did_warn = TRUE;
+ 	redraw_cmdline = FALSE;	/* don't redraw and erase the message */

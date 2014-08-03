@@ -1,5 +1,5 @@
 pkgname=gvim-hg
-pkgver=7.4.382.r1.6baa86fc1060
+pkgver=7.4.389.r1.4d94c8a6758a
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
@@ -17,14 +17,21 @@ conflicts=('vim' 'gvim' 'vim-runtime')
 provides=('vim' 'gvim' 'vim-runtime')
 
 source=('vim::hg+https://vim.googlecode.com/hg/'
-        'gvim.desktop')
+        'gvim.desktop'
+        'remove_ro_delay.patch')
 
 md5sums=('SKIP'
-         '6e11c556ba3f2ce7dc05d9908188d604')
+         '6e11c556ba3f2ce7dc05d9908188d604'
+         '0e2d8ef1e98a58614d441b24f2242b98')
 
 pkgver() {
     cd vim
     hg log -r "." --template "{sub('-', '.', strip(latesttag, 'v'))}.r{latesttagdistance}.{node|short}"
+}
+
+prepare() {
+    cd vim
+    patch -Np1 -i "$srcdir"/remove_ro_delay.patch
 }
 
 build() {
