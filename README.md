@@ -3,10 +3,12 @@ Most of these PKGBUILDs were created because the ones found in the AUR were horr
 Some of the packages contain personal changes and tweaks, they will be noted below along with ambigious packages.
 
 ### [dmenu-pango-imlib](https://github.com/Cloudef/dmenu-pango-imlib)
-Pango and imlib patches from Cloudef applied to dmenu allowing for proper unicode fallback and image generation.
+Pango and imlib patches from [Cloudef](https://github.com/Cloudef) applied to dmenu allowing for proper unicode fallback and image generation.
 
 ### gvim
 There were no sane vim/gvim PKGBUILDs available.  This build uses Python 3 instead of Python 2, it disabled netbeans and gpm support.
+
+*Note: This doesn't include downstream configs and changes unlike [Arch's official](https://projects.archlinux.org/svntogit/packages.git/tree/trunk/archlinux.vim?h=packages/vim) package so make sure stuff like `nocompat` is set.*
 
 ### [hhpc](https://github.com/aktau/hhpc)
 Hides the mouse after a specified time, a maintained clone of [unclutter](http://unclutter.sourceforge.net/).
