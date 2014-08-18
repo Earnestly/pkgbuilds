@@ -1,5 +1,5 @@
 pkgname=weston-git
-pkgver=1.4.93.r63.geb3cf22
+pkgver=1.4.93.r81.g1046f12
 pkgrel=1
 
 pkgdesc='Reference implementation of a Wayland compositor'

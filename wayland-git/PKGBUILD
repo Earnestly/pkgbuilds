@@ -1,6 +1,6 @@
 pkgname=wayland-git
-pkgver=1.5.0.r11.g7ce8eab
-pkgrel=1
+pkgver=1.5.0.r22.gced769a
+pkgrel=2
 
 pkgdesc='A computer display server protocol'
 url='http://wayland.freedesktop.org'
@@ -16,6 +16,8 @@ conflicts=('wayland')
 source=('git://anongit.freedesktop.org/wayland/wayland')
 
 md5sums=('SKIP')
+
+options=('debug' '!strip')
 
 pkgver() {
     cd wayland

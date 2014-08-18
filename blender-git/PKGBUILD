@@ -1,5 +1,5 @@
 pkgname=blender-git
-pkgver=2.71.rc1589.g2366043
+pkgver=2.71.rc1796.g7284e6a
 pkgrel=1
 
 pkgdesc='Development version of Blender'
