@@ -1,6 +1,6 @@
 pkgname=llpp-git
-pkgver=19.r43.gde8fdbf
-pkgrel=1
+pkgver=20.r10.g6b3a3ed
+pkgrel=2
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
 arch=('i686' 'x86_64')
@@ -25,7 +25,7 @@ source=('git://repo.or.cz/llpp.git'
         'llpp.desktop')
 
 md5sums=('SKIP'
-         'e2c557fa0fa66b2c2c29b3b3fc6a23cc'
+         '11752bcc61dfa6014464c72c48063a29'
          '3cefe08fa4e074adf7827f3159053084'
          '9c4891f779eac44569671ee3a9cc0335')
 
