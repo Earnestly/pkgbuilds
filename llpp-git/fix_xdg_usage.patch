@@ -1,0 +1,13 @@
+diff --git a/config.ml b/config.ml
+index a82cc05..56925d6 100644
+--- a/config.ml
++++ b/config.ml
+@@ -1453,7 +1453,7 @@ let defconfpath =
+     if xdgconfdir == E.s
+     then
+       try
+-        let dir = Filename.concat home ".config" in
++        let dir = Filename.concat home ".config/llpp" in
+         if Sys.is_directory dir then dir else home
+       with _ -> home
+     else xdgconfdir

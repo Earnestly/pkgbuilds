@@ -1,6 +1,6 @@
 pkgname=llpp-git
-pkgver=20.r10.g6b3a3ed
-pkgrel=2
+pkgver=20.r50.gbb1ce65
+pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
 arch=('i686' 'x86_64')
@@ -20,14 +20,12 @@ provides=('llpp')
 conflicts=('llpp')
 
 source=('git://repo.or.cz/llpp.git' 
-        'Makefile'
-        'use_xdg_config.patch'
-        'llpp.desktop')
+        'fix_xdg_usage.patch'
+        'Makefile')
 
 md5sums=('SKIP'
-         '11752bcc61dfa6014464c72c48063a29'
-         '3cefe08fa4e074adf7827f3159053084'
-         '9c4891f779eac44569671ee3a9cc0335')
+         '1ace0d5a0b4d6b9a788ffc98f4e5a74c'
+         '8c419b0d2b515f437aad6c225c270f7b')
 
 pkgver() {
     cd llpp
@@ -36,7 +34,7 @@ pkgver() {
 
 prepare() {
     cd llpp
-    patch -Np1 -i "$srcdir"/use_xdg_config.patch
+    patch -Np1 -i "$srcdir"/fix_xdg_usage.patch
 }
 
 build() {
@@ -47,5 +45,7 @@ build() {
 package() {
     cd llpp
     make -f "$srcdir"/Makefile PREFIX=/usr DESTDIR="$pkgdir" install
-    install -Dm644 "$srcdir"/llpp.desktop "$pkgdir"/usr/share/applications/llpp.desktop
+
+    cd misc/completions
+    make  PREFIX=/usr DESTDIR="$pkgdir" install
 }
