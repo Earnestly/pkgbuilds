@@ -19,7 +19,7 @@ provides=('vim' 'gvim' 'vim-runtime')
 source=('vim::hg+https://vim.googlecode.com/hg/'
         'gvim.desktop'
         'remove_ro_delay.patch'
-        'revert-clipboard-savestate.patch')
+        'revert_clipboard_savestate.patch')
 
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604'
@@ -34,7 +34,7 @@ pkgver() {
 prepare() {
     cd vim
     patch -Np1 -i "$srcdir"/remove_ro_delay.patch
-    patch -Np1 -R -i "$srcdir"/revert-clipboard-savestate.patch
+    patch -Np1 -R -i "$srcdir"/revert_clipboard_savestate.patch
 }
 
 build() {
