@@ -1,5 +1,5 @@
 pkgname=livestreamer-git
-pkgver=1.10.1.r1.gdc24e5e
+pkgver=1.10.1.r36.gc24d69f
 pkgrel=1
 
 pkgdesc='CLI program that helps launch various streaming services in a real player instead of flash.'
@@ -7,7 +7,7 @@ url='https://github.com/chrippa/livestreamer'
 arch=('any')
 license=('GPL3')
 
-depends=('python' 'rtmpdump' 'python-requests')
+depends=('python' 'rtmpdump' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-sphinx')
 
 conflicts=('livestreamer')
