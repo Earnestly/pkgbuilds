@@ -1,6 +1,6 @@
 pkgname=llpp-git
-pkgver=20.r50.gbb1ce65
-pkgrel=1
+pkgver=20.r55.ga911521
+pkgrel=2
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
 arch=('i686' 'x86_64')
@@ -21,10 +21,12 @@ conflicts=('llpp')
 
 source=('git://repo.or.cz/llpp.git' 
         'fix_xdg_usage.patch'
+        'no_quit_on_escape.patch'
         'Makefile')
 
 md5sums=('SKIP'
-         '1ace0d5a0b4d6b9a788ffc98f4e5a74c'
+         'ddfe199327a74d2b363df564642cde81'
+         'fc410272dc72229e3366bbda17b9d072'
          '8c419b0d2b515f437aad6c225c270f7b')
 
 pkgver() {
@@ -35,6 +37,7 @@ pkgver() {
 prepare() {
     cd llpp
     patch -Np1 -i "$srcdir"/fix_xdg_usage.patch
+    patch -Np1 -i "$srcdir"/no_quit_on_escape.patch
 }
 
 build() {
