@@ -1,14 +1,14 @@
 pkgname=llpp-git
-pkgver=20.r55.ga911521
-pkgrel=2
+pkgver=20.r57.g53f1bca
+pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
 arch=('i686' 'x86_64')
 url='http://repo.or.cz/w/llpp.git'
 license=('GPL')
 
-depends=('glibc' 'ncurses' 'glu' 'libgl' 'libx11' 'openjpeg2' 'jbig2dec' 'libjpeg-turbo' 'freetype2')
-makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf')
+depends=('libgl' 'libx11' 'openjpeg2' 'jbig2dec' 'libjpeg-turbo' 'freetype2')
+makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf' 'ocaml-camlp4')
 optdepends=('djvulibre: llppac djvu conversion'
             'ghostscript: llppac ps, dvi, and djvu conversion'
             'princexml: llppac html conversion'
