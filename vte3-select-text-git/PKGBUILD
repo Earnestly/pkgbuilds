@@ -1,5 +1,5 @@
 pkgname=vte3-select-text-git
-pkgver=0.38.0.r10.g0f22672
+pkgver=0.38.0.r13.gc3da9ea
 pkgrel=1
 
 pkgdesc='Virtual Terminal Emulator widget for use with GTK3, patched for block selection support.'
@@ -45,4 +45,7 @@ build() {
 package() {
     cd vte
     make DESTDIR="$pkgdir" install
+
+    # This is now provided by vtecommon apparently.
+    rm -f -- "$pkgdir"/etc/profile.d/vte.sh
 }

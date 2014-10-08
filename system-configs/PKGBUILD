@@ -1,6 +1,6 @@
 pkgname=system-configs
 pkgver=1.0.7
-pkgrel=1
+pkgrel=3
 
 pkgdesc='Personal system configurations'
 arch=('any')
