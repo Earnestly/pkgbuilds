@@ -1,5 +1,5 @@
 pkgname=system-configs
-pkgver=1.0.7
+pkgver=1.0.8
 pkgrel=3
 
 pkgdesc='Personal system configurations'
@@ -18,8 +18,6 @@ source=('xorg-evdev-tweaks.conf'
         'mod-uvcvideo.conf'
         'systemd-dbus.service'
         'systemd-dbus.socket'
-        'systemd-offlineimap.service'
-        'systemd-offlineimap.timer'
         'systemd-user@.service'
         'sysctl-swap.conf'
         'sysctl-dirty.conf'
@@ -37,8 +35,6 @@ package() {
     install -Dm644 mod-uvcvideo.conf "$pkgdir"/etc/modprobe.d/uvcvideo.conf
 
     # systemd
-    install -Dm644 systemd-offlineimap.service "$pkgdir"/etc/systemd/system/offlineimap.service
-    install -Dm644 systemd-offlineimap.timer "$pkgdir"/etc/systemd/system/offlineimap.timer
     install -Dm644 systemd-dbus.service "$pkgdir"/etc/systemd/user/dbus.service
     install -Dm644 systemd-dbus.socket "$pkgdir"/etc/systemd/user/dbus.socket
     install -Dm644 systemd-user@.service "$pkgdir"/etc/systemd/system/user@.service
@@ -50,15 +46,13 @@ package() {
 }
 
 md5sums=('d2a95d71a0699d07879259110ba63b6e'
-         '26f41035db99647306183b258bed9591'
+         'd603ccc42b54f734df32dd915cb5f3cd'
          'ab25a969c3f29787fa21ffc22cfc4ec0'
          'c22b36d72741425753bc13510dd7b8b5'
          '5e911efea681920bab3f169ffc2065de'
          '58b6515655ddbed818074a40fc82e04a'
          '7d7c03752376c7169143b863c3232890'
          '3aed47c6da1709a2b9698f321f8c091c'
-         '218051f5841bf45801613c6c290941c9'
-         'bcd27741d1fb714c724af2d6e4bab019'
          '0e66802ae04fc1f3ada0a6f9feac51eb'
          'b1177c58c7a33e78ae438991715afaef'
          '1d2e6d219cae7b36d697ddf6d49d0618'

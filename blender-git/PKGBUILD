@@ -1,5 +1,5 @@
 pkgname=blender-git
-pkgver=2.71.rc1796.g7284e6a
+pkgver=2.72.rc1410.g04178d7
 pkgrel=1
 
 pkgdesc='Development version of Blender'
@@ -44,6 +44,7 @@ prepare() {
 
 build() {
     # Blender won't let us build in the source tree directly
+    rm -r blender_build
     mkdir blender_build
     cd blender_build
     
