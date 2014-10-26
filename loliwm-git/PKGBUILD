@@ -1,5 +1,5 @@
 pkgname=loliwm-git
-pkgver=r127.b71747e
+pkgver=r132.d32543d
 pkgrel=1
 
 pkgdesc='Wayland "window manager" based on wlc.'
