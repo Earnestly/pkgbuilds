@@ -1,5 +1,5 @@
 pkgname=wlc-git
-pkgver=r251.e08d1ed
+pkgver=r390.99513bc
 pkgrel=1
 
 pkgdesc='A minimal wayland compositor implementation.'
