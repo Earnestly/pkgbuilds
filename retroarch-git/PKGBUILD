@@ -1,5 +1,5 @@
 pkgname=retroarch-git
-pkgver=0.9.9.r7287.g03327d8
+pkgver=1.0.0.3beta.r107.g4cd4ce9
 pkgrel=1
 
 pkgdesc="Simple frontend for the libretro API."
@@ -19,7 +19,7 @@ md5sums=('SKIP')
 
 pkgver() {
     cd RetroArch
-    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
+    git describe --tags | sed 's/-//; s/-/.r/; s/-/./'
 }
 
 build() {
