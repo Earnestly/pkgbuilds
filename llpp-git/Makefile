@@ -36,10 +36,12 @@ main.cmx: main.ml utils.cmx config.cmx
 
 wsi.cmx: wsi.cmi utils.cmx
 
+wsi.cmi: utils.cmx
+
 help.ml: mkhelp.sh keystoml.ml KEYS
 	sh mkhelp.sh keystoml.ml KEYS > $@
 
-config.cmx: parser.cmx utils.cmx help.cmx
+config.cmx: parser.cmx utils.cmx help.cmx wsi.cmi
 
 link.o: glfont.c keysym2ucs.c
 
