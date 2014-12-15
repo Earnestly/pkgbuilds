@@ -3,8 +3,8 @@ pkgver=7.4.488.r1.8bb4ca7fba40
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
-arch=('i686' 'x86_64')
 url='http://www.vim.org/'
+arch=('i686' 'x86_64')
 license=('custom:vim')
 
 groups=('editors')
@@ -18,13 +18,11 @@ provides=('vim' 'gvim' 'vim-runtime')
 
 source=('vim::hg+https://vim.googlecode.com/hg/'
         'gvim.desktop'
-        'remove_ro_delay.patch'
-        'revert_clipboard_savestate.patch')
+        'remove_ro_delay.patch')
 
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604'
-         '0e2d8ef1e98a58614d441b24f2242b98'
-         '4ed0f311a417c683fefd1a861a157cb6')
+         '0e2d8ef1e98a58614d441b24f2242b98')
 
 pkgver() {
     cd vim
