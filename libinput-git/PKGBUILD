@@ -1,0 +1,34 @@
+pkgname=libinput-git
+pkgver=0.6.0.r59.g9b9a6a7
+pkgrel=1
+
+pkgdesc='A library to handle input devices in Wayland compositors'
+url='http://freedesktop.org/wiki/Software/libinput/'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('mtdev' 'systemd' 'libevdev')
+makedepends=('git')
+
+provides=('libinput')
+conflicts=('libinput')
+
+source=('git://anongit.freedesktop.org/wayland/libinput')
+
+sha1sums=('SKIP')
+
+pkgver() {
+	cd libinput
+    git describe | sed 's/-/.r/; s/-/./'
+}
+
+build() {
+	cd libinput
+	./autogen.sh --prefix=/usr
+	make
+}
+
+package() {
+	cd libinput
+	make DESTDIR="$pkgdir" install
+}
