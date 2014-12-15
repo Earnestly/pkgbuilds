@@ -1,8 +1,8 @@
 pkgname=weechat-git
-pkgver=1.0.r141.g9d849db
+pkgver=1.0.r276.g2781790
 pkgrel=1
 
-pkgdesc="Fast, light & extensible IRC client (ncurses UI)"
+pkgdesc='Fast, light and extensible IRC client (ncurses UI).'
 url='http://www.weechat.org/'
 arch=('i686' 'x86_64')
 license=('GPL3')
@@ -25,17 +25,13 @@ pkgver() {
 
 build() {
     cd weechat
-
-    _xdg_config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
-
     cmake -DPREFIX=/usr \
         -DENABLE_PYTHON3=ON \
         -DPYTHON_LIBRARY=/usr/lib/libpython3.4m.so \
-        -DWEECHAT_HOME="$_xdg_config_home"/weechat
+        -DWEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"/weechat
 }
 
 package() {
     cd weechat
     make DESTDIR="$pkgdir" install
 }
-

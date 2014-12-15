@@ -1,6 +1,6 @@
 pkgname=system-configs
 pkgver=1.0.9
-pkgrel=1
+pkgrel=2
 
 pkgdesc='Personal system configurations'
 arch=('any')
@@ -55,7 +55,7 @@ md5sums=('d2a95d71a0699d07879259110ba63b6e'
          '58b6515655ddbed818074a40fc82e04a'
          '7d7c03752376c7169143b863c3232890'
          '3aed47c6da1709a2b9698f321f8c091c'
-         '0e66802ae04fc1f3ada0a6f9feac51eb'
+         '4dcc3de4cf9fe80e6656b5c8a1e6fdc4'
          '97277c07032f5fa846c8766dfec0253a'
          'b1177c58c7a33e78ae438991715afaef'
          '1d2e6d219cae7b36d697ddf6d49d0618'

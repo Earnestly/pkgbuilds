@@ -17,3 +17,4 @@ Type=notify
 ExecStart=-/usr/lib/systemd/systemd --user
 Slice=user-%i.slice
 KillMode=mixed
+Delegate=yes

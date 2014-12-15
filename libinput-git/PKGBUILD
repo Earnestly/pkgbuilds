@@ -1,5 +1,5 @@
 pkgname=libinput-git
-pkgver=0.6.0.r59.g9b9a6a7
+pkgver=0.6.0.r128.gbded6ac
 pkgrel=1
 
 pkgdesc='A library to handle input devices in Wayland compositors'

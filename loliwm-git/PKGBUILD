@@ -1,6 +1,6 @@
 pkgname=loliwm-git
-pkgver=r201.a3690b3
-pkgrel=2
+pkgver=r218.d196894
+pkgrel=1
 
 pkgdesc='Wayland "window manager" based on wlc.'
 url='https://github.com/Cloudef/loliwm'
@@ -38,6 +38,10 @@ package() {
 
     # On Arch, logind via udev, sets uaccess for the input group so we can just
     # mark it setgid for users who launch it via the tty.
+
+    # 2014-11-09: Now needs to setuid for VT switching.  loliwm itself drops
+    # permissions ASAP but this is still undesirable and should be unnecessary
+    # once logind support lands.
     chown root:input "$pkgdir"/usr/bin/loliwm
-    chmod 2755 "$pkgdir"/usr/bin/loliwm
+    chmod 4755 "$pkgdir"/usr/bin/loliwm
 }

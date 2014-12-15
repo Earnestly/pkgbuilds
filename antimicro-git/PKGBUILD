@@ -1,5 +1,5 @@
 pkgname=antimicro-git
-pkgver=2.8.r2.g9decc94
+pkgver=2.8.r13.ge7da20f
 pkgrel=1
 
 pkgdesc='Map keyboard and mouse actions to gamepad buttons, inspired by qjoypad.'
