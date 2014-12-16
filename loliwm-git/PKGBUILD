@@ -43,5 +43,5 @@ package() {
     # permissions ASAP but this is still undesirable and should be unnecessary
     # once logind support lands.
     chown root:input "$pkgdir"/usr/bin/loliwm
-    chmod 4755 "$pkgdir"/usr/bin/loliwm
+    chmod 6755 "$pkgdir"/usr/bin/loliwm
 }
