@@ -1,6 +1,6 @@
 pkgname=llpp-git
-pkgver=20.r71.g2f1b360
-pkgrel=2
+pkgver=20.r95.g29d056d
+pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
 arch=('i686' 'x86_64')

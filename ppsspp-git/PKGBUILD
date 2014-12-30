@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=0.9.9.1.r314.ga580b1f
+pkgver=0.9.9.1.r1195.ga346b70
 pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
@@ -15,8 +15,9 @@ conflicts=('ppsspp')
 
 source=('git://github.com/hrydgard/ppsspp.git'
         'git://github.com/hrydgard/native.git'
-        'git://github.com/hrydgard/ppsspp-lang.git'
-        'git://github.com/hrydgard/ppsspp-ffmpeg.git')
+        'git://github.com/Kingcom/armips'
+        'git://github.com/hrydgard/ppsspp-lang.git')
+        #'git://github.com/hrydgard/ppsspp-ffmpeg.git')
 
 md5sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
@@ -30,13 +31,15 @@ prepare() {
     git submodule init
     git config submodule.native.url "$srcdir"/native
     git config submodule.lang.url "$srcdir"/ppsspp-lang
-    git config submodule.ffmpeg.url "$srcdir"/ppsspp-ffmpeg
-    git submodule update native lang ffmpeg
+    git config submodule.ext/armips.url "$srcdir"/armips
+    #git config submodule.ffmpeg.url "$srcdir"/ppsspp-ffmpeg
+    git submodule update native lang ext/armips #ffmpeg
 }
 
 build() {
     cd ppsspp
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+    export LDFLAGS="-lavutil -lavformat -lavcodec -lswscale -lswresample"
+    cmake -DUSING_EGL=ON -DUSING_GLES2=ON
     make
 }
 

@@ -1,5 +1,5 @@
 pkgname=antimicro-git
-pkgver=2.8.r13.ge7da20f
+pkgver=2.10.1
 pkgrel=1
 
 pkgdesc='Map keyboard and mouse actions to gamepad buttons, inspired by qjoypad.'
@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 license=('GPL3')
 
 depends=('libxtst' 'qt5-base' 'sdl2' 'libxkbcommon-x11')
-makedepends=('git' 'cmake' 'qt5-tools')
+makedepends=('cmake' 'qt5-tools')
 
 provides=('antimicro')
 conflicts=('antimicro')
@@ -25,10 +25,7 @@ pkgver() {
 
 build() {
     cd antimicro
-    cmake -DCMAKE_INSTALL_PREFIX=/usr \
-          -DUSE_SDL_2=ON
-          # -DWITH_XTEST=OFF \
-          # -DWITH_UINPUT=ON
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSE_SDL_2=ON #-DWITH_XTEST=OFF -DWITH_UINPUT=ON
     make
 }
 
