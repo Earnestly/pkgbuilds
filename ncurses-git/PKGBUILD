@@ -1,6 +1,6 @@
 pkgname=ncurses-git
-pkgver=5.9.r182.g1cfa111
-pkgrel=1
+pkgver=5.9.r191.gaefc165
+pkgrel=3
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
@@ -10,7 +10,11 @@ license=('MIT')
 depends=('glibc')
 makedepends=('git')
 
-provides=('ncurses')
+provides=('ncurses'
+          # Workaround for stupid Arch Linux packagers.
+          # <https://projects.archlinux.org/svntogit/packages.git/commit/trunk?h=packages/ncurses&id=2c435d5fb4683c3cd144fd5c68ace98458405ee9>
+          'libmenu.so' 'libpanel.so' 'libform.so' 'libncurses.so' 'libncurses++w.so'
+          'libformw.so' 'libmenuw.so' 'libpanelw.so' 'libncursesw.so')
 conflicts=('ncurses')
 
 source=('git://ncurses.scripts.mit.edu/ncurses.git')
@@ -30,17 +34,19 @@ prepare() {
 build() {
     cd ncursesw-build
 
-    # add --enable-ext-colors and --enable-ext-mouse with next soname bump
+    # Add --enable-ext-colors and --enable-ext-mouse with next soname bump.
     ../ncurses/configure --prefix=/usr \
         --with-shared \
         --with-normal \
         --without-ada  \
         --enable-widec \
         --without-debug \
-        --enable-pc-files
+        --enable-pc-files \
+        --with-cxx-shared \
+        --with-cxx-binding
     make
 
-    # libraries for external binary support 
+    # Libraries for external binary support.
     cd "$srcdir"/ncurses-build
     if [[ "$CARCH" = x86_64 ]]; then
         config_chtype_long='--with-chtype=long'
@@ -51,6 +57,8 @@ build() {
         --with-normal \
         --without-ada \
         --without-debug \
+        --with-cxx-share \
+        --with-cxx-binding \
         "$config_chtype_long"
     make
 }
@@ -68,11 +76,11 @@ package() {
         ln -s "$lib"w.pc "$pkgdir"/usr/share/pkgconfig/"$lib".pc
     done
 
-    # some packages look for -lcurses during build
+    # Some packages look for -lcurses during build.
     printf 'INPUT(-lncursesw)\n' > "$pkgdir"/usr/lib/libcursesw.so
     ln -s libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
-    # non-widec compatibility libraries
+    # Non-widec compatibility libraries.
     cd "$srcdir"/ncurses-build
     for lib in ncurses form panel menu; do
         install -Dm755 lib/lib"$lib".so.5.9 "$pkgdir"/usr/lib/lib"$lib".so.5.9
