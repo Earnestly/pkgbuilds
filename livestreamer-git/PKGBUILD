@@ -1,5 +1,5 @@
 pkgname=livestreamer-git
-pkgver=1.11.1.r3.g3cd7f60
+pkgver=1.12.0.r34.gfb739da
 pkgrel=1
 
 pkgdesc='CLI program that helps launch various streaming services in a real player instead of flash.'
@@ -7,8 +7,10 @@ url='https://github.com/chrippa/livestreamer'
 arch=('any')
 license=('GPL3')
 
-depends=('python' 'rtmpdump' 'python-requests' 'python-certifi')
+depends=('python' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-sphinx')
+optdepends=('python-librtmp: Required by ustreamtv for desktop streams.'
+            'rtmpdump: Required to play RTMP streams.')
 
 conflicts=('livestreamer')
 provides=('livestreamer')

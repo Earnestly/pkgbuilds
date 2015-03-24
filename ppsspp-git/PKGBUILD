@@ -46,17 +46,17 @@ build() {
 package() {
     cd ppsspp
 
-    # There is no `make install` yet
+    # There is no `make install` yet.
     install -dm755 "$pkgdir"/usr/share/ppsspp
     cp -a PPSSPPSDL assets/* "$pkgdir"/usr/share/ppsspp
 
     # Tidy up, remove executable permission from various files
     chmod -x "$pkgdir"/usr/share/ppsspp/{icon.svg,icon-114.png}
 
-    # Install this funky license
+    # Install this funky license.
     install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 
-    # Symlink to /usr/bin/ppsspp
+    # Symlink to /usr/bin/ppsspp.
     install -dm755 "$pkgdir"/usr/bin
     ln -sf /usr/share/ppsspp/PPSSPPSDL "$pkgdir"/usr/bin/ppsspp
 }

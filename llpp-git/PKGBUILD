@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=21.r35.g71ba920
+pkgver=21.r39.g48e4a6d
 pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
@@ -7,7 +7,7 @@ arch=('i686' 'x86_64')
 url='http://repo.or.cz/w/llpp.git'
 license=('GPL')
 
-depends=('libgl' 'libx11' 'openjpeg2' 'jbig2dec' 'libjpeg-turbo' 'freetype2')
+depends=('glu' 'libgl' 'openjpeg2' 'jbig2dec' 'libjpeg-turbo' 'freetype2')
 makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf' 'camlp4')
 optdepends=('djvulibre: llppac djvu conversion'
             'ghostscript: llppac ps, dvi, and djvu conversion'
@@ -19,7 +19,7 @@ optdepends=('djvulibre: llppac djvu conversion'
 provides=('llpp')
 conflicts=('llpp')
 
-source=('git://repo.or.cz/llpp.git' 
+source=('git://repo.or.cz/llpp.git'
         'fix_xdg_usage.patch'
         'no_quit_on_escape.patch'
         'Makefile')
@@ -27,7 +27,7 @@ source=('git://repo.or.cz/llpp.git'
 md5sums=('SKIP'
          'ddfe199327a74d2b363df564642cde81'
          '07fcbe68a2ccce6876939c589b9ea363'
-         '9612f4b0bdd6ab138f4b4d819dfb804e')
+         'a78b0605f2b5285c16836b3c3c68eb2e')
 
 pkgver() {
     cd llpp
@@ -38,6 +38,10 @@ prepare() {
     cd llpp
     patch -Np1 -i "$srcdir"/fix_xdg_usage.patch
     patch -Np1 -i "$srcdir"/no_quit_on_escape.patch
+
+    # 2015-02-28 Revert random API breakage due to adhoc "sync with upstream"
+    # mupdf.  Sigh.
+    git revert --no-edit b1a63f94092673a0d75399a108a1c706fa8dbc21
 }
 
 build() {

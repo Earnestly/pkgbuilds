@@ -1,4 +1,4 @@
-VERSION = 20
+VERSION = 21
 
 # Paths
 PREFIX ?= /usr/local

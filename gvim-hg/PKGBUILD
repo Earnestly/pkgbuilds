@@ -1,6 +1,6 @@
 pkgname=gvim-hg
-pkgver=7.4.488.r1.8bb4ca7fba40
-pkgrel=1
+pkgver=7.4.640.r1.b64f0df9399c
+pkgrel=2
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
 url='http://www.vim.org/'
@@ -9,8 +9,7 @@ license=('custom:vim')
 
 groups=('editors')
 
-depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11'
-         'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python')
+depends=('gtk2' 'lua' 'python' 'ruby' 'desktop-file-utils' 'gawk' 'libxt')
 makedepends=('mercurial')
 
 conflicts=('vim' 'gvim' 'vim-runtime')
@@ -19,6 +18,8 @@ provides=('vim' 'gvim' 'vim-runtime')
 source=('vim::hg+https://vim.googlecode.com/hg/'
         'gvim.desktop'
         'remove_ro_delay.patch')
+
+install='gvim-hg.install'
 
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604'

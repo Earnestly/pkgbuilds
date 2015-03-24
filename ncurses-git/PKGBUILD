@@ -1,6 +1,6 @@
 pkgname=ncurses-git
 pkgver=5.9.r191.gaefc165
-pkgrel=3
+pkgrel=4
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
@@ -10,11 +10,7 @@ license=('MIT')
 depends=('glibc')
 makedepends=('git')
 
-provides=('ncurses'
-          # Workaround for stupid Arch Linux packagers.
-          # <https://projects.archlinux.org/svntogit/packages.git/commit/trunk?h=packages/ncurses&id=2c435d5fb4683c3cd144fd5c68ace98458405ee9>
-          'libmenu.so' 'libpanel.so' 'libform.so' 'libncurses.so' 'libncurses++w.so'
-          'libformw.so' 'libmenuw.so' 'libpanelw.so' 'libncursesw.so')
+provides=('ncurses')
 conflicts=('ncurses')
 
 source=('git://ncurses.scripts.mit.edu/ncurses.git')

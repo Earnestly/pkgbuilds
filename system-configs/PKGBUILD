@@ -1,5 +1,5 @@
 pkgname=system-configs
-pkgver=1.0.9
+pkgver=1.1.0
 pkgrel=2
 
 pkgdesc='Personal system configurations'
@@ -13,6 +13,7 @@ depends=('systemd' 'offlineimap' 'xorg-server' 'xf86-video-intel'
 source=('xorg-evdev-tweaks.conf'
         'xorg-intel.conf'
         'xorg-synaptics-tweaks.conf'
+        'xorg-trackpoint.conf'
         'mod-i915.conf'
         'mod-pcspkr.conf'
         'mod-uvcvideo.conf'
@@ -25,22 +26,23 @@ source=('xorg-evdev-tweaks.conf'
         'sysctl-coredump.conf')
 
 package() {
-    # xorg
+    # Xorg.
     install -Dm644 xorg-intel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-intel.conf
+    install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm644 xorg-evdev-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-evdev-tweaks.conf
     install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
 
-    # modprobe
+    # Modprobe.
     install -Dm644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
     install -Dm644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm644 mod-uvcvideo.conf "$pkgdir"/etc/modprobe.d/uvcvideo.conf
 
-    # systemd
+    # Systemd.
     install -Dm644 systemd-dbus.socket "$pkgdir"/etc/systemd/user/dbus.socket
     install -Dm644 systemd-dbus.service "$pkgdir"/etc/systemd/user/dbus.service
     install -Dm644 systemd-user@.service "$pkgdir"/etc/systemd/system/user@.service
 
-    # sysctl
+    # Sysctl.
     install -Dm644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
     install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
@@ -50,6 +52,7 @@ package() {
 md5sums=('d2a95d71a0699d07879259110ba63b6e'
          'd603ccc42b54f734df32dd915cb5f3cd'
          'ab25a969c3f29787fa21ffc22cfc4ec0'
+         '81672c25b6581f54ad7b9f688c357f5e'
          'c22b36d72741425753bc13510dd7b8b5'
          '5e911efea681920bab3f169ffc2065de'
          '58b6515655ddbed818074a40fc82e04a'
@@ -57,6 +60,6 @@ md5sums=('d2a95d71a0699d07879259110ba63b6e'
          '3aed47c6da1709a2b9698f321f8c091c'
          '4dcc3de4cf9fe80e6656b5c8a1e6fdc4'
          '97277c07032f5fa846c8766dfec0253a'
-         'b1177c58c7a33e78ae438991715afaef'
+         '29cb60adc55bed8d8732f8f74c9d7d9c'
          '1d2e6d219cae7b36d697ddf6d49d0618'
          'c8931216071dfcda072c0210719edcbf')
