@@ -1,6 +1,6 @@
 pkgname=gvim-hg
-pkgver=7.4.640.r1.b64f0df9399c
-pkgrel=2
+pkgver=7.4.728.r1.9782a8aa2d7f
+pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
 url='http://www.vim.org/'

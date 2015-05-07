@@ -1,25 +1,33 @@
 pkgname=ppsspp-git
-pkgver=0.9.9.1.r1195.ga346b70
-pkgrel=1
+pkgver=1.0.1.r457.g5c9ad1f
+pkgrel=3
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
 url='http://www.ppsspp.org/'
 arch=('i686' 'x86_64')
 license=('BSD' 'GPL2')
 
-depends=('zlib' 'sdl' 'ffmpeg')
-makedepends=('git' 'cmake')
+depends=('sdl2' 'ffmpeg' 'xdg-utils')
+makedepends=('git' 'cmake' 'clang')
 
 provides=('ppsspp')
 conflicts=('ppsspp')
 
+# ppsspp-git E: Files in /usr/share/icons/hicolor but no call to gtk-update-icon-cache or xdg-icon-resource to update the icon cache
+
 source=('git://github.com/hrydgard/ppsspp.git'
         'git://github.com/hrydgard/native.git'
+        'git://github.com/hrydgard/ppsspp-lang.git'
         'git://github.com/Kingcom/armips'
-        'git://github.com/hrydgard/ppsspp-lang.git')
-        #'git://github.com/hrydgard/ppsspp-ffmpeg.git')
+        'use-native-ffmpeg.patch')
 
-md5sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+md5sums=('SKIP'
+         'SKIP'
+         'SKIP'
+         'SKIP'
+         '0b6265a0ba7c8b7066adbed210a5a5bb')
+
+install='ppsspp-git.install'
 
 pkgver() {
     cd ppsspp
@@ -32,31 +40,29 @@ prepare() {
     git config submodule.native.url "$srcdir"/native
     git config submodule.lang.url "$srcdir"/ppsspp-lang
     git config submodule.ext/armips.url "$srcdir"/armips
-    #git config submodule.ffmpeg.url "$srcdir"/ppsspp-ffmpeg
-    git submodule update native lang ext/armips #ffmpeg
+    git submodule update native lang ext/armips
+    patch -Np1 -i "$srcdir"/use-native-ffmpeg.patch
 }
 
 build() {
     cd ppsspp
-    export LDFLAGS="-lavutil -lavformat -lavcodec -lswscale -lswresample"
-    cmake -DUSING_EGL=ON -DUSING_GLES2=ON
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++
     make
 }
 
 package() {
     cd ppsspp
+    mkdir -p "$pkgdir"/usr/share/{icons,ppsspp}
+    mv assets/unix-icons/hicolor "$pkgdir"/usr/share/icons
 
-    # There is no `make install` yet.
-    install -dm755 "$pkgdir"/usr/share/ppsspp
-    cp -a PPSSPPSDL assets/* "$pkgdir"/usr/share/ppsspp
+    chmod -x assets/{icon-114.png,icon.svg}
+    cp -a assets/* "$pkgdir"/usr/share/ppsspp
 
-    # Tidy up, remove executable permission from various files
-    chmod -x "$pkgdir"/usr/share/ppsspp/{icon.svg,icon-114.png}
-
-    # Install this funky license.
-    install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
-
-    # Symlink to /usr/bin/ppsspp.
-    install -dm755 "$pkgdir"/usr/bin
+    mkdir -p "$pkgdir"/usr/bin
+    install -Dm755 PPSSPPSDL "$pkgdir"/usr/share/ppsspp/PPSSPPSDL
     ln -sf /usr/share/ppsspp/PPSSPPSDL "$pkgdir"/usr/bin/ppsspp
+
+    install -Dm644 debian/ppsspp.1 "$pkgdir"/usr/share/man/man1/ppsspp.1
+    install -Dm644 debian/ppsspp.desktop "$pkgdir"/usr/share/applications/ppsspp.desktop
+    install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

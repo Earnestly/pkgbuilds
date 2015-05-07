@@ -1,6 +1,6 @@
 pkgname=vte3-select-text
 pkgver=0.40.0
-pkgrel=1
+pkgrel=2
 
 pkgdesc='Virtual Terminal Emulator widget for use with GTK3'
 url='http://www.gnome.org'
@@ -28,16 +28,21 @@ prepare() {
 
 build() {
     cd vte-"$pkgver"
-    ./configure --prefix=/usr --sysconfdir=/etc \
+    ./configure --prefix=/usr \
+        --enable-gnome-pty-helper \
         --libexecdir=/usr/lib/vte \
-        --localstatedir=/var --disable-static \
-        --enable-introspection --enable-gnome-pty-helper
+        --enable-introspection \
+        --localstatedir=/var \
+        --sysconfdir=/etc \
+        --disable-static
     make
 }
 
 package() {
     cd vte-"$pkgver"
     make DESTDIR="$pkgdir" install
+
+    # Provided by vte-common.
     rm "$pkgdir"/etc/profile.d/vte.sh
     rm "$pkgdir"/usr/lib/vte/gnome-pty-helper
 }

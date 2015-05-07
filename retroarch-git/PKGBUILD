@@ -1,5 +1,5 @@
 pkgname=retroarch-git
-pkgver=1.0.0.3beta.r3273.gffffe3c
+pkgver=1.0.0.3beta.r4243.gb980f5c
 pkgrel=1
 
 pkgdesc="Simple frontend for the libretro API."
@@ -24,11 +24,19 @@ pkgver() {
 
 build() {
     cd RetroArch
-    ./configure --prefix=/usr --enable-cg
+    ./configure --prefix=/usr \
+        --enable-cg \
+        --enable-kms \
+        --enable-udev \
+        --enable-sdl2 \
+        --enable-pulse \
+        --enable-libxml2 \
+        --enable-threads \
+        --enable-freetype
     make
 }
 
 package() {
     cd RetroArch
-    make install DESTDIR="$pkgdir"
+    make DESTDIR="$pkgdir" install
 }

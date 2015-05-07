@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.1.r185.gc899254
+pkgver=1.2.rc1.r11.gccc6cda
 pkgrel=1
 
 pkgdesc='Fast, light and extensible IRC client (ncurses UI).'
@@ -20,7 +20,7 @@ md5sums=('SKIP')
 
 pkgver() {
     cd weechat 
-    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+    git describe | sed 's/^v//; s/-/./; s/-/.r/; s/-/./'
 }
 
 build() {

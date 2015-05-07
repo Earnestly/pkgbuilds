@@ -1,5 +1,5 @@
 pkgname=youtube-dl-git
-pkgver=r7892.7088f5b
+pkgver=r8154.d0fd305
 pkgrel=1
 
 pkgdesc='A small command-line program to download videos from many different sites.'

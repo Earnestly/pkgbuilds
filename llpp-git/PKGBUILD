@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=21.r39.g48e4a6d
+pkgver=21.r61.gdf146ab
 pkgrel=1
 
 pkgdesc='A lightweight, opengl accelerated PDF viewer based on MuPDF.'
@@ -41,7 +41,7 @@ prepare() {
 
     # 2015-02-28 Revert random API breakage due to adhoc "sync with upstream"
     # mupdf.  Sigh.
-    git revert --no-edit b1a63f94092673a0d75399a108a1c706fa8dbc21
+    #git revert --no-edit b1a63f94092673a0d75399a108a1c706fa8dbc21
 }
 
 build() {
