@@ -1,5 +1,5 @@
 pkgname=livestreamer-git
-pkgver=1.12.2.r1.g4e69a11
+pkgver=1.12.2.r5.gba3962e
 pkgrel=1
 
 pkgdesc='CLI program that helps launch various streaming services in a real player instead of flash.'

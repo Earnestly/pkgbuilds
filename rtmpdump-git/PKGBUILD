@@ -1,5 +1,5 @@
 pkgname=rtmpdump-git
-pkgver=r498.a1900c3
+pkgver=r499.a107cef
 pkgrel=1
 
 pkgdesc='A tool to download rtmp:// and rtmpe:// streams.'

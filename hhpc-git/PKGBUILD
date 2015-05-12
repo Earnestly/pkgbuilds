@@ -1,5 +1,5 @@
 pkgname=hhpc-git
-pkgver=0.3
+pkgver=0.3.1.r3.g4051016
 pkgrel=1
 
 pkgdesc='A small utility to hide the mouse pointer with X.org'
@@ -18,7 +18,7 @@ md5sums=('SKIP')
 
 pkgver() {
     cd hhpc
-    git describe | sed 's/^v//'
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {

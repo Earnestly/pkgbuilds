@@ -1,6 +1,6 @@
 pkgname=bemenu-git
-pkgver=r212.bf5fd83
-pkgrel=6
+pkgver=r216.064e937
+pkgrel=1
 
 pkgdesc='Dynamic menu library and client program inspired by dmenu with support for wayland compositors.'
 url='https://github.com/Cloudef/bemenu'

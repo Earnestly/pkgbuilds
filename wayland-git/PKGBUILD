@@ -1,5 +1,5 @@
 pkgname=wayland-git
-pkgver=1.7.0.r10.gc45be3d
+pkgver=1.7.91.r1.gd08c079
 pkgrel=1
 
 pkgdesc='A computer display server protocol'

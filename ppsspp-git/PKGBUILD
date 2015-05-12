@@ -1,6 +1,6 @@
 pkgname=ppsspp-git
-pkgver=1.0.1.r457.g5c9ad1f
-pkgrel=3
+pkgver=1.0.1.r467.g63ee530
+pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
 url='http://www.ppsspp.org/'
@@ -12,8 +12,6 @@ makedepends=('git' 'cmake' 'clang')
 
 provides=('ppsspp')
 conflicts=('ppsspp')
-
-# ppsspp-git E: Files in /usr/share/icons/hicolor but no call to gtk-update-icon-cache or xdg-icon-resource to update the icon cache
 
 source=('git://github.com/hrydgard/ppsspp.git'
         'git://github.com/hrydgard/native.git'
