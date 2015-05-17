@@ -1,5 +1,5 @@
 pkgname=pony-git
-pkgver=0.1.3.r50.g0dc5917
+pkgver=0.1.5.r25.gc5090ad
 pkgrel=1
 
 pkgdesc='An actor model, capabilities, high performance programming language.'
@@ -10,7 +10,7 @@ license=('BSD')
 options=('staticlibs')
 
 depends=('zlib' 'ncurses' 'gcc-libs')
-makedepends=('git' 'llvm')
+makedepends=('git' 'llvm' 'pcre2')
 
 provides=('pony')
 conflicts=('pony')
