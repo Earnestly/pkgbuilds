@@ -1,5 +1,5 @@
 pkgname=pony-git
-pkgver=0.1.5.r30.g5f74a15
+pkgver=0.1.5.r68.g7c137ea
 pkgrel=1
 
 pkgdesc='An actor model, capabilities, high performance programming language.'
@@ -42,11 +42,12 @@ package() {
     install -Dm644 build/release/libponyrt.a "$pkgdir"/usr/lib/libponyrt.a
     install -Dm644 build/release/libponyc.a "$pkgdir"/usr/lib/libponyc.a
     install -Dm644 src/libponyrt/pony.h "$pkgdir"/usr/include/pony.h
-    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 
     install -dm755 "$pkgdir"/usr/lib/pony
     cp -dr --no-preserve=ownership packages/* "$pkgdir"/usr/lib/pony
 
     install -dm755 "$pkgdir"/usr/share/doc/pony
     cp -dr --no-preserve=ownership examples "$pkgdir"/usr/share/doc/pony
+
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
