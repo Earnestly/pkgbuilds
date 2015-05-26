@@ -1,0 +1,72 @@
+pkgname=pulseaudio-git
+pkgver=6.0.r109.g84dff82
+pkgrel=1
+
+pkgdesc='A featureful, general-purpose sound server.'
+url='http://pulseaudio.org/'
+arch=('i686' 'x86_64')
+license=('GPL' 'LGPL')
+
+depends=('rtkit' 'libltdl' 'speex' 'tdb' 'fftw' 'orc' 'libsamplerate' 'python'
+         'webrtc-audio-processing' 'sbc' 'libasyncns' 'libxtst' 'libsm' 'json-c'
+         'pulseaudio-alsa')
+makedepends=('git' 'attr' 'intltool' 'jack' 'lirc-utils' 'openssl')
+optdepends=('alsa-plugins: ALSA support'
+            'jack: jack support'
+            'lirc-utils: infra-red support'
+            'openssl: RAOP support'
+            'python2-pyqt: Equalizer GUI (qpaeq)')
+
+backup=('etc/pulse/daemon.conf' 'etc/pulse/default.pa' 'etc/pulse/system.pa'
+        'etc/pulse/client.conf')
+
+provides=('pulseaudio' 'libpulse')
+conflicts=('pulseaudio' 'libpulse')
+
+source=('git://github.com/pulseaudio/pulseaudio.git')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd pulseaudio
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+prepare() {
+    cd pulseaudio
+    # Unwanted defaults.
+    sed -i 's/^; flat-volumes = yes/flat-volumes = no/' src/daemon/daemon.conf.in
+    sed -i 's/^; autospawn = yes/autospawn= no/' src/pulse/client.conf.in
+}
+
+build() {
+    cd pulseaudio
+    ./autogen.sh --prefix=/usr \
+        --enable-orc \
+        --disable-xen \
+        --disable-gconf \
+        --disable-avahi \
+        --disable-rpath \
+        --disable-bluez4 \
+        --disable-esound \
+        --disable-tcpwrap \
+        --sysconfdir=/etc \
+        --with-database=tdb \
+        --disable-hal-compat \
+        --localstatedir=/var \
+        --libexecdir=/usr/lib \
+        --disable-systemd-daemon \
+        --disable-default-build-tests \
+        --with-udev-rules-dir=/usr/lib/udev/rules.d
+    make
+
+    # Why does libtool still exist!?
+    sed -ie 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+}
+
+package() {
+    cd pulseaudio
+    make DESTDIR="$pkgdir" install
+    rm -rf -- "$pkgdir"/etc/dbus-1
+    rm -rf -- "$pkgdir"/etc/xdg
+}
