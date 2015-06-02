@@ -38,10 +38,6 @@ prepare() {
     cd llpp
     patch -Np1 -i "$srcdir"/fix_xdg_usage.patch
     patch -Np1 -i "$srcdir"/no_quit_on_escape.patch
-
-    # 2015-02-28 Revert random API breakage due to adhoc "sync with upstream"
-    # mupdf.  Sigh.
-    #git revert --no-edit b1a63f94092673a0d75399a108a1c706fa8dbc21
 }
 
 build() {
