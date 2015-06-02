@@ -1,5 +1,5 @@
-pkgname=gvim-hg
-pkgver=7.4.728.r1.9782a8aa2d7f
+pkgname=gvim-git
+pkgver=7.4.729.db9bc0b
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
@@ -15,11 +15,11 @@ makedepends=('mercurial')
 conflicts=('vim' 'gvim' 'vim-runtime')
 provides=('vim' 'gvim' 'vim-runtime')
 
-source=('vim::hg+https://vim.googlecode.com/hg/'
+source=('git://github.com/vim/vim'
         'gvim.desktop'
         'remove_ro_delay.patch')
 
-install='gvim-hg.install'
+install='gvim-git.install'
 
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604'
@@ -27,7 +27,8 @@ md5sums=('SKIP'
 
 pkgver() {
     cd vim
-    hg log -r "." --template "{sub('-', '.', strip(latesttag, 'v'))}.r{latesttagdistance}.{node|short}"
+    # Vim's weird patch based versioning system, yay.
+    printf '%s.%s' $(git describe --tags | sed 's/^v//; s/-/./g;') $(git rev-parse --short HEAD)
 }
 
 prepare() {
