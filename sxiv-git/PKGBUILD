@@ -1,5 +1,5 @@
 pkgname=sxiv-git
-pkgver=1.1.1.r18.g3da53fc
+pkgver=1.3.1.r16.g9264a65
 pkgrel=1
 
 pkgdesc='A simple X image viewer'
@@ -13,23 +13,13 @@ makedepends=('git')
 provides=('sxiv')
 conflicts=('sxiv')
 
-source=('git://github.com/Cloudef/sxiv#branch=manga'
-        'ctrl_x_rm_image.patch'
-        'enable_gif_loop.patch')
+source=('git://github.com/muennich/sxiv')
 
-md5sums=('SKIP'
-         '9845557a46b1c8dc98751f806bc256f3'
-         'df4344d52f87ac1dd6624794aa07c1fd')
+md5sums=('SKIP')
 
 pkgver() {
     cd sxiv
     git describe | sed 's/^v//; s/-/.r/; s/-/./'
-}
-
-prepare() {
-    cd sxiv
-    patch -Np1 -i "$srcdir"/enable_gif_loop.patch
-    patch -Np1 -i "$srcdir"/ctrl_x_rm_image.patch
 }
 
 build() {

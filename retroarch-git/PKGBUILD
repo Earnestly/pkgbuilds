@@ -1,11 +1,13 @@
 pkgname=retroarch-git
-pkgver=1.0.0.3beta.r5009.g0e23908
+pkgver=1.2.r23.g044ef3d
 pkgrel=1
 
 pkgdesc="Simple frontend for the libretro API."
 arch=('i686' 'x86_64')
 url="http://github.com/libretro/RetroArch"
 license=('GPL')
+
+options=('!strip' 'debug')
 
 depends=('mesa' 'sdl' 'nvidia-cg-toolkit')
 makedepends=('git')
@@ -19,7 +21,7 @@ md5sums=('SKIP')
 
 pkgver() {
     cd RetroArch
-    git describe --tags | sed 's/-//; s/-/.r/; s/-/./'
+    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {

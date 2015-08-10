@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=6.0.r109.g84dff82
+pkgver=6.0.r131.g6a12d96
 pkgrel=1
 
 pkgdesc='A featureful, general-purpose sound server.'
@@ -36,7 +36,7 @@ prepare() {
     cd pulseaudio
     # Unwanted defaults.
     sed -i 's/^; flat-volumes = yes/flat-volumes = no/' src/daemon/daemon.conf.in
-    sed -i 's/^; autospawn = yes/autospawn= no/' src/pulse/client.conf.in
+    sed -i 's/^; autospawn = yes/autospawn = no/' src/pulse/client.conf.in
 }
 
 build() {
@@ -61,7 +61,7 @@ build() {
     make
 
     # Why does libtool still exist!?
-    sed -ie 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+    sed -i 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 }
 
 package() {

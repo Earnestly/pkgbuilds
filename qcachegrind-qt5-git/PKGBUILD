@@ -1,5 +1,5 @@
 pkgname=qcachegrind-qt5-git
-pkgver=15.04.0
+pkgver=15.04.1.r10.g37d02af
 pkgrel=1
 
 pkgdesc='Visualization of Performance Profiling Data (Qt5 version)'

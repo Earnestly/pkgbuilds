@@ -1,6 +1,6 @@
 pkgname=hhpc-git
 pkgver=0.3.1.r3.g4051016
-pkgrel=1
+pkgrel=8
 
 pkgdesc='A small utility to hide the mouse pointer with X.org'
 arch=('i686' 'x86_64')
@@ -13,12 +13,21 @@ makedepends=('git')
 provides=('hhpc')
 conflicts=('hhpc')
 
-source=('git://github.com/Aktau/hhpc.git')
-md5sums=('SKIP')
+source=('git://github.com/Aktau/hhpc.git'
+        '11.patch')
+        #'https://github.com/aktau/hhpc/pull/11.patch')
+
+md5sums=('SKIP'
+         'f96e2029045a379306d6c45390742521')
 
 pkgver() {
     cd hhpc
     git describe | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+prepare() {
+    cd hhpc
+    patch -Np1 -i "$srcdir"/11.patch
 }
 
 build() {

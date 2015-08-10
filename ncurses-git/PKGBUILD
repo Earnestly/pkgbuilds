@@ -77,7 +77,7 @@ package() {
     printf 'INPUT(-lncursesw)\n' > "$pkgdir"/usr/lib/libcursesw.so
     ln -s libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
-    # Non-widec compatibility libraries.
+    # Non-wide compatibility libraries.
     cd "$srcdir"/ncurses-build
 
     for lib in ncurses form panel menu; do
