@@ -1,14 +1,15 @@
 pkgname=weechat-git
-pkgver=1.3.rc1.r13.gf0ad26d
-pkgrel=1
+pkgver=1.3.4.rg5c5bd1a
+pkgrel=7
 
-pkgdesc='Fast, light and extensible IRC client (ncurses UI).'
+pkgdesc='Fast, light and extensible IRC client.'
 url='http://www.weechat.org/'
 arch=('i686' 'x86_64')
 license=('GPL3')
 
-depends=('ncurses-git' 'gnutls')
+depends=('ncurses-git' 'gnutls' 'libgcrypt' 'hicolor-icon-theme' 'gtk-update-icon-cache')
 makedepends=('git' 'aspell' 'cmake' 'lua' 'perl' 'python' 'ruby' 'tcl')
+# checkdepends=('cpputest')
 optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl')
 
 provides=('weechat')
@@ -17,6 +18,8 @@ conflicts=('weechat')
 source=('git://github.com/weechat/weechat.git')
 
 md5sums=('SKIP')
+
+install='weechat-git.install'
 
 pkgver() {
     cd weechat 
@@ -27,11 +30,19 @@ build() {
     cd weechat
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_PYTHON3=ON \
+        -DCMAKE_BUILD_TYPE=Release \
         -DPYTHON_LIBRARY=/usr/lib/libpython3.4m.so \
         -DWEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"/weechat
 }
 
+# check() {
+#     cd weechat/tests
+#     cmake
+#     make
+#     ??? profit
+# }
+
 package() {
     cd weechat
-    make PREFIX=/usr DESTDIR="$pkgdir" install
+    make DESTDIR="$pkgdir" install
 }
