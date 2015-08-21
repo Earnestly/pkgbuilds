@@ -31,10 +31,8 @@ confirm() {
 
     if [[ $bias == yes ]]; then
         [[ ! $reply || $reply = y ]]
-    else
-        if [[ ! $reply || $reply = n ]]; then
-            return 1
-        fi
+    elif [[ ! $reply || $reply = n ]]; then
+        return 1
     fi
 }
 
