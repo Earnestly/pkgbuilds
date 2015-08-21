@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=5.9.r199.g8d00601
+pkgver=6.0.r2.g4060536
 pkgrel=1
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -29,34 +29,34 @@ prepare() {
 
 build() {
     cd ncursesw-build
-
-    # Add --enable-ext-colors and --enable-ext-mouse with next soname bump.
     ../ncurses/configure --prefix=/usr \
         --with-shared \
         --with-normal \
         --without-ada  \
+        --enable-const \
         --enable-widec \
         --without-debug \
         --enable-pc-files \
         --with-cxx-shared \
         --with-cxx-binding \
+        --enable-ext-mouse \
+        --enable-ext-colors \
         --with-pkg-config-libdir=/usr/lib/pkgconfig
     make
 
     # Libraries for external binary support.
     cd "$srcdir"/ncurses-build
-    if [[ "$CARCH" = x86_64 ]]; then
-        config_chtype_long='--with-chtype=long'
-    fi
-   
     ../ncurses/configure --prefix=/usr \
         --with-shared \
         --with-normal \
         --without-ada \
+        --enable-const \
         --without-debug \
         --with-cxx-share \
-        "$config_chtype_long" \
-        --with-cxx-binding
+        --with-cxx-binding \
+        --enable-ext-mouse \
+        --enable-ext-colors \
+        --with-chtype=uint32_t
     make
 }
 
@@ -81,8 +81,8 @@ package() {
     cd "$srcdir"/ncurses-build
 
     for lib in ncurses form panel menu; do
-        install -Dm755 lib/lib"$lib".so.5.9 "$pkgdir"/usr/lib/lib"$lib".so.5.9
-        ln -s lib"$lib".so.5.9 "$pkgdir"/usr/lib/lib"$lib".so.5
+        install -Dm755 lib/lib"$lib".so.6.0 "$pkgdir"/usr/lib/lib"$lib".so.6.0
+        ln -s lib"$lib".so.6.0 "$pkgdir"/usr/lib/lib"$lib".so.6
     done
 
     cd "$srcdir"/ncurses
