@@ -41,11 +41,11 @@ confirm() {
 check_updates_git() {
     local branch="$1"
 
-    git symbolic-ref HEAD refs/heads/$branch
+    git symbolic-ref HEAD refs/heads/"$branch"
 
-    git fetch "$(git config remote.origin.url)" $branch 2> /dev/null
+    git fetch "$(git config remote.origin.url)" "$branch" 2> /dev/null
 
-    distance=$(git rev-list HEAD...FETCH_HEAD --count $branch)
+    distance=$(git rev-list HEAD...FETCH_HEAD --count "$branch")
 
     if ((distance > 0)); then
         if confirm yes '%d new commits found, view log?' "$distance"; then
