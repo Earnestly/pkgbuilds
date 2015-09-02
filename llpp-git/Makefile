@@ -38,8 +38,8 @@ wsi.cmx: wsi.cmi utils.cmx
 
 wsi.cmi: utils.cmx
 
-help.ml: mkhelp.sh keystoml.ml KEYS
-	sh mkhelp.sh keystoml.ml KEYS > $@
+help.ml: mkhelp.sh KEYS
+	sh mkhelp.sh KEYS > $@
 
 config.cmx: parser.cmx utils.cmx help.cmx wsi.cmi
 
