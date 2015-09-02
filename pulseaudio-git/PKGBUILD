@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=6.0.r131.g6a12d96
+pkgver=6.99.1.r3.g031ca87
 pkgrel=1
 
 pkgdesc='A featureful, general-purpose sound server.'
