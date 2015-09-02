@@ -1,6 +1,6 @@
 pkgname=wlc-git
-pkgver=r643.0cfdd6e
-pkgrel=2
+pkgver=r742.28157d6
+pkgrel=1
 
 pkgdesc='Wayland compositor library.'
 url='https://github.com/Cloudef/wlc'
@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 license=('GPL')
 
 depends=('wayland' 'pixman' 'libxkbcommon' 'libinput')
-makedepends=('git' 'cmake')
+makedepends=('git' 'cmake' 'libx11' 'libxcb' 'libgl')
 optdepends=('mesa: For optional platform support (GLESv2, EGL, DRM)'
             'nvidia: For optional platform support (GLESv2, EGL)'
             'libx11: Running the compositor as an Xorg client'
@@ -33,12 +33,12 @@ prepare() {
     cd wlc
     git submodule init
     git config submodule.chck.url "$srcdir"/chck
-    git submodule update lib/chck/src
+    git submodule update lib/chck
 }
 
 build() {
     cd wlc
-    cmake -DCMAKE_INSTALL_PREFIX=/usr
+    cmake -DCMAKE-BUILD_TYPE=Upstream -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib
     make
 }
 
