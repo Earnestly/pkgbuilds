@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=1.0.1.r608.gce23ca1
+pkgver=1.0.1.r830.gc671b07
 pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
@@ -39,7 +39,6 @@ prepare() {
 build() {
     cd ppsspp
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_CXX_COMPILER=clang++ \
         -DCMAKE_BUILD_TYPE=Release \
         -DUSE_SYSTEM_FFMPEG=ON
     make
