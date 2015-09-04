@@ -12,7 +12,7 @@
 #   makepkg.conf to disable -flto anyway.
 
 pkgname=glibc-git
-pkgver=2.22.r210.g0f4341f
+pkgver=2.22.r211.g81503d1
 pkgrel=1
 
 pkgdesc='The GNU C Library.'
@@ -73,7 +73,7 @@ build() {
     "$srcdir"/glibc/configure --with-bugurl=https://bugs.archlinux.org/ \
         --enable-stackguard-randomization \
         --with-headers=/usr/include \
-        --enable-kernel=2.6.32 \
+        --enable-kernel=4.0.0 \
         --enable-obsolete-rpc \
         --libexecdir=/usr/lib \
         --enable-multi-arch \
