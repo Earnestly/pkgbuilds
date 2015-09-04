@@ -1,0 +1,7 @@
+#!/bin/sh
+
+while read -r locale; do
+    if [ $locale ]; then
+        localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8
+    fi
+done < /etc/locales
