@@ -11,7 +11,7 @@ in_array() {
 valid_locales=(/usr/share/i18n/locales/*)
 
 while read -r locale; do
-    if in_array "$locale" "${valid_locales[@]}"; then
+    if in_array "$locale" "${valid_locales[@]##*/}"; then
         printf 'Generating locale %s...\n' "$locale".UTF-8
         localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8
     else
