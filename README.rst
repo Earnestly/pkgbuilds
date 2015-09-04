@@ -1,12 +1,16 @@
 Most of these PKGBUILDs were created because the ones found in the AUR were horribly written.  
 Some of the packages contain personal changes and tweaks, they will be noted below along with ambigious packages.
 
-
 `DMENU-PANGO-IMLIB`_
 --------------------
 Pango and imlib patches from [Cloudef](https://github.com/Cloudef) applied to dmenu allowing for proper unicode fallback and image generation.
 
 .. _DMENU-PANGO-IMLIB: https://github.com/Cloudef/dmenu-pango-imlib
+
+GLIBC
+-----
+Removed all non-UTF-8 charmaps allowing for a  simplified ``locale-gen`` script. Provided an empty ``/etc/locales`` for users to add their prefered locale such as *en_GB*. (But not the charmap, UTF-8 is assumed.)
+This also enables the 4.0.0 kernel which potentially removes legacy code support and accompanying code paths.
 
 
 GVIM
