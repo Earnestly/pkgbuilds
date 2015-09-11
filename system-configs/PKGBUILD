@@ -1,5 +1,5 @@
 pkgname=system-configs
-pkgver=1.1.0
+pkgver=1.2.0
 pkgrel=2
 
 pkgdesc='Personal system configurations'
@@ -7,30 +7,30 @@ arch=('any')
 url='https://github.com/Earnestly'
 license=('custom')
 
-depends=('systemd' 'offlineimap' 'xorg-server' 'xf86-video-intel'
-         'xf86-input-synaptics')
+depends=('systemd' 'tzdata' 'xorg-server' 'xf86-video-intel' 'xf86-input-synaptics')
 
-source=('xorg-evdev-tweaks.conf'
-        'xorg-intel.conf'
-        'xorg-synaptics-tweaks.conf'
-        'xorg-trackpoint.conf'
+source=('etc-locale.conf'
+        'etc-vconsole.conf'
         'mod-i915.conf'
         'mod-pcspkr.conf'
         'mod-uvcvideo.conf'
+        'sysctl-coredump.conf'
+        'sysctl-dirty.conf'
+        'sysctl-fq_codel.conf'
+        'sysctl-swap.conf'
         'systemd-dbus.service'
         'systemd-dbus.socket'
         'systemd-user@.service'
-        'sysctl-fq_codel.conf'
-        'sysctl-swap.conf'
-        'sysctl-dirty.conf'
-        'sysctl-coredump.conf')
+        'xorg-intel.conf'
+        'xorg-synaptics-tweaks.conf'
+        'xorg-trackpoint.conf'
+        'xorg-evdev-tweaks.conf')
 
 package() {
-    # Xorg.
-    install -Dm644 xorg-intel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-intel.conf
-    install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
-    install -Dm644 xorg-evdev-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-evdev-tweaks.conf
-    install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
+    # Etc.
+    install -Dm644 etc-locale.conf "$pkgdir"/etc/locale.conf
+    install -Dm644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
+    ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime 
 
     # Modprobe.
     install -Dm644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
@@ -47,19 +47,27 @@ package() {
     install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     install -Dm644 sysctl-coredump.conf "$pkgdir"/etc/sysctl.d/50-coredump.conf
+
+    # Xorg.
+    install -Dm644 xorg-intel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-intel.conf
+    install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
+    install -Dm644 xorg-evdev-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-evdev-tweaks.conf
+    install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
 }
 
-md5sums=('d2a95d71a0699d07879259110ba63b6e'
-         'd603ccc42b54f734df32dd915cb5f3cd'
-         'ab25a969c3f29787fa21ffc22cfc4ec0'
-         '81672c25b6581f54ad7b9f688c357f5e'
-         'c22b36d72741425753bc13510dd7b8b5'
+md5sums=('9cbcb94d090588e57cf8e49c892c55ae'
+         'c0720e7b24bd08542b7621ef3b6608e5'
+         '5eac52a3cf3014dd95248ab2a0ba54a6'
          '5e911efea681920bab3f169ffc2065de'
          '58b6515655ddbed818074a40fc82e04a'
+         'c8931216071dfcda072c0210719edcbf'
+         '1d2e6d219cae7b36d697ddf6d49d0618'
+         '97277c07032f5fa846c8766dfec0253a'
+         '29cb60adc55bed8d8732f8f74c9d7d9c'
          '7d7c03752376c7169143b863c3232890'
          '3aed47c6da1709a2b9698f321f8c091c'
          '4dcc3de4cf9fe80e6656b5c8a1e6fdc4'
-         '97277c07032f5fa846c8766dfec0253a'
-         '29cb60adc55bed8d8732f8f74c9d7d9c'
-         '1d2e6d219cae7b36d697ddf6d49d0618'
-         'c8931216071dfcda072c0210719edcbf')
+         'd603ccc42b54f734df32dd915cb5f3cd'
+         'ab25a969c3f29787fa21ffc22cfc4ec0'
+         '81672c25b6581f54ad7b9f688c357f5e'
+         'd2a95d71a0699d07879259110ba63b6e')
