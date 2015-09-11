@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r3.g21c8ffa
+pkgver=6.0.r4.ga3725e3
 pkgrel=1
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -7,7 +7,7 @@ url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
 arch=('i686' 'x86_64')
 license=('MIT')
 
-depends=('glibc')
+depends=('glibc' 'gcc-libs')
 makedepends=('git')
 
 provides=('ncurses')
@@ -22,69 +22,41 @@ pkgver() {
     git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
-prepare() {
-    mkdir ncurses-build
-    mkdir ncursesw-build
-}
-
 build() {
-    cd ncursesw-build
-    ../ncurses/configure --prefix=/usr \
+    CFLAGS="${CFLAGS/-flto/}"
+
+    cd ncurses
+    ./configure --prefix=/usr \
         --with-shared \
         --with-normal \
         --without-ada  \
-        --enable-const \
+        --with-pthread \
         --enable-widec \
         --without-debug \
         --enable-pc-files \
         --with-cxx-shared \
         --with-cxx-binding \
-        --enable-ext-mouse \
-        --enable-ext-colors \
-        --with-pkg-config-libdir=/usr/lib/pkgconfig
-    make
-
-    # Libraries for external binary support.
-    cd "$srcdir"/ncurses-build
-    ../ncurses/configure --prefix=/usr \
-        --with-shared \
-        --with-normal \
-        --without-ada \
-        --enable-const \
-        --without-debug \
-        --with-cxx-share \
-        --with-cxx-binding \
-        --enable-ext-mouse \
-        --enable-ext-colors \
-        --with-chtype=uint32_t
+        --enable-hard-tabs \
+        --enable-weak-symbols
     make
 }
 
 package() {
-    cd ncursesw-build
+    cd ncurses
     make DESTDIR="$pkgdir" install
 
-    # Fool packages looking to link to non-wide-character ncurses libraries.
+    # Fool packages looking to link to non-wide-character (n)curses libraries.
     for lib in ncurses form panel menu; do
         printf 'INPUT(-l%sw)\n' "$lib" > "$pkgdir"/usr/lib/lib"$lib".so
+        ln -s "$lib"w.pc "$pkgdir"/usr/share/pkgconfig/"$lib".pc
     done
 
-    for lib in ncurses ncurses++ form panel menu; do
-        ln -s "$lib"w.pc "$pkgdir"/usr/lib/pkgconfig/"$lib".pc
-    done
-
-    # Some packages look for -lcurses during build.
     printf 'INPUT(-lncursesw)\n' > "$pkgdir"/usr/lib/libcursesw.so
     ln -s libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
-    # Non-wide compatibility libraries.
-    cd "$srcdir"/ncurses-build
+    # Include some introduction and informal guides as they're quite nicely written.
+    install -Dm644 doc/hackguide.doc "$pkgdir"/usr/share/doc/ncurses/hackguide.doc
+    install -Dm644 doc/ncurses-intro.doc "$pkgdir"/usr/share/doc/ncurses/ncurses-intro.doc
 
-    for lib in ncurses form panel menu; do
-        install -Dm755 lib/lib"$lib".so.6.0 "$pkgdir"/usr/lib/lib"$lib".so.6.0
-        ln -s lib"$lib".so.6.0 "$pkgdir"/usr/lib/lib"$lib".so.6
-    done
-
-    cd "$srcdir"/ncurses
-    install -Dm755 COPYING "$pkgdir"/usr/share/licenses/ncurses/COPYING
+    install -Dm755 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 } 
