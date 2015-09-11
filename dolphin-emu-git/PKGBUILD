@@ -1,5 +1,5 @@
 pkgname=dolphin-emu-git
-pkgver=4.0.r720.g5d1db5d
+pkgver=4.0.r7668.gc319fbb
 pkgrel=1
 
 pkgdesc='A GameCube / Wii / Triforce emulator'
@@ -14,25 +14,25 @@ optdepends=('pulseaudio: PulseAudio backend')
 provides=('dolphin-emu')
 conflicts=('dolphin-emu')
 
-source=('git+https://code.google.com/p/dolphin-emu/')
+source=('git://github.com/dolphin-emu/dolphin')
 
 md5sums=('SKIP')
 
 pkgver() {
-    cd dolphin-emu
+    cd dolphin
     git describe | sed 's/-/.r/; s/-/./'
 }
 
 build() {
-    cd dolphin-emu
+    cd dolphin
 
-    _xdg_config="${XDG_CONFIG_HOME:-$HOME/.config}"
+    _config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Duserdir="$_xdg_config"/dolphin-emu
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Duserdir="$_config_home"/dolphin-emu
     make
 }
 
 package() {
-    cd dolphin-emu
+    cd dolphin
     make DESTDIR="$pkgdir" install
 }
