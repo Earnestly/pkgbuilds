@@ -1,6 +1,6 @@
 pkgname=pony-git
-pkgver=0.1.7.r103.gb941eaf
-pkgrel=2
+pkgver=0.1.7.r146.g9874cd3
+pkgrel=1
 
 pkgdesc='An actor model, capabilities, high performance programming language.'
 url='http://ponylang.org/'
@@ -29,11 +29,21 @@ pkgver() {
 
 build() {
     cd ponyc
+
+    # https://github.com/CausalityLtd/ponyc/issues/288
+    CFLAGS=${CFLAGS/-flto/}
+    CXXFLAGS=${CXXFLAGS/-flto/}
+
     make config=release prefix=/usr
 }
 
 check() {
     cd ponyc
+
+    # https://github.com/CausalityLtd/ponyc/issues/288
+    CFLAGS=${CXXFLAGS/-flto/}
+    CXXFLAGS=${CXXFLAGS/-flto/}
+
     make config=release prefix=/usr test
 }
 
