@@ -1,20 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
-in_array() {
-    local i
-    for i in "${@:2}"; do
-        [[ $1 = "$i" ]] && return 0
-    done
-    return 1
-}
-
-valid_locales=(/usr/share/i18n/locales/*)
+if [[ ! -s /etc/locales ]]; then
+    printf '/etc/locales: Empty or missing.\n'
+    exit 1
+fi
 
 while read -r locale; do
-    if in_array "$locale" "${valid_locales[@]##*/}"; then
-        printf 'Generating locale %s...\n' "$locale".UTF-8
-        localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8
-    else
+    printf 'Generating locale %s...\n' "$locale".UTF-8
+
+    if ! localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8; then
         printf '%s: Invalid locale.\n' "$locale"
     fi
 done < /etc/locales

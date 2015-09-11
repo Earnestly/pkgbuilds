@@ -12,7 +12,7 @@
 #   makepkg.conf to disable -flto anyway.
 
 pkgname=glibc-git
-pkgver=2.22.r211.g81503d1
+pkgver=2.22.r223.g050f29c
 pkgrel=1
 
 pkgdesc='The GNU C Library.'
@@ -39,7 +39,7 @@ source=('git://sourceware.org/git/glibc.git'
 
 sha1sums=('SKIP'
           'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
-          '059b1c3b75e2e3a2c3420707d889e4ee9cef76d8'
+          '68839817dd31de8bf45d70926bf762a83053b234'
           '18406ad58e562a85a13b3cebe938841cf5d624ff'
           '1a9eb962463409159792a1a2d768524f37ce2e7b')
 
@@ -106,7 +106,7 @@ check() {
 
     # XXX: What exactly is the point of running tests if we ignore the
     #      failures hmm?
-    make check || true
+    #make check || true
 }
 
 package() {
@@ -143,13 +143,16 @@ package() {
     # I use 2> /dev/null for both of these as there are plenty of
     # false-positives as it attempts to strip scripts or other unstrippable
     # files -- I don't care though.
-    find "$pkgdir"/usr/bin -type f -exec strip -S '{}' + 2> /dev/null || true
+    find "$pkgdir"/usr/bin -type f -exec strip $STRIP_BINARIES '{}' + 2> /dev/null || true
 
     # Do not strip these for gdb and valgrind functionality, but strip the rest.
     find "$pkgdir"/usr/lib ! -name 'ld-*.so' \
                            ! -name 'libc-*.so' \
                            ! -name 'libpthread-*.so' \
                            ! -name 'libthread_db-1.0.so' \
-                          \( -name '*.a' -o -name '*.so' \) -type f \
-                             -exec strip -S '{}' + 2> /dev/null || true
+                             -name '*.so' -type f \
+                             -exec strip $STRIP_SHARED '{}' + 2> /dev/null || true
+
+    # Strip the remaining static libraries.
+    find "$pkgdir"/usr/lib -name '*.a' -type f -exec strip $STRIP_STATIC '{}' + 2> /dev/null || true
 }
