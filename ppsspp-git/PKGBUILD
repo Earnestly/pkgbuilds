@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=1.0.1.r865.g825662d
+pkgver=1.0.1.r2632.gdc4fb4c
 pkgrel=1
 
 pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
@@ -14,11 +14,12 @@ provides=('ppsspp')
 conflicts=('ppsspp')
 
 source=('git://github.com/hrydgard/ppsspp.git'
-        'git://github.com/hrydgard/native.git'
         'git://github.com/hrydgard/ppsspp-lang.git'
         'git://github.com/Kingcom/armips')
 
-md5sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+md5sums=('SKIP'
+         'SKIP'
+         'SKIP')
 
 install='ppsspp-git.install'
 
@@ -30,10 +31,9 @@ pkgver() {
 prepare() {
     cd ppsspp
     git submodule init
-    git config submodule.native.url "$srcdir"/native
     git config submodule.lang.url "$srcdir"/ppsspp-lang
     git config submodule.ext/armips.url "$srcdir"/armips
-    git submodule update native lang ext/armips
+    git submodule update lang ext/armips
 }
 
 build() {
