@@ -1,5 +1,5 @@
 pkgname=gvim-git
-pkgver=7.4.843.d43f095
+pkgver=7.4.865.ed84b76
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
