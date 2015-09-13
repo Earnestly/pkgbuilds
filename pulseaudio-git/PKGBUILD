@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=6.99.1.r3.g031ca87
+pkgver=6.99.2.r1.gc7310f8
 pkgrel=1
 
 pkgdesc='A featureful, general-purpose sound server.'
@@ -11,11 +11,11 @@ depends=('rtkit' 'libltdl' 'speex' 'tdb' 'fftw' 'orc' 'libsamplerate' 'python'
          'webrtc-audio-processing' 'sbc' 'libasyncns' 'libxtst' 'libsm' 'json-c'
          'pulseaudio-alsa')
 makedepends=('git' 'attr' 'intltool' 'jack' 'lirc-utils' 'openssl')
-optdepends=('alsa-plugins: ALSA support'
-            'jack: jack support'
-            'lirc-utils: infra-red support'
-            'openssl: RAOP support'
-            'python2-pyqt: Equalizer GUI (qpaeq)')
+optdepends=('alsa-plugins: ALSA support.'
+            'jack: jack support.'
+            'lirc-utils: infra-red support.'
+            'openssl: RAOP support.'
+            'python2-pyqt: Equalizer GUI (qpaeq).')
 
 backup=('etc/pulse/daemon.conf' 'etc/pulse/default.pa' 'etc/pulse/system.pa'
         'etc/pulse/client.conf')
@@ -34,16 +34,21 @@ pkgver() {
 
 prepare() {
     cd pulseaudio
+
     # Unwanted defaults.
     sed -i 's/^; flat-volumes = yes/flat-volumes = no/' src/daemon/daemon.conf.in
     sed -i 's/^; autospawn = yes/autospawn = no/' src/pulse/client.conf.in
 }
 
 build() {
+    CFLAGS=${CFLAGS/-pie -fPIC -flto/}
+    CXXFLAGS=${CXXFLAGS/-pie -fPIC -flto/}
+
     cd pulseaudio
     ./autogen.sh --prefix=/usr \
         --enable-orc \
         --disable-xen \
+        --disable-dbus \
         --disable-gconf \
         --disable-avahi \
         --disable-rpath \
@@ -57,16 +62,23 @@ build() {
         --libexecdir=/usr/lib \
         --disable-systemd-daemon \
         --disable-default-build-tests \
-        --with-udev-rules-dir=/usr/lib/udev/rules.d
+        --disable-per-user-esound-socket \
+        --disable-legacy-database-entry-format \
+        --with-udev-rules-dir=/usr/lib/udev/rules.d \
+        --with-bash-completion-dir=/usr/share/bash-completion/completions
     make
 
-    # Why does libtool still exist!?
-    sed -i 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+    sed -i 's/ -shared / -Wl,-O1,--sort-common,--as-needed\0/g' libtool
 }
 
 package() {
     cd pulseaudio
-    make DESTDIR="$pkgdir" install
-    rm -rf -- "$pkgdir"/etc/dbus-1
-    rm -rf -- "$pkgdir"/etc/xdg
+
+    # Requires -j1 here to prevent this process from generating a load of
+    # symlinks under $pkgdir/ directly.  Yeah, I don't either.
+    make -j1 DESTDIR="$pkgdir" install
+
+    # Unnecessary complexity.
+    rm -rf "$pkgdir"/etc/dbus-1
+    rm -rf "$pkgdir"/etc/xdg
 }
