@@ -1,6 +1,6 @@
 pkgname=pulseaudio-git
 pkgver=6.99.2.r1.gc7310f8
-pkgrel=1
+pkgrel=2
 
 pkgdesc='A featureful, general-purpose sound server.'
 url='http://pulseaudio.org/'
@@ -66,6 +66,9 @@ build() {
         --disable-legacy-database-entry-format \
         --with-udev-rules-dir=/usr/lib/udev/rules.d \
         --with-bash-completion-dir=/usr/share/bash-completion/completions
+    # Make sure to set the completion directory here as without it the makefile
+    # will expand $(LN_S) -f pulseaudio $(DESTDIR)$(bashcompletiondir)/foobar
+    # and create symlinks directly under $(DESTDIR).
     make
 
     sed -i 's/ -shared / -Wl,-O1,--sort-common,--as-needed\0/g' libtool
@@ -73,10 +76,7 @@ build() {
 
 package() {
     cd pulseaudio
-
-    # Requires -j1 here to prevent this process from generating a load of
-    # symlinks under $pkgdir/ directly.  Yeah, I don't either.
-    make -j1 DESTDIR="$pkgdir" install
+    make  DESTDIR="$pkgdir" install
 
     # Unnecessary complexity.
     rm -rf "$pkgdir"/etc/dbus-1
