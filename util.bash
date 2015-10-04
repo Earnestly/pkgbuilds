@@ -18,22 +18,20 @@ in_array() {
 confirm() {
     local -l reply
     local message prompt
-    local bias="$1"; shift
+    local bias=$1; shift
 
-    if [[ $bias == yes ]]; then
-        prompt="Y/n"
-    else
-        prompt="y/N"
-    fi
+    case $bias in
+        yes) prompt=Y/n ;;
+        no)  prompt=y/N ;;
+    esac
 
-    printf -v message -- "\e[1;29m* $1 [$prompt]\e[0m " "${@:2}"
+    printf -v message -- "\033[1;29m* $1 [$prompt]\033[0m " "${@:2}"
     read -p "$message" reply
 
-    if [[ $bias == yes ]]; then
-        [[ ! $reply || $reply = y ]]
-    elif [[ ! $reply || $reply = n ]]; then
-        return 1
-    fi
+    case $bias in
+        yes) [[ $reply = y || ! $reply ]] ;;
+        no)  [[ $reply = y ]] ;;
+    esac
 }
 
 # Comment: This is specific to fetching changes for bare mirrors.
