@@ -10,7 +10,7 @@ in_array() {
             return 0
         fi
 	done
-    
+
     # Mark not found.
 	return 1
 }
@@ -47,9 +47,9 @@ check_updates_git() {
     # this git will do the wrong thing and update the HEAD regardless of what
     # the refs point at even if git is explicitly configured to not do this.
 
-    # This was changed because users would find it "confusing" if this they
-    # couldn't compare the HEAD against the branch they explicitly fetched from
-    # and didn't realise they could use FETCH_HEAD instead.
+    # This was changed because users would find it confusing if they couldn't
+    # compare the HEAD against the branch they explicitly fetched from and
+    # didn't realise they should have used FETCH_HEAD instead.  Sigh.
 
     # From the school of DWIM: https://github.com/git/git/commit/f269048754f3
     git symbolic-ref HEAD refs/heads/"$branch"
@@ -65,6 +65,6 @@ check_updates_git() {
         fi
     fi
 
-    # No new commits found.
+    # No new commit(s) found.
     return 1
 }
