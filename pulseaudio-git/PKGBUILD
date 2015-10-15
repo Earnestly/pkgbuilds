@@ -1,6 +1,6 @@
 pkgname=pulseaudio-git
-pkgver=6.99.2.r1.gc7310f8
-pkgrel=2
+pkgver=7.0
+pkgrel=1
 
 pkgdesc='A featureful, general-purpose sound server.'
 url='http://pulseaudio.org/'
@@ -78,7 +78,7 @@ package() {
     cd pulseaudio
     make  DESTDIR="$pkgdir" install
 
-    # Unnecessary complexity.
+    # Unwanted files.
     rm -rf "$pkgdir"/etc/dbus-1
     rm -rf "$pkgdir"/etc/xdg
 }

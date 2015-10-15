@@ -1,13 +1,13 @@
 pkgname=termite-git
-pkgver=10.r15.gfa9a4b0
-pkgrel=1
+pkgver=10.r17.g4b08fd9
+pkgrel=2
 
 pkgdesc='A simple VTE-based terminal'
 url='https://github.com/thestinger/termite/'
 arch=('i686' 'x86_64')
 license=('GPL')
 
-depends=('atk' 'cairo' 'glibc' 'glib2' 'gcc-libs' 'gtk3' 'pango' 'vte3-ng')
+depends=('vte3-ng')
 makedepends=('git')
 
 provides=('termite')
@@ -19,9 +19,9 @@ source=('git://github.com/thestinger/termite'
         'git://github.com/thestinger/util'
         'reverse_url_search.patch')
 
-md5sums=('SKIP'
-         'SKIP'
-         '8d4e4216cee58a1b0df223dde2216bf1')
+sha1sums=('SKIP'
+          'SKIP'
+          'c909aa938d09eaa6764d83f1f0822a3c6be2edec')
 
 pkgver() {
     cd termite
