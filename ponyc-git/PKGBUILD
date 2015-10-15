@@ -1,5 +1,5 @@
-pkgname=pony-git
-pkgver=0.1.7.r146.g9874cd3
+pkgname=ponyc-git
+pkgver=0.2.0.r27.gf423cb1
 pkgrel=1
 
 pkgdesc='An actor model, capabilities, high performance programming language.'
@@ -14,11 +14,11 @@ makedepends=('git' 'llvm')
 checkdepends=('pcre2')
 optdepends=('pcre2: Needed for the regex package.')
 
-provides=('pony')
-conflicts=('pony')
+provides=('ponyc')
+conflicts=('ponyc')
 
-source=('git://github.com/CausalityLtd/ponyc')
-install='pony-git.install'
+source=('git://github.com/CausalityLtd/ponyc#branch=llvm37')
+install='ponyc-git.install'
 
 md5sums=('SKIP')
 
@@ -29,34 +29,26 @@ pkgver() {
 
 build() {
     cd ponyc
-
-    # https://github.com/CausalityLtd/ponyc/issues/288
-    CFLAGS=${CFLAGS/-flto/}
-    CXXFLAGS=${CXXFLAGS/-flto/}
-
     make config=release prefix=/usr
 }
 
 check() {
     cd ponyc
-
-    # https://github.com/CausalityLtd/ponyc/issues/288
-    CFLAGS=${CXXFLAGS/-flto/}
-    CXXFLAGS=${CXXFLAGS/-flto/}
-
     make config=release prefix=/usr test
 }
 
 package() {
     cd ponyc
-    _tag="$(git describe --always --tags)"
+    # The current makefile uses odd logic to try and symlink the ponyc to the
+    # prefix but ignoring the $(destdir).  In fact, the prefix= command-line is
+    # ignored completely for this innvocation.
 
-    # The makefile is very strange and requires almost as much post-correction
-    # as to simply do the installation myself.  Even with patches to the
-    # makefile to stop it attempting to symlink locations it has no business
-    # touching.
-    #make config=release prefix=/usr destdir="$pkgdir"/usr/lib/pony/"$_tag" install
+    # Given the issues with the makefile I will instead install pony manually
+    # while providing a few niceties that allow multiple versions of the
+    # standard packages to be installed at the same time.
+    # make config=release prefix=/usr destdir="$pkgdir" symlink=no install
 
+    _tag=$(git describe --always --tags)
     install -Dm755 build/release/ponyc "$pkgdir"/usr/lib/pony/"$_tag"/ponyc
     install -Dm644 build/release/libponyrt.a "$pkgdir"/usr/lib/libponyrt.a
     install -Dm644 build/release/libponyc.a "$pkgdir"/usr/lib/libponyc.a
@@ -65,7 +57,6 @@ package() {
     # Ponyc is designed to read its standard packages from the same directory.
     install -dm755 "$pkgdir"/usr/bin
     ln -sf /usr/lib/pony/"$_tag"/ponyc "$pkgdir"/usr/bin/ponyc
-
     cp -dr --no-preserve=ownership packages/* "$pkgdir"/usr/lib/pony/"$_tag"
 
     # Let's include the examples as documentation is scarce.
