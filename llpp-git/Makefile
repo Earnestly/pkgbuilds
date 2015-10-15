@@ -20,7 +20,7 @@ BO = le
 VPATH := ${BO}
 
 SRC = utils.ml wsi.ml parser.ml config.ml main.ml
-OBJ = bo.cmx help.cmx ${SRC:.ml=.cmx}
+OBJ = help.cmx ${SRC:.ml=.cmx}
 MOD = unix.cmxa str.cmxa lablgl.cmxa
 
 DISTFILES := Makefile ${SRC} link.c glfont.c keysym2ucs.c wsi.mli pp.sed
