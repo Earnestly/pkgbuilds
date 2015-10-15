@@ -25,15 +25,12 @@ pkgver(){
 }
 
 build() {
-    cd livestreamer
-    python3 setup.py build
-    
-    cd docs
+    cd livestreamer/docs
     make man
 }
 
 package(){
     cd livestreamer
-    python3 setup.py install --root="$pkgdir" --optimize=1
+    python setup.py install --root="$pkgdir" --optimize=1
     install -Dm644 docs/_build/man/livestreamer.1 "$pkgdir"/usr/share/man/man1/livestreamer.1
 }
