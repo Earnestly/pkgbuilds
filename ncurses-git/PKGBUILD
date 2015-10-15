@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r4.ga3725e3
+pkgver=6.0.r7.ga919b0e
 pkgrel=1
 
 pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -10,12 +10,13 @@ license=('MIT')
 depends=('glibc' 'gcc-libs')
 makedepends=('git')
 
-provides=('ncurses')
-conflicts=('ncurses')
+# Library provide now needed for Arch Linux's bash package.
+provides=('ncurses' 'libtinfo' 'libncursesw.so')
+conflicts=('ncurses' 'libtinfo')
 
 source=('git://ncurses.scripts.mit.edu/ncurses.git')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd ncurses
@@ -23,16 +24,16 @@ pkgver() {
 }
 
 build() {
-    CFLAGS="${CFLAGS/-flto/}"
+    CFLAGS=${CFLAGS/-flto/}
 
     cd ncurses
     ./configure --prefix=/usr \
         --with-shared \
         --with-normal \
         --without-ada  \
-        --with-pthread \
         --enable-widec \
         --without-debug \
+        --enable-pthread \
         --enable-pc-files \
         --with-cxx-shared \
         --with-cxx-binding \
@@ -46,17 +47,17 @@ package() {
     make DESTDIR="$pkgdir" install
 
     # Fool packages looking to link to non-wide-character (n)curses libraries.
-    for lib in ncurses form panel menu; do
+    for lib in ncurses ncurses++ form panel menu; do
         printf 'INPUT(-l%sw)\n' "$lib" > "$pkgdir"/usr/lib/lib"$lib".so
         ln -s "$lib"w.pc "$pkgdir"/usr/share/pkgconfig/"$lib".pc
     done
 
     printf 'INPUT(-lncursesw)\n' > "$pkgdir"/usr/lib/libcursesw.so
-    ln -s libncurses.so "$pkgdir"/usr/lib/libcurses.so
+    ln -sf libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
     # Include some introduction and informal guides as they're quite nicely written.
-    install -Dm644 doc/hackguide.doc "$pkgdir"/usr/share/doc/ncurses/hackguide.doc
-    install -Dm644 doc/ncurses-intro.doc "$pkgdir"/usr/share/doc/ncurses/ncurses-intro.doc
+    install -Dm644 doc/hackguide.doc "$pkgdir"/usr/share/doc/"$pkgname"/hackguide.doc
+    install -Dm644 doc/ncurses-intro.doc "$pkgdir"/usr/share/doc/"$pkgname"/ncurses-intro.doc
 
     install -Dm755 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
-} 
+}
