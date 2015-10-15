@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [[ ! -s /etc/locales ]]; then
-    printf '/etc/locales: Empty or missing.\n'
+if [ ! -s /etc/locales ]; then
+    printf '/etc/locales: File not found or Empty\n'
     exit 1
 fi
 
@@ -9,6 +9,6 @@ while read -r locale; do
     printf 'Generating locale %s...\n' "$locale".UTF-8
 
     if ! localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8; then
-        printf '%s: Invalid locale.\n' "$locale"
+        printf '%s: Invalid locale\n' "$locale"
     fi
 done < /etc/locales
