@@ -1,5 +1,5 @@
 pkgname=blender-git
-pkgver=2.72.rc1410.g04178d7
+pkgver=2.74.rc12999.g32578db
 pkgrel=1
 
 pkgdesc='Development version of Blender'
@@ -44,14 +44,13 @@ prepare() {
 
 build() {
     # Blender won't let us build in the source tree directly
-    rm -r blender_build
     mkdir blender_build
     cd blender_build
     
-    if [[ "$CARCH" == i686 ]]; then
-        _BUILDCUDA="OFF"
+    if [[ $CARCH == i686 ]]; then
+        _BUILDCUDA=OFF
         else
-        _BUILDCUDA="ON"
+        _BUILDCUDA=ON
     fi
 
     cmake "$srcdir"/blender \
@@ -60,7 +59,7 @@ build() {
           -DWITH_PLAYER=ON \
           -DWITH_CYCLES=ON \
           -DLLVM_STATIC=OFF \
-          -DLLVM_VERSION=3.4 \
+          -DLLVM_VERSION=3.7 \
           -DPYTHON_VERSION=3.4 \
           -DWITH_CYCLES_OSL=ON \
           -DWITH_GAMEENGINE=ON \
@@ -76,7 +75,7 @@ build() {
           -DOPENIMAGEIO_ROOT_DIR=/usr \
           -DPYTHON_LIBRARY=python3.4m \
           -DWITH_INSTALL_PORTABLE=OFF \
-          -DWITH_CYCLES_CUDA_BINARIES="$_BUILDCUDA" \
+          -DWITH_CYCLES_CUDA_BINARIES=$_BUILDCUDA \
           -DPYTHON_INCLUDE_DIRS=/usr/include/python3.4m \
           -DCMAKE_C_FLAGS_RELEASE="-fno-delete-null-pointer-checks -DNDEBUG" \
           -DCMAKE_CXX_FLAGS_RELEASE="-fno-delete-null-pointer-checks -DNDEBUG"
@@ -87,12 +86,12 @@ package() {
     cd blender_build
     make DESTDIR="$pkgdir" install
 
-    # Track pyc files
+    # Track pyc files.
     python -m compileall "$pkgdir"/usr/share/blender
     
     if [[ -e "$pkgdir"/usr/share/blender/*/scripts/addons/cycles/lib/ ]]; then
-        # Make sure the CUDA kernels are not stripped while stripping everything
-        # else
+        # Make sure the CUDA kernels are not stripped while stripping
+        # everything else.
         chmod 444 "$pkgdir"/usr/share/blender/*/scripts/addons/cycles/lib/*
     fi
 }
