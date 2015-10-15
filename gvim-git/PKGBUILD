@@ -1,5 +1,5 @@
 pkgname=gvim-git
-pkgver=7.4.865.ed84b76
+pkgver=7.4.898.r1.g60cce2f
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
@@ -27,8 +27,7 @@ md5sums=('SKIP'
 
 pkgver() {
     cd vim
-    # Vim's weird patch based versioning system, yay.
-    printf '%s.%s' $(git describe --tags | sed 's/^v//; s/-/./g;') $(git rev-parse --short HEAD)
+    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 prepare() {
