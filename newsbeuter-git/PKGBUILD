@@ -1,6 +1,6 @@
 pkgname=newsbeuter-git
-pkgver=r1728.e425e3e
-pkgrel=4
+pkgver=r1744.9e03ec8
+pkgrel=1
 
 pkgdesc='A RSS feed reader for the text console with special Podcast support.'
 url='http://www.newsbeuter.org'
@@ -13,20 +13,13 @@ makedepends=('git' 'swig' 'asciidoc' 'docbook-xsl' 'pkgconfig')
 provides=('newsbeuter')
 conflicts=('newsbeuter')
 
-source=('git://github.com/akrennmair/newsbeuter.git'
-    'look-for-ncurses6.patch')
+source=('git://github.com/akrennmair/newsbeuter.git')
 
-sha1sums=('SKIP'
-          '8832a04b4e72b8c73f57acad8c697fc2d0642253')
+sha1sums=('SKIP')
 
 pkgver() {
     cd newsbeuter
     printf 'r%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
-}
-
-prepare() {
-    cd newsbeuter
-    patch -Np1 -i "$srcdir"/look-for-ncurses6.patch
 }
 
 build() {
