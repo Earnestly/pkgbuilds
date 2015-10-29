@@ -1,5 +1,5 @@
 pkgname=ponyc-git
-pkgver=0.2.0.r27.gf423cb1
+pkgver=0.2.1.r96.g57461c4
 pkgrel=1
 
 pkgdesc='An actor model, capabilities, high performance programming language.'
@@ -9,7 +9,7 @@ license=('BSD')
 
 options=('staticlibs' 'debug' '!strip')
 
-depends=('zlib' 'ncurses' 'gcc-libs')
+depends=('zlib' 'ncurses')
 makedepends=('git' 'llvm')
 checkdepends=('pcre2')
 optdepends=('pcre2: Needed for the regex package.')
@@ -20,7 +20,7 @@ conflicts=('ponyc')
 source=('git://github.com/CausalityLtd/ponyc#branch=llvm37')
 install='ponyc-git.install'
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd ponyc
@@ -30,6 +30,9 @@ pkgver() {
 build() {
     cd ponyc
     make config=release prefix=/usr
+
+    mkdir docs
+    build/release/ponyc packages/stdlib -rexpr -g -o docs
 }
 
 check() {
@@ -39,28 +42,29 @@ check() {
 
 package() {
     cd ponyc
-    # The current makefile uses odd logic to try and symlink the ponyc to the
+    # The current makefile uses some logic to try and symlink the ponyc to the
     # prefix but ignoring the $(destdir).  In fact, the prefix= command-line is
     # ignored completely for this innvocation.
 
-    # Given the issues with the makefile I will instead install pony manually
-    # while providing a few niceties that allow multiple versions of the
-    # standard packages to be installed at the same time.
+    # Given the issues with the makefile I will instead install pony manually.
     # make config=release prefix=/usr destdir="$pkgdir" symlink=no install
 
-    _tag=$(git describe --always --tags)
-    install -Dm755 build/release/ponyc "$pkgdir"/usr/lib/pony/"$_tag"/ponyc
-    install -Dm644 build/release/libponyrt.a "$pkgdir"/usr/lib/libponyrt.a
-    install -Dm644 build/release/libponyc.a "$pkgdir"/usr/lib/libponyc.a
+    install -Dm755 build/release/ponyc "$pkgdir"/usr/lib/pony/ponyc
     install -Dm644 src/libponyrt/pony.h "$pkgdir"/usr/include/pony.h
 
-    # Ponyc is designed to read its standard packages from the same directory.
-    install -dm755 "$pkgdir"/usr/bin
-    ln -sf /usr/lib/pony/"$_tag"/ponyc "$pkgdir"/usr/bin/ponyc
-    cp -dr --no-preserve=ownership packages/* "$pkgdir"/usr/lib/pony/"$_tag"
+    install -Dm644 build/release/libponyc.a "$pkgdir"/usr/lib/libponyc.a
+    install -Dm644 build/release/libponyrt.a "$pkgdir"/usr/lib/libponyrt.a
 
-    # Let's include the examples as documentation is scarce.
+    # Ponyc is designed to read its standard packages from the same directory.
+    # With this we install the binary to package directory and add a symlink
+    # to /bin for PATH access.
+    install -dm755 "$pkgdir"/usr/bin
+    ln -sf /usr/lib/pony/ponyc "$pkgdir"/usr/bin/ponyc
+    cp -dr --no-preserve=ownership packages/* "$pkgdir"/usr/lib/pony
+
+    # Documentation.
     install -dm755 "$pkgdir"/usr/share/doc/pony
+    cp -dr --no-preserve=ownership docs "$pkgdir"/usr/share/doc/pony
     cp -dr --no-preserve=ownership examples "$pkgdir"/usr/share/doc/pony
 
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
