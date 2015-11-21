@@ -1,0 +1,45 @@
+pkgname=htop-vi-git
+pkgver=1.0.3.r307.g5521094
+pkgrel=1
+
+pkgdesc='Interactive process viewer patched for vi style scroll keys'
+url='http://htop.sourceforge.net/'
+arch=('i686' 'x86_64')
+license=('GPL')
+
+depends=('glibc' 'ncurses')
+makedepends=('git')
+
+provides=('htop')
+conflicts=('htop')
+
+source=('git://github.com/hishamhm/htop'
+        'htop-vi.patch')
+
+sha1sums=('SKIP'
+          'f0c714c2c4ebc8f0c2892f3b96fc04a9de8759e5')
+
+pkgver() {
+    cd htop
+    git describe --tags | sed 's/-/.r/; s/-/./'
+}
+
+prepare() {
+    cd htop
+    patch -Np1 -i "$srcdir"/htop-vi.patch
+}
+
+build() {
+    cd htop
+    ./autogen.sh
+    ./configure --prefix=/usr \
+        --enable-openvz \
+        --enable-cgroup \
+        --enable-unicode
+    make
+}
+
+package() {
+    cd htop
+    make DESTDIR="$pkgdir" install 
+}

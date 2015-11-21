@@ -1,0 +1,91 @@
+diff --git a/Action.c b/Action.c
+index 6c387de..d9e2f31 100644
+--- a/Action.c
++++ b/Action.c
+@@ -378,7 +378,7 @@ static Htop_Reaction actionRedraw() {
+ }
+ 
+ static struct { const char* key; const char* info; } helpLeft[] = {
+-   { .key = " Arrows: ", .info = "scroll process list" },
++   { .key = "   hjkl: ", .info = "scroll process list" },
+    { .key = " Digits: ", .info = "incremental PID search" },
+    { .key = "   F3 /: ", .info = "incremental name search" },
+    { .key = "   F4 \\: ",.info = "incremental name filtering" },
+@@ -398,18 +398,18 @@ static struct { const char* key; const char* info; } helpRight[] = {
+    { .key = "  Space: ", .info = "tag process" },
+    { .key = "      c: ", .info = "tag process and its children" },
+    { .key = "      U: ", .info = "untag all processes" },
+-   { .key = "   F9 k: ", .info = "kill process/tagged processes" },
++   { .key = "   F9 d: ", .info = "kill process/tagged processes" },
+    { .key = "   F7 ]: ", .info = "higher priority (root only)" },
+    { .key = "   F8 [: ", .info = "lower priority (+ nice)" },
+ #if (HAVE_LIBHWLOC || HAVE_NATIVE_AFFINITY)
+    { .key = "      a: ", .info = "set CPU affinity" },
+ #endif
+    { .key = "      i: ", .info = "set IO prority" },
+-   { .key = "      l: ", .info = "list open files with lsof" },
++   { .key = "      L: ", .info = "list open files with lsof" },
+    { .key = "      s: ", .info = "trace syscalls with strace" },
+    { .key = "         ", .info = "" },
+    { .key = "   F2 S: ", .info = "setup" },
+-   { .key = "   F1 h: ", .info = "show this help screen" },
++   { .key = "   F1 ?: ", .info = "show this help screen" },
+    { .key = "  F10 q: ", .info = "quit" },
+    { .key = NULL, .info = NULL }
+ };
+@@ -529,7 +529,7 @@ void Action_setBindings(Htop_Action* keys) {
+    keys['q'] = actionQuit;
+    keys['a'] = actionSetAffinity;
+    keys[KEY_F(9)] = actionKill;
+-   keys['k'] = actionKill;
++   keys['d'] = actionKill;
+    keys[KEY_RECLICK] = actionExpandOrCollapse;
+    keys['+'] = actionExpandOrCollapse;
+    keys['='] = actionExpandOrCollapse;
+@@ -539,12 +539,11 @@ void Action_setBindings(Htop_Action* keys) {
+    keys['S'] = actionSetup;
+    keys['C'] = actionSetup;
+    keys[KEY_F(2)] = actionSetup;
+-   keys['l'] = actionLsof;
++   keys['L'] = actionLsof;
+    keys['s'] = actionStrace;
+    keys[' '] = actionTag;
+    keys['\014'] = actionRedraw; // Ctrl+L
+    keys[KEY_F(1)] = actionHelp;
+-   keys['h'] = actionHelp;
+    keys['?'] = actionHelp;
+    keys['U'] = actionUntagAll;
+    keys['c'] = actionTagAllChildren;
+diff --git a/Panel.c b/Panel.c
+index 7424fa4..20f97c3 100644
+--- a/Panel.c
++++ b/Panel.c
+@@ -375,10 +375,12 @@ bool Panel_onKey(Panel* this, int key) {
+    
+    int size = Vector_size(this->items);
+    switch (key) {
++   case 'j':
+    case KEY_DOWN:
+    case KEY_CTRLN:
+       this->selected++;
+       break;
++   case 'k':
+    case KEY_UP:
+    case KEY_CTRLP:
+       this->selected--;
+@@ -393,6 +395,7 @@ bool Panel_onKey(Panel* this, int key) {
+       this->selected--;
+       break;
+    #endif
++   case 'h':
+    case KEY_LEFT:
+    case KEY_CTRLB:
+       if (this->scrollH > 0) {
+@@ -400,6 +403,7 @@ bool Panel_onKey(Panel* this, int key) {
+          this->needsRedraw = true;
+       }
+       break;
++   case 'l':
+    case KEY_RIGHT:
+    case KEY_CTRLF:
+       this->scrollH += CRT_scrollHAmount;
