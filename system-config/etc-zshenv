@@ -1,0 +1,2 @@
+# /etc/zsh/zshenv
+ZDOTDIR=$HOME/local/cfg/zsh

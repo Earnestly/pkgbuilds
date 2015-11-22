@@ -49,7 +49,7 @@ check_updates_git() {
 
     # This was changed because users would find it confusing if they couldn't
     # compare the HEAD against the branch they explicitly fetched from and
-    # didn't realise they should have used FETCH_HEAD instead.  Sigh.
+    # didn't realise they should have used FETCH_HEAD instead.
 
     # From the school of DWIM: https://github.com/git/git/commit/f269048754f3
     git symbolic-ref HEAD refs/heads/"$branch"

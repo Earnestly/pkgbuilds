@@ -1,3 +1,0 @@
-[Timer]
-OnUnitInactiveSec=120s
-Unit=offlineimap.service

@@ -1,0 +1,61 @@
+pkgbase=system-config
+pkgname=(base-config teapot-config)
+pkgver=2.0
+pkgrel=1
+
+pkgdesc='System configurations'
+arch=('any')
+url='https://github.com/Earnestly'
+license=('custom')
+
+source=('etc-zshenv'
+        'etc-locale.conf'
+        'etc-vconsole.conf'
+        'mod-i915.conf'
+        'mod-pcspkr.conf'
+        'mod-uvcvideo.conf'
+        'sysctl-swap.conf'
+        'sysctl-dirty.conf'
+        'sysctl-fq_codel.conf'
+        'xorg-intel.conf'
+        'xorg-trackpoint.conf'
+        'xorg-libinput-tweaks.conf'
+        'xorg-synaptics-tweaks.conf')
+
+package_base-config() {
+    pkgdesc='Base system configurations'
+    depends=('zsh')
+
+    install -Dm644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
+    install -Dm644 etc-locale.conf "$pkgdir"/etc/locale.conf
+    install -Dm644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
+    install -Dm644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
+    install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
+    install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
+    ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime 
+}
+
+package_teapot-config() {
+    pkgdesc='System configurations for teapot'
+    depends=('xf86-input-libinput' 'xf86-input-synaptics' 'xf86-video-intel')
+
+    install -Dm644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
+    install -Dm644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
+    install -Dm644 xorg-intel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-intel.conf
+    install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
+    install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
+    install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
+}
+sha1sums=('2e5becba8c1815ddcb4aa03f28d6e015f85f115c'
+          '31ff548797814ab1cf842fe3ed86e7b8c66c4be4'
+          '72e8b90c4ee277d85fd5fab5df8a5dfa538d338a'
+          '5b59530577e11ace46fa5df59f8782f82ffe148d'
+          'ee919734ce53dcebbe319f230aca847f86e2249c'
+          '3b3a6f07f7934ca435deb853cd607506eda4fb1c'
+          '929b10c4bb2c3414458420ad86ed32be47723769'
+          'cc7f3fbabad4c84afdf4d20df973ef37629694e4'
+          '94e3346d3e98da1ec62bcd07901894893bd9b930'
+          'c96f4a2a54797fe7a3c3f590d68a929d3b2cde53'
+          'd2323a2ca403ffa7cb5bd4e7dd68d1ab1a49bfce'
+          'ae09041b46689b19c9107e2a8b8f9579d40a24d1'
+          'ebf354ca8f185b9afb579731e2b23a0c767e20a9')

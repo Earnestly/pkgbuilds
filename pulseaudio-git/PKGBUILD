@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=7.0
+pkgver=7.0.r38.ga6bc996
 pkgrel=1
 
 pkgdesc='A featureful, general-purpose sound server.'
@@ -41,8 +41,8 @@ prepare() {
 }
 
 build() {
-    CFLAGS=${CFLAGS/-pie -fPIC -flto/}
-    CXXFLAGS=${CXXFLAGS/-pie -fPIC -flto/}
+    CFLAGS=${CFLAGS/-flto/}
+    CXXFLAGS=${CXXFLAGS/-flto/}
 
     cd pulseaudio
     ./autogen.sh --prefix=/usr \
