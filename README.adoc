@@ -1,21 +1,27 @@
-Most of these PKGBUILDs were created because the ones found in the AUR
-were horrible.  The majority of my packages are built from the latest
-developmental branches for both the newest fixes and bugs, hopefully
-fixes moreso than bugs ;-).
+== PKGBUILDS
+:toc: macro
+:aur: https://aur.archlinux.org/
 
-== DMENU-PANGO-IMLIB
+toc::[]
+
+Most of these packages were created because the ones found in the
+{aur}[AUR] were horrible. The majority of my packages are built from
+the latest developmental branches for both the newest fixes and bugs,
+hopefully fixes moreso than bugs ;-).
+
+=== DMENU-PANGO-IMLIB
 
 Pango and imlib patches from https://github.com/Cloudef[Cloudef] applied
 to dmenu allowing for proper unicode fallback and image generation.
 
 - https://github.com/Cloudef/dmenu-pango-imlib
 
-== GLIBC
+=== GLIBC
 
 Removed all non-UTF-8 charmaps allowing for a simplified `locale-gen`
 script. Provided an empty `/etc/locales` for users to add their prefered
 locale such as _en_GB_. (No charmap, the UTF-8 part is assumed.)
 
-== SYSTEM-CONFIGS 
+=== SYSTEM-CONFIG
 
 Just a small collection of personal configurations for various machines.
