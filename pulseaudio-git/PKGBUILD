@@ -1,8 +1,8 @@
 pkgname=pulseaudio-git
-pkgver=7.0.r38.ga6bc996
+pkgver=7.0.r53.gbea3761
 pkgrel=1
 
-pkgdesc='A featureful, general-purpose sound server.'
+pkgdesc='A network transparent sound server'
 url='http://pulseaudio.org/'
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL')
@@ -17,13 +17,10 @@ optdepends=('alsa-plugins: ALSA support.'
             'openssl: RAOP support.'
             'python2-pyqt: Equalizer GUI (qpaeq).')
 
-backup=('etc/pulse/daemon.conf' 'etc/pulse/default.pa' 'etc/pulse/system.pa'
-        'etc/pulse/client.conf')
-
 provides=('pulseaudio' 'libpulse')
 conflicts=('pulseaudio' 'libpulse')
 
-source=('git://github.com/pulseaudio/pulseaudio.git')
+source=('git+https://github.com/pulseaudio/pulseaudio.git')
 
 sha256sums=('SKIP')
 
@@ -34,16 +31,18 @@ pkgver() {
 
 prepare() {
     cd pulseaudio
-
-    # Unwanted defaults.
     sed -i 's/^; flat-volumes = yes/flat-volumes = no/' src/daemon/daemon.conf.in
     sed -i 's/^; autospawn = yes/autospawn = no/' src/pulse/client.conf.in
 }
 
 build() {
+    # XXX Cannot use LTO https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65982
     CFLAGS=${CFLAGS/-flto/}
     CXXFLAGS=${CXXFLAGS/-flto/}
 
+    # Make sure to set the bash completion directory here as without it the
+    # makefile will naively expand $(bashcompletiondir) to nothing and create
+    # symlinks directly under $(DESTDIR).
     cd pulseaudio
     ./autogen.sh --prefix=/usr \
         --enable-orc \
@@ -56,8 +55,8 @@ build() {
         --disable-esound \
         --disable-tcpwrap \
         --sysconfdir=/etc \
-        --with-database=tdb \
         --disable-hal-compat \
+        --with-database=gdbm \
         --localstatedir=/var \
         --libexecdir=/usr/lib \
         --disable-systemd-daemon \
@@ -66,19 +65,12 @@ build() {
         --disable-legacy-database-entry-format \
         --with-udev-rules-dir=/usr/lib/udev/rules.d \
         --with-bash-completion-dir=/usr/share/bash-completion/completions
-    # Make sure to set the completion directory here as without it the makefile
-    # will expand $(LN_S) -f pulseaudio $(DESTDIR)$(bashcompletiondir)/foobar
-    # and create symlinks directly under $(DESTDIR).
     make
-
-    sed -i 's/ -shared / -Wl,-O1,--sort-common,--as-needed\0/g' libtool
 }
 
 package() {
     cd pulseaudio
     make  DESTDIR="$pkgdir" install
-
-    # Unwanted files.
     rm -rf "$pkgdir"/etc/dbus-1
     rm -rf "$pkgdir"/etc/xdg
 }

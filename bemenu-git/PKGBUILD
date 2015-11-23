@@ -6,6 +6,7 @@ pkgdesc='Dynamic menu library and client program inspired by dmenu with support 
 url='https://github.com/Cloudef/bemenu'
 arch=('i686' 'x86_64')
 license=('GPL3' 'LGPL3')
+
 depends=('pango')
 makedepends=('git' 'cmake' 'libxkbcommon' 'libxinerama' 'wayland')
 optdepends=('wayland: For the wayland backend.'
@@ -16,13 +17,13 @@ optdepends=('wayland: For the wayland backend.'
 provides=('bemenu')
 conflicts=('bemenu')
 
-source=('git://github.com/Cloudef/bemenu')
+source=('git+https://github.com/Cloudef/bemenu')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd bemenu
-    printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git describe --always)"
+    printf 'r%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
 }
 
 build() {

@@ -1,13 +1,13 @@
-pkgname=qcachegrind-qt5-git
-pkgver=15.04.1.r10.g37d02af
+pkgname=qcachegrind-git
+pkgver=15.11.80
 pkgrel=1
 
-pkgdesc='Visualization of Performance Profiling Data (Qt5 version)'
+pkgdesc='Visualization of performance profiling data'
 url='http://kcachegrind.sourceforge.net'
 arch=('i686' 'x86_64')
 license=('GPL')
 
-depends=('qt5-base')
+depends=('qt5-base' 'desktop-file-utils' 'hicolor-icon-theme')
 makedepends=('git')
 optdepends=('graphviz: For drawing call graphs')
 
@@ -16,7 +16,9 @@ conflicts=('qcachegrind')
 
 source=('git://anongit.kde.org/kcachegrind')
 
-md5sums=('SKIP')
+install='qcachegrind-git.install'
+
+sha1sums=('SKIP')
 
 pkgver() {
     cd kcachegrind

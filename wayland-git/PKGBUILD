@@ -1,5 +1,5 @@
 pkgname=wayland-git
-pkgver=1.8.92
+pkgver=1.9.0.r32.ga5ef930
 pkgrel=1
 
 pkgdesc='A computer display server protocol'
@@ -7,7 +7,7 @@ url='http://wayland.freedesktop.org'
 arch=('i686' 'x86_64')
 license=('MIT')
 
-depends=('libffi' 'expat')
+depends=('libffi' 'expat' 'libxml2')
 makedepends=('doxygen' 'xmlto' 'graphviz')
 
 provides=('wayland')
@@ -15,9 +15,7 @@ conflicts=('wayland')
 
 source=('git://anongit.freedesktop.org/wayland/wayland')
 
-md5sums=('SKIP')
-
-options=('debug' '!strip')
+sha1sums=('SKIP')
 
 pkgver() {
     cd wayland
@@ -26,8 +24,7 @@ pkgver() {
 
 build() {
     cd wayland
-    ./autogen.sh
-    ./configure --prefix=/usr --disable-static
+    ./autogen.sh --prefix=/usr --disable-static
     make
 }
 

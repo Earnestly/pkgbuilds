@@ -2,22 +2,21 @@ pkgname=retroarch-git
 pkgver=1.2.1.r3297.g4a55826
 pkgrel=1
 
-pkgdesc="Simple frontend for the libretro API."
+pkgdesc='Simple frontend for the libretro API'
 arch=('i686' 'x86_64')
-url="http://github.com/libretro/RetroArch"
+url='http://github.com/libretro/RetroArch'
 license=('GPL')
-
-options=('!strip' 'debug')
 
 depends=('mesa' 'sdl' 'nvidia-cg-toolkit')
 makedepends=('git')
-optdepends=('python: for converting cg shaders to glsl shaders')
+optdepends=('python: For converting cg shaders to glsl shaders')
 
 provides=('retroarch')
 conflicts=('retroarch')
 
-source=('git://github.com/libretro/RetroArch.git')
-md5sums=('SKIP')
+source=('git+https://github.com/libretro/RetroArch.git')
+
+sha1sums=('SKIP')
 
 pkgver() {
     cd RetroArch

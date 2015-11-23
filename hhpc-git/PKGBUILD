@@ -1,24 +1,21 @@
 pkgname=hhpc-git
 pkgver=0.3.1.r3.g4051016
-pkgrel=8
+pkgrel=9
 
 pkgdesc='A small utility to hide the mouse pointer with X.org'
-arch=('i686' 'x86_64')
 url='https://github.com/Aktau/hhpc'
+arch=('i686' 'x86_64')
 license=('BSD')
 
-depends=('glibc' 'libx11')
+depends=('libx11')
 makedepends=('git')
 
 provides=('hhpc')
 conflicts=('hhpc')
 
-source=('git://github.com/Aktau/hhpc.git'
-        '11.patch')
-        #'https://github.com/aktau/hhpc/pull/11.patch')
+source=('git+https://github.com/Aktau/hhpc.git')
 
-md5sums=('SKIP'
-         'f96e2029045a379306d6c45390742521')
+sha1sums=('SKIP')
 
 pkgver() {
     cd hhpc
@@ -27,7 +24,8 @@ pkgver() {
 
 prepare() {
     cd hhpc
-    patch -Np1 -i "$srcdir"/11.patch
+    # Extract the LICENSE.
+    sed -n '/^Copyright/,$p' README.md > LICENSE
 }
 
 build() {
@@ -38,4 +36,5 @@ build() {
 package() {
     cd hhpc
     install -Dm755 hhpc "$pkgdir"/usr/bin/hhpc
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

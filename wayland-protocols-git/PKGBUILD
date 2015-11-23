@@ -1,0 +1,32 @@
+pkgname=wayland-protocols-git
+pkgver=r30.f828a43
+pkgrel=1
+
+pkgdesc='Additional protocols not available in Wayland core'
+url='http://wayland.freedesktop.org'
+arch=('any')
+license=('MIT')
+
+provides=('wayland-protocols')
+conflicts=('wayland-protocols')
+
+source=('git://anongit.freedesktop.org/wayland/wayland-protocols')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd wayland-protocols
+    printf 'r%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
+}
+
+build() {
+    cd wayland-protocols
+    ./autogen.sh --prefix=/usr
+    make
+}
+
+package() {
+    cd wayland-protocols
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}

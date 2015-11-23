@@ -1,21 +1,21 @@
 pkgname=sxiv-git
-pkgver=1.3.1.r18.ga3838c1
+pkgver=1.3.1.r26.ga7d39b0
 pkgrel=1
 
 pkgdesc='A simple X image viewer'
-url="https://github.com/Cloudef/sxiv"
+url='https://github.com/muennich/sxiv'
 arch=('i686' 'x86_64')
 license=('GPL2')
 
-depends=('libx11' 'xproto' 'imlib2' 'giflib')
+depends=('libexif' 'imlib2')
 makedepends=('git')
 
 provides=('sxiv')
 conflicts=('sxiv')
 
-source=('git://github.com/muennich/sxiv')
+source=('git+https://github.com/muennich/sxiv')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd sxiv

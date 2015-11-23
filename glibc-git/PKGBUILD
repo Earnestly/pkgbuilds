@@ -2,14 +2,10 @@
 #   https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html 
 
 # * It appears bintutils and gcc have to be built with -flto for --enable-lto
-#   to work.  See (NOTES.rst).
+#   to work.
 
 # * Investigate whether I can build glibc without all the charmaps and just
 #   UTF-8, this would cut down testing time.
-
-# * Consider using a custom makepkg.conf that doesn't include the flags which
-#   get added later to avoid the need to remove them initially.  I use a custom
-#   makepkg.conf to disable -flto anyway.
 
 pkgname=glibc-git
 pkgver=2.22.r368.ge8dab94
@@ -63,6 +59,7 @@ build() {
 
     # https://sourceware.org/bugzilla/show_bug.cgi?id=7065
     CFLAGS=${CFLAGS/-fstack-protector-strong/}
+
     # https://gcc.gnu.org/ml/gcc-help/2013-03/msg00357.html
     CFLAGS=${CFLAGS/-flto/}
 
@@ -81,7 +78,6 @@ build() {
         --enable-add-ons \
         --disable-werror \
         --prefix=/usr
-        #--enable-lto
 
     printf 'build-programs=no\n' >> configparms
     make
@@ -92,17 +88,13 @@ build() {
     printf 'CXX += -fstack-protector-strong -fstack-check -D_FORTIFY_SOURCE=2\n' >> configparms
     make
 
-    # Remove harding in preparation to run test-suite.  Is this still necessary?
+    # Remove harding in preparation to run test-suite.
     sed -i '5,7d' configparms
 }
 
 check() {
     cd build
-    # Check these assumptions when/if using more recent binutils.
-    # * The tst-cleanupx4 failure on i686 is "expected".
-
-    # XXX: What exactly is the point of running tests if we ignore the
-    #      failures hmm?
+    # XXX Running test pointless if exit status ignored
     #make check || true
 }
 
@@ -111,13 +103,10 @@ package() {
 
     # This will be populated when the user generates a locale.
     install -dm755 "$pkgdir"/usr/lib/locale 
-
     install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
     install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
-
     install -Dm644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
     install -Dm644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
-
     install -Dm755 locale-gen "$pkgdir"/usr/bin/locale-gen
     install -Dm644 locales "$pkgdir"/etc/locales
 
@@ -139,8 +128,8 @@ package() {
 
     # I use 2> /dev/null for both of these as there are plenty of
     # false-positives as it attempts to strip scripts or other unstrippable
-    # files -- I don't care though.
-    find "$pkgdir"/usr/bin -type f -exec strip $STRIP_BINARIES '{}' + 2> /dev/null || true
+    # files--I don't care though.
+    find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES '{}' + 2> /dev/null || true
 
     # Do not strip these for gdb and valgrind functionality, but strip the rest.
     find "$pkgdir"/usr/lib ! -name 'ld-*.so' \

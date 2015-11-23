@@ -7,16 +7,17 @@ url='http://www.dolphin-emu.org/'
 arch=('i686' 'x86_64')
 license=('GPL2')
 
-depends=('bluez-libs' 'ffmpeg' 'glew' 'libao' 'libusbx' 'miniupnpc' 'openal' 'portaudio' 'sdl2' 'soundtouch' 'wxgtk')
+depends=('bluez-libs' 'ffmpeg' 'glew' 'libao' 'libusbx' 'miniupnpc' 'openal' 
+         'portaudio' 'sdl2' 'soundtouch' 'wxgtk')
 makedepends=('cmake' 'git' 'opencl-headers')
 optdepends=('pulseaudio: PulseAudio backend')
 
 provides=('dolphin-emu')
 conflicts=('dolphin-emu')
 
-source=('git://github.com/dolphin-emu/dolphin')
+source=('git+https://github.com/dolphin-emu/dolphin')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd dolphin
@@ -25,10 +26,7 @@ pkgver() {
 
 build() {
     cd dolphin
-
-    _config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
-
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Duserdir="$_config_home"/dolphin-emu
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo
     make
 }
 

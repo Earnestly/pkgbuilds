@@ -1,23 +1,24 @@
 pkgname=weechat-git
-pkgver=1.3.70.rg49243fc
-pkgrel=2
+pkgver=1.3.114.rgc7b781b
+pkgrel=1
 
-pkgdesc='Fast, light and extensible IRC client.'
+pkgdesc='CLI IRC client'
 url='http://www.weechat.org/'
 arch=('i686' 'x86_64')
 license=('GPL3')
 
-depends=('ncurses' 'curl' 'gnutls' 'libgcrypt')
-makedepends=('git' 'aspell' 'cmake' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile' 'lua')
+depends=('curl' 'gnutls' 'libgcrypt' 'hicolor-icon-theme')
+makedepends=('git' 'asciidoc' 'source-highlight' 'aspell' 'cmake' 'lua' 'perl'
+             'python' 'ruby' 'tcl' 'guile' 'lua')
 # checkdepends=('cpputest')
 optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile')
 
 provides=('weechat')
 conflicts=('weechat')
 
-source=('git://github.com/weechat/weechat.git')
+source=('git+https://github.com/weechat/weechat.git')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 install='weechat-git.install'
 
@@ -28,13 +29,14 @@ pkgver() {
 
 build() {
     cd weechat
+    # -DENABLE_TESTS=ON
+    # -DPYTHON_LIBRARY=/usr/lib/libpython3.5m.so
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_PYTHON3=ON \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DPYTHON_LIBRARY=/usr/lib/libpython3.5m.so \
-        -DWEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"/weechat
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
 }
 
+# XXX cpputest required for testing, which is not officially packaged
 # check() {
 #     cd weechat/tests
 #     cmake

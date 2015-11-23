@@ -42,6 +42,7 @@ check() {
 
 package() {
     cd ponyc
+    # XXX Cannot reasonably use the provided Makefile for installation
     # The current makefile uses some logic to try and symlink the ponyc to the
     # prefix but ignoring the $(destdir).  In fact, the prefix= command-line is
     # ignored completely for this innvocation.

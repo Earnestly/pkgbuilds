@@ -40,12 +40,12 @@ prepare() {
     git config submodule.release/scripts/addons_contrib.url "$srcdir"/blender-addons-contrib
     git config submodule.release/datafiles/locale.url "$srcdir"/blender-translations
     git submodule update release/scripts/addons release/scripts/addons_contrib release/datafiles/locale
+    mkdir blender_build
 }
 
 build() {
     # Blender won't let us build in the source tree directly
-    mkdir blender_build
-    cd blender_build
+    cd blender/blender_build
     
     if [[ $CARCH == i686 ]]; then
         _BUILDCUDA=OFF

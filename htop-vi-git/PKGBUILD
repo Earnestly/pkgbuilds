@@ -13,7 +13,7 @@ makedepends=('git')
 provides=('htop')
 conflicts=('htop')
 
-source=('git://github.com/hishamhm/htop'
+source=('git+https://github.com/hishamhm/htop'
         'htop-vi.patch')
 
 sha1sums=('SKIP'

@@ -13,14 +13,11 @@ makedepends=('git')
 provides=('termite')
 conflicts=('termite')
 
-backup=('etc/xdg/termite/config')
-
-source=('git://github.com/thestinger/termite'
-        'git://github.com/thestinger/util'
+source=('git+https://github.com/thestinger/termite'
+        'git+https://github.com/thestinger/util'
         'reverse_url_search.patch')
 
-sha1sums=('SKIP'
-          'SKIP'
+sha1sums=('SKIP' 'SKIP'
           'c909aa938d09eaa6764d83f1f0822a3c6be2edec')
 
 pkgver() {

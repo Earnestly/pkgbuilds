@@ -1,27 +1,23 @@
 pkgname=ppsspp-git
-pkgver=1.0.1.r2632.gdc4fb4c
+pkgver=1.1.1.r324.gce05930
 pkgrel=1
 
-pkgdesc='A PSP emulator for Android, Windows, Mac, and Linux, written in C++.'
+pkgdesc='A PSP emulator'
 url='http://www.ppsspp.org/'
 arch=('i686' 'x86_64')
 license=('BSD' 'GPL2')
 
-depends=('sdl2' 'ffmpeg' 'xdg-utils')
-makedepends=('git' 'cmake' 'clang')
+depends=('sdl2' 'ffmpeg' 'glew' 'snappy')
+makedepends=('git' 'cmake')
 
 provides=('ppsspp')
 conflicts=('ppsspp')
 
-source=('git://github.com/hrydgard/ppsspp.git'
-        'git://github.com/hrydgard/ppsspp-lang.git'
-        'git://github.com/Kingcom/armips')
+source=('git+https://github.com/hrydgard/ppsspp'
+        'git+https://github.com/hrydgard/ppsspp-lang'
+        'git+https://github.com/Kingcom/armips')
 
-md5sums=('SKIP'
-         'SKIP'
-         'SKIP')
-
-install='ppsspp-git.install'
+sha1sums=('SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
     cd ppsspp
@@ -38,25 +34,21 @@ prepare() {
 
 build() {
     cd ppsspp
-    cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DUSE_SYSTEM_FFMPEG=ON
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_SYSTEM_FFMPEG=ON
     make
 }
 
 package() {
     cd ppsspp
-    mkdir -p "$pkgdir"/usr/share/{icons,ppsspp}
-    mv assets/unix-icons/hicolor "$pkgdir"/usr/share/icons
 
-    chmod -x assets/{icon-114.png,icon.svg}
-    cp -a assets/* "$pkgdir"/usr/share/ppsspp
-
-    mkdir -p "$pkgdir"/usr/bin
+    install -dm755 "$pkgdir"/usr/bin
     install -Dm755 PPSSPPSDL "$pkgdir"/usr/share/ppsspp/PPSSPPSDL
+    install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+
     ln -sf /usr/share/ppsspp/PPSSPPSDL "$pkgdir"/usr/bin/ppsspp
 
-    install -Dm644 debian/ppsspp.1 "$pkgdir"/usr/share/man/man1/ppsspp.1
-    install -Dm644 debian/ppsspp.desktop "$pkgdir"/usr/share/applications/ppsspp.desktop
-    install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    # XXX Icon generation doesn't appear to work
+    # cd assets/unix-icons
+    # ./convert-to-png.sh -s imagemagick -d "$pkgdir"/usr/share/icons/hicolor 
+
 }

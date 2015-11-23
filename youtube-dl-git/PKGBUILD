@@ -1,8 +1,8 @@
 pkgname=youtube-dl-git
-pkgver=2015.11.19.r10.g67446fd
+pkgver=2015.11.21.r8.g02f0da2
 pkgrel=1
 
-pkgdesc='A small command-line program to download videos from many different sites.'
+pkgdesc='A command-line program to download videos from different sites'
 url='http://rg3.github.com/youtube-dl'
 arch=('any')
 license=('custom')
@@ -10,14 +10,14 @@ license=('custom')
 depends=('python')
 makedepends=('git' 'python-sphinx')
 
-optdepends=('ffmpeg: For video post-processing.')
+optdepends=('ffmpeg: For video post-processing')
 
 provides=('youtube-dl')
 conflicts=('youtube-dl')
 
-source=('git://github.com/rg3/youtube-dl.git')
+source=('git+https://github.com/rg3/youtube-dl.git')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd youtube-dl
@@ -41,7 +41,7 @@ package() {
 
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 
-    # Sigh.
+    # Clean up.
     rm -rf "$pkgdir"/usr/etc
     rm -rf "$pkgdir"/usr/share/doc
 }
