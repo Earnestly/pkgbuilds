@@ -1,5 +1,5 @@
 pkgname=newsbeuter-git
-pkgver=r1744.9e03ec8
+pkgver=r1747.f6eba7c
 pkgrel=1
 
 pkgdesc='A RSS feed reader for the text console with special Podcast support.'
@@ -13,7 +13,7 @@ makedepends=('git' 'swig' 'asciidoc' 'docbook-xsl' 'pkgconfig')
 provides=('newsbeuter')
 conflicts=('newsbeuter')
 
-source=('git://github.com/akrennmair/newsbeuter.git')
+source=('git+https://github.com/akrennmair/newsbeuter.git')
 
 sha1sums=('SKIP')
 
