@@ -1,0 +1,37 @@
+pkgname=xxd-git
+pkgver=7.4.963
+pkgrel=2
+
+pkgdesc='create or reverse hex dumps'
+url='http://www.vim.org/'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('glibc')
+makedepends=('git')
+
+conflicts=('xxd')
+provides=('xxd')
+
+source=('git+https://github.com/vim/vim'
+        'LICENSE')
+
+sha1sums=('SKIP'
+          'ea082a0b648d54fa38d4c3e7b277793608bb4df9')
+
+pkgver() {
+    cd vim
+    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+build() {
+    cd vim/src/xxd
+    make
+}
+
+package() {
+    cd vim/src/xxd
+    install -Dm755 xxd "$pkgdir"/usr/bin/xxd
+    install -Dm644 "$srcdir"/LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm644 "$srcdir"/vim/runtime/doc/xxd.1 "$pkgdir"/usr/share/man/man1/xxd.1
+}
