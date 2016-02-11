@@ -1,8 +1,8 @@
 pkgname=ncurses-git
-pkgver=6.0.r13.gfd1066c
+pkgver=6.0.r18.g4b1d778
 pkgrel=1
 
-pkgdesc='Unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
+pkgdesc='unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
 arch=('i686' 'x86_64')
 license=('MIT')

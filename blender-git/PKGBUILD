@@ -44,7 +44,8 @@ prepare() {
 }
 
 build() {
-    # Blender won't let us build in the source tree directly
+    # XXX I don't have enough memory to build this with -flto
+    # Blender won't let us build in the source tree directly.
     cd blender/blender_build
     
     if [[ $CARCH == i686 ]]; then

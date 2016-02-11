@@ -1,6 +1,6 @@
 pkgname=antimicro-git
-pkgver=2.20.2.r13.g355b4cd
-pkgrel=1
+pkgver=2.20.2.r15.g09ccf3b
+pkgrel=9
 
 pkgdesc='Map keyboard and mouse actions to gamepad buttons, inspired by qjoypad.'
 url='https://github.com/Ryochan7/antimicro'
@@ -13,10 +13,11 @@ makedepends=('cmake' 'qt5-tools')
 provides=('antimicro')
 conflicts=('antimicro')
 
-source=('git://github.com/Ryochan7/antimicro')
+source=('git+https://github.com/Ryochan7/antimicro')
+
 install='antimicro-git.install'
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd antimicro
@@ -25,7 +26,8 @@ pkgver() {
 
 build() {
     cd antimicro
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSE_SDL_2=ON
+    # XXX Requires -fPIC to use -flto https://github.com/Ryochan7/antimicro/issues/263
+    CXXFLAGS=-fPIC cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSE_SDL_2=ON
     make
 }
 

@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.3.114.rgc7b781b
+pkgver=1.4.3.rgc21dadc
 pkgrel=1
 
 pkgdesc='CLI IRC client'
@@ -30,10 +30,10 @@ pkgver() {
 build() {
     cd weechat
     # -DENABLE_TESTS=ON
-    # -DPYTHON_LIBRARY=/usr/lib/libpython3.5m.so
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_PYTHON3=ON \
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DPYTHON_LIBRARY=/usr/lib/libpython3.5m.so
 }
 
 # XXX cpputest required for testing, which is not officially packaged
