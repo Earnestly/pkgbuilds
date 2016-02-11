@@ -2,17 +2,17 @@
 #        mark  : item to search for
 #        array : array in which to look
 in_array() {
-	local mark=$1
-	local element
+    local mark=$1
+    local element
 
-	for element in "${@:2}"; do
-		if [[ $element == "$mark" ]]; then
+    for element in "${@:2}"; do
+        if [[ $element == "$mark" ]]; then
             return 0
         fi
-	done
+    done
 
     # Mark not found.
-	return 1
+    return 1
 }
 
 # Usage: confirm bias format ...
@@ -29,7 +29,7 @@ confirm() {
     esac
 
     printf -v message -- "\033[1;29m* $1 [$prompt]\033[0m " "${@:2}"
-    read -p "$message" reply
+    read -rp "$message" reply
 
     case $bias in
         yes) [[ $reply = y || ! $reply ]] ;;
