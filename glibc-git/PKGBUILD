@@ -8,7 +8,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.22.r710.gbae7c7c
+pkgver=2.23.r31.g7584a3f
 pkgrel=1
 
 pkgdesc='The GNU C Library.'
@@ -24,7 +24,7 @@ install='glibc-git.install'
 depends=('linux-api-headers' 'tzdata' 'filesystem' 'gd')
 makedepends=('git')
 
-provides=('glibc=2.22')
+provides=('glibc=2.23')
 conflicts=('glibc')
 
 source=('git://sourceware.org/git/glibc.git'
@@ -89,7 +89,7 @@ build() {
     make
 
     # Remove harding in preparation to run test-suite.
-    sed -i '5,7d' configparms
+    sed -i '/FORTIFY/d' configparms
 }
 
 check() {
@@ -102,13 +102,13 @@ package() {
     make -C build install_root="$pkgdir" install
 
     # This will be populated when the user generates a locale.
-    install -dm755 "$pkgdir"/usr/lib/locale 
-    install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
-    install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
     install -Dm644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
     install -Dm644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
+    install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
+    install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
     install -Dm755 locale-gen "$pkgdir"/usr/bin/locale-gen
     install -Dm644 locales "$pkgdir"/etc/locales
+    install -dm755 "$pkgdir"/usr/lib/locale 
 
     # Only support UTF-8 charmaps.
     find "$pkgdir"/usr/share/i18n/charmaps ! -name UTF-8.gz -type f -delete
@@ -116,15 +116,8 @@ package() {
     # Tidy up.
     rm -r "$pkgdir"/var
 
-    # We generate these in the scriptlet with `ldconfig -r .`.
+    # We generate these in the scriptlet with ldconfig -r .
     rm "$pkgdir"/etc/ld.so.cache
-
-    # Remove the static libraries that have a shared counterpart. 
-    # libc, libdl, libm and libpthread are required for toolchain testsuites 
-    # in addition libcrypt appears widely required.
-    rm "$pkgdir"/usr/lib/lib{anl,BrokenLocale,mvec,nsl,resolv,rt,util}.a || true
-
-    # Manually stripping saves around 50 MiB.
 
     # I use 2> /dev/null for both of these as there are plenty of
     # false-positives as it attempts to strip scripts or other unstrippable
