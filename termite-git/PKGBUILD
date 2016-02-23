@@ -1,5 +1,5 @@
 pkgname=termite-git
-pkgver=10.r32.g7fdf5ce
+pkgver=11
 pkgrel=1
 
 pkgdesc='A simple VTE-based terminal'
@@ -41,5 +41,4 @@ build() {
 package() {
     cd termite
     make PREFIX=/usr DESTDIR="$pkgdir" install
-    install -Dm644 config "$pkgdir"/etc/xdg/termite/config
 }
