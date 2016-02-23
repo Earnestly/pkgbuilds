@@ -1,5 +1,5 @@
 pkgname=ponyc-git
-pkgver=0.2.1.r96.g57461c4
+pkgver=0.2.1.r98.g1ff3d90
 pkgrel=1
 
 pkgdesc='actor model and capabilities programming language'
@@ -17,7 +17,7 @@ optdepends=('pcre2: Needed for the regex package.')
 provides=('ponyc')
 conflicts=('ponyc')
 
-source=('git://github.com/CausalityLtd/ponyc#branch=llvm37')
+source=('git+https://github.com/ponylang/ponyc#branch=llvm37')
 install='ponyc-git.install'
 
 sha1sums=('SKIP')
