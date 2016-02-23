@@ -6,7 +6,7 @@ PREFIX ?= /usr/local
 # Includes and libs
 INCS = -I/usr/include -I/usr/include/freetype2 -include ft2build.h
 LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto \
-       -lz -lopenjp2 -ljpeg -lfreetype
+       -lz -lopenjp2 -ljpeg -lharfbuzz -lfreetype
 
 CPPFLAGS += -D_GNU_SOURCE -DOBSCURED_OPT -DFFP
 CFLAGS += -g -std=c99 -pedantic -Wall ${INCS} ${CPPFLAGS}
