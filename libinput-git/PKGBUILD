@@ -1,34 +1,38 @@
 pkgname=libinput-git
-pkgver=1.1.4.r25.ga4adea1
-pkgrel=1
+pkgver=1.2.0
+pkgrel=3
 
-pkgdesc='A library to handle input devices in Wayland compositors'
+pkgdesc='library to handle input devices'
 url='http://freedesktop.org/wiki/Software/libinput/'
 arch=('i686' 'x86_64')
 license=('MIT')
 
-depends=('mtdev' 'systemd' 'libevdev')
+depends=('mtdev' 'libevdev' 'libwacom')
 makedepends=('git')
 
-provides=('libinput')
+# XXX Thanks lcarlier, what a guy.
+provides=("libinput=$pkgver")
 conflicts=('libinput')
 
-source=('git://anongit.freedesktop.org/wayland/libinput')
+source=('git+https://anongit.freedesktop.org/git/wayland/libinput.git')
 
 sha1sums=('SKIP')
 
 pkgver() {
-	cd libinput
+    cd libinput
     git describe | sed 's/-/.r/; s/-/./'
 }
 
 build() {
-	cd libinput
-	./autogen.sh --prefix=/usr
-	make
+    cd libinput
+    ./autogen.sh --prefix=/usr \
+        --enable-libwacom \
+        --disable-static
+    make
 }
 
 package() {
-	cd libinput
-	make DESTDIR="$pkgdir" install
+    cd libinput
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
