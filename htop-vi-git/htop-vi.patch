@@ -1,8 +1,8 @@
 diff --git a/Action.c b/Action.c
-index 6c387de..d9e2f31 100644
+index 3b3c3b0..3c62164 100644
 --- a/Action.c
 +++ b/Action.c
-@@ -378,7 +378,7 @@ static Htop_Reaction actionRedraw() {
+@@ -382,7 +382,7 @@ static Htop_Reaction actionRedraw() {
  }
  
  static struct { const char* key; const char* info; } helpLeft[] = {
@@ -11,7 +11,7 @@ index 6c387de..d9e2f31 100644
     { .key = " Digits: ", .info = "incremental PID search" },
     { .key = "   F3 /: ", .info = "incremental name search" },
     { .key = "   F4 \\: ",.info = "incremental name filtering" },
-@@ -398,18 +398,18 @@ static struct { const char* key; const char* info; } helpRight[] = {
+@@ -402,7 +402,7 @@ static struct { const char* key; const char* info; } helpRight[] = {
     { .key = "  Space: ", .info = "tag process" },
     { .key = "      c: ", .info = "tag process and its children" },
     { .key = "      U: ", .info = "untag all processes" },
@@ -19,10 +19,11 @@ index 6c387de..d9e2f31 100644
 +   { .key = "   F9 d: ", .info = "kill process/tagged processes" },
     { .key = "   F7 ]: ", .info = "higher priority (root only)" },
     { .key = "   F8 [: ", .info = "lower priority (+ nice)" },
- #if (HAVE_LIBHWLOC || HAVE_NATIVE_AFFINITY)
-    { .key = "      a: ", .info = "set CPU affinity" },
+ #if (HAVE_LIBHWLOC || HAVE_LINUX_AFFINITY)
+@@ -410,11 +410,11 @@ static struct { const char* key; const char* info; } helpRight[] = {
  #endif
-    { .key = "      i: ", .info = "set IO prority" },
+    { .key = "      e: ", .info = "show process environment" },
+    { .key = "      i: ", .info = "set IO priority" },
 -   { .key = "      l: ", .info = "list open files with lsof" },
 +   { .key = "      L: ", .info = "list open files with lsof" },
     { .key = "      s: ", .info = "trace syscalls with strace" },
@@ -33,7 +34,7 @@ index 6c387de..d9e2f31 100644
     { .key = "  F10 q: ", .info = "quit" },
     { .key = NULL, .info = NULL }
  };
-@@ -529,7 +529,7 @@ void Action_setBindings(Htop_Action* keys) {
+@@ -550,7 +550,7 @@ void Action_setBindings(Htop_Action* keys) {
     keys['q'] = actionQuit;
     keys['a'] = actionSetAffinity;
     keys[KEY_F(9)] = actionKill;
@@ -42,7 +43,7 @@ index 6c387de..d9e2f31 100644
     keys[KEY_RECLICK] = actionExpandOrCollapse;
     keys['+'] = actionExpandOrCollapse;
     keys['='] = actionExpandOrCollapse;
-@@ -539,12 +539,11 @@ void Action_setBindings(Htop_Action* keys) {
+@@ -560,12 +560,11 @@ void Action_setBindings(Htop_Action* keys) {
     keys['S'] = actionSetup;
     keys['C'] = actionSetup;
     keys[KEY_F(2)] = actionSetup;
@@ -57,7 +58,7 @@ index 6c387de..d9e2f31 100644
     keys['U'] = actionUntagAll;
     keys['c'] = actionTagAllChildren;
 diff --git a/Panel.c b/Panel.c
-index 7424fa4..20f97c3 100644
+index 1c45714..ed57262 100644
 --- a/Panel.c
 +++ b/Panel.c
 @@ -375,10 +375,12 @@ bool Panel_onKey(Panel* this, int key) {

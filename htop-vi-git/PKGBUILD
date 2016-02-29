@@ -1,5 +1,5 @@
 pkgname=htop-vi-git
-pkgver=1.0.3.r307.g5521094
+pkgver=2.0.0.r44.g03af73b
 pkgrel=1
 
 pkgdesc='Interactive process viewer patched for vi style scroll keys'
@@ -17,7 +17,7 @@ source=('git+https://github.com/hishamhm/htop'
         'htop-vi.patch')
 
 sha1sums=('SKIP'
-          'f0c714c2c4ebc8f0c2892f3b96fc04a9de8759e5')
+          '1e01cc530f286fc950b4cee4c35ad99b574dd5d0')
 
 pkgver() {
     cd htop
@@ -33,7 +33,6 @@ build() {
     cd htop
     ./autogen.sh
     ./configure --prefix=/usr \
-        --enable-openvz \
         --enable-cgroup \
         --enable-unicode
     make
