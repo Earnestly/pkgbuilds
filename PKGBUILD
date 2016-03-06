@@ -1,30 +1,26 @@
 pkgname=wlc-git
-pkgver=r802.a30a674
+pkgver=r893.8047fa7
 pkgrel=1
 
-pkgdesc='Wayland compositor library.'
+pkgdesc='wayland compositor library'
 url='https://github.com/Cloudef/wlc'
 arch=('i686' 'x86_64')
-license=('GPL')
+license=('MIT')
 
-depends=('wayland' 'pixman' 'libxkbcommon' 'libinput')
-makedepends=('git' 'cmake' 'libx11' 'libxcb' 'libgl' 'xcb-util-image')
+options=('debug' '!strip')
 
-optdepends=('libx11: Running the compositor as an Xorg client'
-            'libxcb: Running the compositor as an Xorg client'
-            'mesa: For optional platform support (GLESv2, EGL, DRM)'
-            'nvidia: For optional platform support (GLESv2, EGL)'
-            'xcb-util-image: Needed for xwayland support.')
+depends=('wayland' 'pixman' 'libxkbcommon' 'libinput' 'libx11' 'libxcb' 'libgl'
+         'libdrm' 'mesa' 'xcb-util-image' 'xcb-util-wm')
+makedepends=('git' 'cmake')
 
 provides=('wlc')
 conflicts=('wlc')
 
-source=('git://github.com/Cloudef/wlc'
-        'git://github.com/Cloudef/chck')
+source=('git+https://github.com/Cloudef/wlc'
+        'git+https://github.com/Cloudef/chck'
+        'git+https://anongit.freedesktop.org/git/wayland/wayland-protocols')
 
-md5sums=('SKIP' 'SKIP')
-
-options=('!debug' '!strip')
+sha1sums=('SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
     cd wlc
@@ -35,12 +31,16 @@ prepare() {
     cd wlc
     git submodule init
     git config submodule.lib/chck.url "$srcdir"/chck
-    git submodule update lib/chck
+    git config submodule.protos/wayland-protocols.url "$srcdir"/wayland-protocols
+    git submodule update lib/chck protos/wayland-protocols
 }
 
 build() {
     cd wlc
-    cmake -DCMAKE-BUILD_TYPE=Upstream -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib
+    cmake -DCMAKE_BUILD_TYPE=Upstream \
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DSOURCE_WLPROTO=ON
     make
 }
 
@@ -52,4 +52,5 @@ check() {
 package() {
     cd wlc
     make DESTDIR="$pkgdir" install
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
