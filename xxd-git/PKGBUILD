@@ -10,7 +10,7 @@ license=('MIT')
 depends=('glibc')
 makedepends=('git')
 
-conflicts=('xxd')
+conflicts=('xxd' 'vim')
 provides=('xxd')
 
 source=('git+https://github.com/vim/vim'
