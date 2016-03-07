@@ -2,7 +2,7 @@ pkgname=ncurses-git
 pkgver=6.0.r25.gbcdff1f
 pkgrel=1
 
-pkgdesc='unofficial git mirror of snapshots from ftp://invisible-island.net/ncurses/current/'
+pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -10,8 +10,8 @@ license=('MIT')
 depends=('glibc' 'gcc-libs')
 makedepends=('git')
 
-# Library provide now needed for Arch Linux's bash package.
-provides=('ncurses' 'libtinfo' 'libncursesw.so')
+# Library provide now needed for Arch Linux's bash package, sigh.
+provides=('ncurses' 'libtinfo' "libncursesw.so=$pkgver")
 conflicts=('ncurses' 'libtinfo')
 
 source=('git://ncurses.scripts.mit.edu/ncurses.git')

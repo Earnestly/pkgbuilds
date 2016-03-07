@@ -2,7 +2,7 @@ pkgname=weston-git
 pkgver=1.9.0.r114.gf69bd1a
 pkgrel=1
 
-pkgdesc='Reference implementation of a Wayland compositor'
+pkgdesc='reference implementation of a wayland compositor'
 url='http://wayland.freedesktop.org'
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -14,7 +14,7 @@ makedepends=('git' 'wayland-protocols')
 provides=('weston')
 conflicts=('weston')
 
-source=('git://anongit.freedesktop.org/wayland/weston')
+source=('git+https://anongit.freedesktop.org/wayland/weston')
 
 sha1sums=('SKIP')
 
@@ -25,7 +25,7 @@ pkgver() {
 
 build() {
     cd weston
-    # XXX Requires passing -fPIC to build with -flto
+    # XXX requires passing -fPIC to build with -flto
     CFLAGS=-fPIC ./autogen.sh --prefix=/usr \
         --libexecdir=/usr/lib/weston \
         --enable-demo-clients-install

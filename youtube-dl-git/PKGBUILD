@@ -2,7 +2,7 @@ pkgname=youtube-dl-git
 pkgver=2016.03.01.r6.g90f794c
 pkgrel=1
 
-pkgdesc='A command-line program to download videos from different sites'
+pkgdesc='tool to download videos from different websites'
 url='http://rg3.github.com/youtube-dl'
 arch=('any')
 license=('custom')

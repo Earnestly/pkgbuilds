@@ -2,7 +2,7 @@ pkgname=wayland-git
 pkgver=1.9.91
 pkgrel=1
 
-pkgdesc='A computer display server protocol'
+pkgdesc='display server protocol'
 url='http://wayland.freedesktop.org'
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -13,7 +13,7 @@ makedepends=('doxygen' 'xmlto' 'graphviz')
 provides=('wayland')
 conflicts=('wayland')
 
-source=('git://anongit.freedesktop.org/wayland/wayland')
+source=('git+https://anongit.freedesktop.org/wayland/wayland')
 
 sha1sums=('SKIP')
 

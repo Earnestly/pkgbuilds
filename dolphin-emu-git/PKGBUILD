@@ -2,7 +2,7 @@ pkgname=dolphin-emu-git
 pkgver=4.0.r7668.gc319fbb
 pkgrel=1
 
-pkgdesc='A GameCube / Wii / Triforce emulator'
+pkgdesc='gamecube, wii and triforce emulator'
 url='http://www.dolphin-emu.org/'
 arch=('i686' 'x86_64')
 license=('GPL2')

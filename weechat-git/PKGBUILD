@@ -2,7 +2,7 @@ pkgname=weechat-git
 pkgver=1.4.75.rg87d42c3
 pkgrel=1
 
-pkgdesc='CLI IRC client'
+pkgdesc='irc client'
 url='http://www.weechat.org/'
 arch=('i686' 'x86_64')
 license=('GPL3')
@@ -10,7 +10,7 @@ license=('GPL3')
 depends=('curl' 'gnutls' 'libgcrypt' 'hicolor-icon-theme')
 makedepends=('git' 'asciidoc' 'source-highlight' 'aspell' 'cmake' 'lua' 'perl'
              'python' 'ruby' 'tcl' 'guile' 'lua')
-# checkdepends=('cpputest')
+#checkdepends=('cpputest')
 optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile')
 
 provides=('weechat')

@@ -2,7 +2,7 @@ pkgname=mosml-git
 pkgver=2.10.1.r7.g96407bc
 pkgrel=1
 
-pkgdesc='Moscow ML is a light-weight implementation of Standard ML (SML)'
+pkgdesc='the moscow standard ml implementation'
 url='http://www.itu.dk/~sestoft/mosml.html'
 arch=('i686' 'x86_64')
 license=('GPL')

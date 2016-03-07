@@ -2,7 +2,7 @@ pkgname=htop-vi-git
 pkgver=2.0.0.r44.g03af73b
 pkgrel=1
 
-pkgdesc='Interactive process viewer patched for vi style scroll keys'
+pkgdesc='interactive process viewer patched with rudimentary vi style motions'
 url='http://htop.sourceforge.net/'
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -32,9 +32,7 @@ prepare() {
 build() {
     cd htop
     ./autogen.sh
-    ./configure --prefix=/usr \
-        --enable-cgroup \
-        --enable-unicode
+    ./configure --prefix=/usr --enable-cgroup --enable-unicode
     make
 }
 

@@ -2,7 +2,7 @@ pkgname=dmenu-pango-imlib-git
 pkgver=4.5.3.r9.ga9066ec
 pkgrel=1
 
-pkgdesc='Dynamic X menu - with pango and imlib support'
+pkgdesc='dynamic menu with pango and imlib support'
 url='https://github.com/Cloudef/dmenu-pango-imlib'
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -14,7 +14,7 @@ provides=('dmenu' 'dmenu-pango-imlib')
 
 source=('git://github.com/Cloudef/dmenu-pango-imlib')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd dmenu-pango-imlib

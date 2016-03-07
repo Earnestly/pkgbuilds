@@ -25,9 +25,7 @@ pkgver() {
 
 build() {
     cd libinput
-    ./autogen.sh --prefix=/usr \
-        --enable-libwacom \
-        --disable-static
+    ./autogen.sh --prefix=/usr --enable-libwacom --disable-static
     make
 }
 

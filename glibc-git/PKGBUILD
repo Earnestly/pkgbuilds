@@ -11,7 +11,7 @@ pkgname=glibc-git
 pkgver=2.23.r41.gad1b6d8
 pkgrel=1
 
-pkgdesc='The GNU C Library.'
+pkgdesc='the gnu c library'
 url='http://www.gnu.org/software/libc'
 arch=('x86_64')
 groups=('base')

@@ -2,7 +2,7 @@ pkgname=sxiv-git
 pkgver=1.3.2.r6.gf32771a
 pkgrel=1
 
-pkgdesc='A simple X image viewer'
+pkgdesc='x image viewer'
 url='https://github.com/muennich/sxiv'
 arch=('i686' 'x86_64')
 license=('GPL2')

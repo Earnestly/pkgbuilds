@@ -2,7 +2,7 @@ pkgname=ppsspp-git
 pkgver=1.1.1.r324.gce05930
 pkgrel=1
 
-pkgdesc='A PSP emulator'
+pkgdesc='psp emulator'
 url='http://www.ppsspp.org/'
 arch=('i686' 'x86_64')
 license=('BSD' 'GPL2')
@@ -50,5 +50,4 @@ package() {
     # XXX Icon generation doesn't appear to work
     # cd assets/unix-icons
     # ./convert-to-png.sh -s imagemagick -d "$pkgdir"/usr/share/icons/hicolor 
-
 }

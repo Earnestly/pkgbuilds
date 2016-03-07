@@ -2,7 +2,7 @@ pkgname=termite-git
 pkgver=11
 pkgrel=1
 
-pkgdesc='A simple VTE-based terminal'
+pkgdesc='vte-based terminal'
 url='https://github.com/thestinger/termite/'
 arch=('i686' 'x86_64')
 license=('GPL')

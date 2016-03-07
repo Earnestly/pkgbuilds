@@ -1,8 +1,8 @@
 pkgname=pulseaudio-git
-pkgver=8.0.r7.ga119187
-pkgrel=1
+pkgver=8.0.r41.gf6e1ac2
+pkgrel=2
 
-pkgdesc='A network transparent sound server'
+pkgdesc='network transparent sound server'
 url='http://pulseaudio.org/'
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL')
@@ -11,18 +11,18 @@ depends=('rtkit' 'libltdl' 'speex' 'tdb' 'fftw' 'orc' 'libsamplerate' 'python'
          'webrtc-audio-processing' 'sbc' 'libasyncns' 'libxtst' 'libsm' 'json-c'
          'pulseaudio-alsa')
 makedepends=('git' 'attr' 'intltool' 'jack' 'lirc-utils' 'openssl')
-optdepends=('alsa-plugins: ALSA support.'
-            'jack: jack support.'
-            'lirc-utils: infra-red support.'
-            'openssl: RAOP support.'
-            'python2-pyqt: Equalizer GUI (qpaeq).')
+optdepends=('alsa-plugins: alsa support'
+            'jack: jack support'
+            'lirc-utils: infra-red support'
+            'openssl: raop support'
+            'python2-pyqt: equalizer gui (qpaeq)')
 
 provides=('pulseaudio' 'libpulse')
 conflicts=('pulseaudio' 'libpulse')
 
 source=('git+https://github.com/pulseaudio/pulseaudio.git')
 
-sha256sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd pulseaudio
@@ -36,15 +36,13 @@ prepare() {
 }
 
 build() {
-    # XXX Cannot use LTO https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65982
-    CFLAGS=${CFLAGS/-flto/}
-    CXXFLAGS=${CXXFLAGS/-flto/}
-
     # Make sure to set the bash completion directory here as without it the
     # makefile will naively expand $(bashcompletiondir) to nothing and create
     # symlinks directly under $(DESTDIR).
     cd pulseaudio
-    ./autogen.sh --prefix=/usr \
+    # XXX requires -fPIC to build with -flto
+    CFLAGS=-fPIC ./autogen.sh \
+        --prefix=/usr \
         --enable-orc \
         --disable-xen \
         --disable-dbus \

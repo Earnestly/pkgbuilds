@@ -2,7 +2,7 @@ pkgname=antimicro-git
 pkgver=2.21.r16.g4656fb6
 pkgrel=1
 
-pkgdesc='Map keyboard and mouse actions to gamepad buttons, inspired by qjoypad.'
+pkgdesc='map keyboard and mouse actions to gamepad buttons, inspired by qjoypad'
 url='https://github.com/Ryochan7/antimicro'
 arch=('i686' 'x86_64')
 license=('GPL3')

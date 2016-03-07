@@ -2,7 +2,7 @@ pkgname=newsbeuter-git
 pkgver=r1833.6330080
 pkgrel=1
 
-pkgdesc='A RSS feed reader for the text console with special Podcast support.'
+pkgdesc='rss feed reader for the text console with podcast support'
 url='http://www.newsbeuter.org'
 arch=('i686' 'x86_64')
 license=('MIT')
