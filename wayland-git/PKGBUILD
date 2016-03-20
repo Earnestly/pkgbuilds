@@ -1,6 +1,6 @@
 pkgname=wayland-git
 pkgver=1.10.0.r21.g0715ee5
-pkgrel=1
+pkgrel=2
 
 pkgdesc='display server protocol'
 url='http://wayland.freedesktop.org'
@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 license=('MIT')
 
 depends=('libffi' 'expat' 'libxml2')
-makedepends=('doxygen' 'xmlto' 'graphviz')
+makedepends=('doxygen' 'xmlto' 'docbook-xsl' 'graphviz')
 
 provides=('wayland')
 conflicts=('wayland')
