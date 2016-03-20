@@ -8,7 +8,10 @@ fi
 while read -r locale; do
     printf 'Generating locale %s...\n' "$locale".UTF-8
 
-    if ! localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8; then
-        printf '%s: Invalid locale\n' "$locale"
-    fi
+    localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8
+
+    case $? in
+        4) printf '%s: Invalid locale\n' "$locale" ;;
+        *) exit ;;
+    esac
 done < /etc/locales

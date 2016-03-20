@@ -8,7 +8,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.23.r41.gad1b6d8
+pkgver=2.23.r103.ga64e3aa
 pkgrel=1
 
 pkgdesc='the gnu c library'
@@ -35,7 +35,7 @@ source=('git://sourceware.org/git/glibc.git'
 
 sha1sums=('SKIP'
           'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
-          '440236b518bc71811b81193fb5948f628173e398'
+          '8207ebaea96b11b3f4b06f2a0142e100666b3441'
           '18406ad58e562a85a13b3cebe938841cf5d624ff'
           '1a9eb962463409159792a1a2d768524f37ce2e7b')
 
@@ -101,7 +101,6 @@ check() {
 package() {
     make -C build install_root="$pkgdir" install
 
-    # This will be populated when the user generates a locale.
     install -Dm644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
     install -Dm644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
     install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
@@ -116,21 +115,21 @@ package() {
     # Tidy up.
     rm -r "$pkgdir"/var
 
-    # We generate these in the scriptlet with ldconfig -r .
+    # We generate these in the post-install with ldconfig -r .
     rm "$pkgdir"/etc/ld.so.cache
 
-    # I use 2> /dev/null for both of these as there are plenty of
-    # false-positives as it attempts to strip scripts or other unstrippable
-    # files--I don't care though.
+    # I use 2> /dev/null for both of these due to many false-positives as it
+    # attempts to strip scripts or other unstrippable files--I don't care
+    # though.
     find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES '{}' + 2> /dev/null || true
 
-    # Do not strip these for gdb and valgrind functionality, but strip the rest.
+    # Do not strip these for gdb and valgrind functionality, but strip the
+    # rest.
     find "$pkgdir"/usr/lib ! -name 'ld-*.so' \
                            ! -name 'libc-*.so' \
                            ! -name 'libpthread-*.so' \
                            ! -name 'libthread_db-1.0.so' \
-                             -name '*.so' -type f \
-                             -exec strip $STRIP_SHARED '{}' + 2> /dev/null || true
+                             -name '*.so' -type f -exec strip $STRIP_SHARED '{}' + 2> /dev/null || true
 
     # Strip the remaining static libraries.
     find "$pkgdir"/usr/lib -name '*.a' -type f -exec strip $STRIP_STATIC '{}' + 2> /dev/null || true
