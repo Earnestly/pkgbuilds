@@ -1,5 +1,5 @@
 pkgname=weston-git
-pkgver=1.9.0.r114.gf69bd1a
+pkgver=1.10.0.r55.gc6459c49
 pkgrel=1
 
 pkgdesc='reference implementation of a wayland compositor'
@@ -14,7 +14,7 @@ makedepends=('git' 'wayland-protocols')
 provides=('weston')
 conflicts=('weston')
 
-source=('git+https://anongit.freedesktop.org/wayland/weston')
+source=('git+https://anongit.freedesktop.org/git/wayland/weston')
 
 sha1sums=('SKIP')
 

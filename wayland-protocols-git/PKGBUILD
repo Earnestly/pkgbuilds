@@ -1,5 +1,5 @@
 pkgname=wayland-protocols-git
-pkgver=r41.0b05b70
+pkgver=r54.82bb922
 pkgrel=1
 
 pkgdesc='additional protocols not available in wayland core'
@@ -10,7 +10,7 @@ license=('MIT')
 provides=('wayland-protocols')
 conflicts=('wayland-protocols')
 
-source=('git+https://anongit.freedesktop.org/wayland/wayland-protocols')
+source=('git+https://anongit.freedesktop.org/git/wayland/wayland-protocols')
 
 sha1sums=('SKIP')
 
