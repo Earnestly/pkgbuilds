@@ -1,12 +1,14 @@
-# Usage: in_array article array
-#        mark  : item to search for
-#        array : array in which to look
+#!/bin/bash
+
+# Usage: in_array mark list
+#        mark  item to search for
+#        list  list in which to look
 in_array() {
     local mark=$1
-    local element
+    local search
 
-    for element in "${@:2}"; do
-        if [[ $element == "$mark" ]]; then
+    for search in "${@:2}"; do
+        if [[ $search == "$mark" ]]; then
             return 0
         fi
     done
@@ -16,8 +18,8 @@ in_array() {
 }
 
 # Usage: confirm bias format ...
-#        bias   : yes | no
-#        format : printf formatter
+#        bias    yes | no
+#        format  printf formatter
 confirm() {
     local -l reply
     local message prompt
@@ -42,29 +44,31 @@ confirm() {
 check_updates_git() {
     local branch=$1
     local format='%C(auto)%h %C(blue)%an %C(green bold)(%cr) %C(reset)%s'
+    local distance=0
 
     # Using symbolic-ref is required as bare repos have no checkout, without
     # this git will do the wrong thing and update the HEAD regardless of what
     # the refs point at even if git is explicitly configured to not do this.
 
-    # This was changed because users would find it confusing if they couldn't
-    # compare the HEAD against the branch they explicitly fetched from and
-    # didn't realise they should have used FETCH_HEAD instead.
+    # This changed was made based on the assumption that users would find it
+    # confusing if they couldn't compare the HEAD against the branch they
+    # explicitly fetched from instead of realising they should have used
+    # FETCH_HEAD instead.
 
     # From the school of DWIM: https://github.com/git/git/commit/f269048754f3
     git symbolic-ref HEAD refs/heads/"$branch"
 
-    git fetch "$(git config remote.origin.url)" "$branch" 2> /dev/null
+    if git fetch "$(git config remote.origin.url)" "$branch" 2> /dev/null; then
+        distance=$(git rev-list HEAD...FETCH_HEAD --count "$branch")
+    fi
 
-    distance=$(git rev-list HEAD...FETCH_HEAD --count "$branch")
-
-    if ((distance > 0)); then
+    if ((distance == 0)); then
+        # No new commit(s) found.
+        return 1
+    else
         if confirm yes '%d new commits found, view log?' "$distance"; then
             git log --pretty=format:"$format" HEAD...FETCH_HEAD
             return 0
         fi
     fi
-
-    # No new commit(s) found.
-    return 1
 }
