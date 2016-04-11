@@ -12,7 +12,7 @@ depends=('libxinerama' 'pango' 'imlib2')
 conflicts=('dmenu' 'dmenu-pango-imlib')
 provides=('dmenu' 'dmenu-pango-imlib')
 
-source=('git://github.com/Cloudef/dmenu-pango-imlib')
+source=('git+https://github.com/Cloudef/dmenu-pango-imlib')
 
 sha1sums=('SKIP')
 
