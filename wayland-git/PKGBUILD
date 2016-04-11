@@ -1,6 +1,6 @@
 pkgname=wayland-git
-pkgver=1.10.0.r21.g0715ee5
-pkgrel=2
+pkgver=1.10.0.r24.gae78dcb
+pkgrel=1
 
 pkgdesc='display server protocol'
 url='http://wayland.freedesktop.org'

@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r25.gbcdff1f
+pkgver=6.0.r31.g11dcb05
 pkgrel=1
 
 pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -11,7 +11,7 @@ depends=('glibc' 'gcc-libs')
 makedepends=('git')
 
 # Library provide now needed for Arch Linux's bash package, sigh.
-provides=('ncurses' 'libtinfo' "libncursesw.so=$pkgver")
+provides=('ncurses' 'libtinfo' 'libncursesw.so')
 conflicts=('ncurses' 'libtinfo')
 
 source=('git://ncurses.scripts.mit.edu/ncurses.git')

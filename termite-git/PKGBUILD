@@ -1,6 +1,6 @@
 pkgname=termite-git
-pkgver=11
-pkgrel=1
+pkgver=11.r4.g2a87f8d
+pkgrel=2
 
 pkgdesc='vte-based terminal'
 url='https://github.com/thestinger/termite/'
@@ -10,14 +10,15 @@ license=('GPL')
 depends=('vte3-ng')
 makedepends=('git')
 
-provides=('termite')
-conflicts=('termite')
+provides=('termite' 'termite-terminfo')
+conflicts=('termite' 'termite-terminfo')
 
 source=('git+https://github.com/thestinger/termite'
         'git+https://github.com/thestinger/util'
         'reverse_url_search.patch')
 
-sha1sums=('SKIP' 'SKIP'
+sha1sums=('SKIP'
+          'SKIP'
           'c909aa938d09eaa6764d83f1f0822a3c6be2edec')
 
 pkgver() {
@@ -30,6 +31,7 @@ prepare() {
     git submodule init
     git config submodule.util.url "$srcdir"/util
     git submodule update util
+
     patch -Np1 -i "$srcdir"/reverse_url_search.patch
 }
 

@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=1.1.1.r324.gce05930
+pkgver=1.2.2.r288.g9a11cfb
 pkgrel=1
 
 pkgdesc='psp emulator'

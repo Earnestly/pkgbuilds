@@ -1,6 +1,6 @@
 pkgname=libinput-git
-pkgver=1.2.0
-pkgrel=3
+pkgver=1.2.2.r21.g5152d94
+pkgrel=1
 
 pkgdesc='library to handle input devices'
 url='http://freedesktop.org/wiki/Software/libinput/'
@@ -10,7 +10,7 @@ license=('MIT')
 depends=('mtdev' 'libevdev' 'libwacom')
 makedepends=('git')
 
-# XXX Thanks lcarlier, what a guy.
+# XXX lcarlier, what a guy.
 provides=("libinput=$pkgver")
 conflicts=('libinput')
 

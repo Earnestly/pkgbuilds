@@ -8,7 +8,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.23.r103.ga64e3aa
+pkgver=2.23.r174.gd29fb41
 pkgrel=1
 
 pkgdesc='the gnu c library'
@@ -27,6 +27,7 @@ makedepends=('git')
 provides=('glibc=2.23')
 conflicts=('glibc')
 
+# XXX Known good #commit=1eb8930608705702d5746e5491b
 source=('git://sourceware.org/git/glibc.git'
         'locales'
         'locale-gen'

@@ -1,6 +1,6 @@
 pkgname=xxd-git
-pkgver=7.4.963
-pkgrel=2
+pkgver=7.4.1721.r1.g939a1ab
+pkgrel=1
 
 pkgdesc='create or reverse hex dumps'
 url='http://www.vim.org/'
