@@ -65,10 +65,8 @@ check_updates_git() {
     if ((distance == 0)); then
         # No new commit(s) found.
         return 1
-    else
-        if confirm yes '%d new commits found, view log?' "$distance"; then
-            git log --pretty=format:"$format" HEAD...FETCH_HEAD
-            return 0
-        fi
+    elif confirm yes '%d new commits found, view log?' "$distance"; then
+        git log --pretty=format:"$format" HEAD...FETCH_HEAD
+        return 0
     fi
 }
