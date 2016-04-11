@@ -1,5 +1,6 @@
+# XXX Sigh at the lack of documentation for the build
 pkgname=dolphin-emu-git
-pkgver=4.0.r7668.gc319fbb
+pkgver=4.0.r9204.gfc3c83e
 pkgrel=1
 
 pkgdesc='gamecube, wii and triforce emulator'
@@ -7,15 +8,16 @@ url='http://www.dolphin-emu.org/'
 arch=('i686' 'x86_64')
 license=('GPL2')
 
-depends=('bluez-libs' 'ffmpeg' 'glew' 'libao' 'libusbx' 'miniupnpc' 'openal' 
-         'portaudio' 'sdl2' 'soundtouch' 'wxgtk')
+depends=('bluez-libs' 'enet' 'ffmpeg' 'libao' 'libevdev' 'mbedtls' 'miniupnpc'
+         'sfml' 'soundtouch' 'libpng' 'soil' 'libusb' 'lzo' 'hicolor-icon-theme')
 makedepends=('cmake' 'git' 'opencl-headers')
-optdepends=('pulseaudio: PulseAudio backend')
 
 provides=('dolphin-emu')
 conflicts=('dolphin-emu')
 
 source=('git+https://github.com/dolphin-emu/dolphin')
+
+install='dolphin-emu-git.install'
 
 sha1sums=('SKIP')
 
@@ -26,7 +28,12 @@ pkgver() {
 
 build() {
     cd dolphin
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DENABLE_QT2=OFF \
+        -DENABLE_PCH=OFF \
+        -DDISABLE_WX=ON \
+        -DENABLE_LTO=ON
     make
 }
 
