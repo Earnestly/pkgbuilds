@@ -1,0 +1,33 @@
+pkgbuilds <https://github.com/Earnestly/pkgbuilds>
+
+WHY?
+
+  Most of these packages were created because the ones found in the AUR were
+  horrible. The majority of my packages are built from the latest developmental
+  branches for both less maintainence burden as package versions are
+  programmatically generated and for the newest fixes and bugs, hopefully fixes
+  moreso than bugs.
+  
+  The pkgdesc format is losely based on man-pages(7) such as using short
+  lowercase descriptions similar to a manual's synopsis. Common variables are
+  grouped together to hopefully make reading the PKGBUILDs easier.
+
+DMENU-PANGO-IMLIB
+
+  Pango and imlib patches from <https://github.com/Cloudef> applied to dmenu
+  allowing for proper unicode fallback and image generation.
+
+HTOP-VI
+
+  The vi patch adds vi-like movement via hjkl and switches k (kill) key to d.
+
+GLIBC
+
+  Removed all non-UTF-8 charmaps allowing for a simplified locale-gen script.
+  Provided an empty /etc/locales for users to add their prefered locale such as
+  en_GB without the charmap as only UTF-8 is available.
+
+SYSTEM-CONFIG
+
+  A collection of personal configurations for various machines which enables
+  installing and managing system configuration as ordinary packages.
