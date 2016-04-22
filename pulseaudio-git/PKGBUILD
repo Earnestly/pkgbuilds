@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=8.0.r71.g36de6cb
+pkgver=8.0.r76.gb5e5475
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -44,10 +44,13 @@ build() {
     CFLAGS=-fPIC ./autogen.sh \
         --prefix=/usr \
         --enable-orc \
+        --disable-x11 \
         --disable-xen \
         --disable-dbus \
+        --disable-gtk3 \
         --disable-gconf \
         --disable-avahi \
+        --disable-glib2 \
         --disable-rpath \
         --disable-bluez4 \
         --disable-esound \
