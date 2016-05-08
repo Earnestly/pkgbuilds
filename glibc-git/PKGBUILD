@@ -8,10 +8,10 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.23.r174.gd29fb41
-pkgrel=1
+pkgver=2.23.r296.g04794f3
+pkgrel=2
 
-pkgdesc='the gnu c library'
+pkgdesc='gnu c library'
 url='http://www.gnu.org/software/libc'
 arch=('x86_64')
 groups=('base')
@@ -95,7 +95,7 @@ build() {
 
 check() {
     cd build
-    # XXX Running test pointless if exit status ignored
+    # XXX Running test a bit pointless if exit status ignored
     #make check || true
 }
 
@@ -119,7 +119,7 @@ package() {
     # We generate these in the post-install with ldconfig -r .
     rm "$pkgdir"/etc/ld.so.cache
 
-    # I use 2> /dev/null for both of these due to many false-positives as it
+    # I use 2> /dev/null for all of these due to many false-positives as it
     # attempts to strip scripts or other unstrippable files--I don't care
     # though.
     find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES '{}' + 2> /dev/null || true
