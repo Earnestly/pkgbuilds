@@ -19,8 +19,6 @@ conflicts=('antimicro')
 source=('git+https://github.com/7185/antimicro')
 #source=('git+https://github.com/Ryochan7/antimicro')
 
-install='antimicro-git.install'
-
 sha1sums=('SKIP')
 
 pkgver() {

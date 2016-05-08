@@ -12,12 +12,10 @@ depends=('libgl' 'python' 'desktop-file-utils' 'hicolor-icon-theme' 'sdl'
         'openshadinglanguage' 'libtiff' 'libpng' 'libjpeg-turbo' 'boost-libs'
         'libsndfile' 'openexr')
 makedepends=('git' 'cmake' 'boost' 'mesa')
-optdepends=('cuda: CUDA support in Cycles')
+optdepends=('cuda: CUDA support in cycles')
 
 provides=('blender')
 conflicts=('blender')
-
-install='blender.install'
 
 source=('git://git.blender.org/blender.git'
         'git://git.blender.org/blender-addons.git'

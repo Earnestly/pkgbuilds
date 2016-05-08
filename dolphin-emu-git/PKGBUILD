@@ -1,6 +1,5 @@
-# XXX Sigh at the lack of documentation for the build
 pkgname=dolphin-emu-git
-pkgver=4.0.r9204.gfc3c83e
+pkgver=4.0.r9281.gdbd67c6
 pkgrel=1
 
 pkgdesc='gamecube, wii and triforce emulator'
@@ -16,8 +15,6 @@ provides=('dolphin-emu')
 conflicts=('dolphin-emu')
 
 source=('git+https://github.com/dolphin-emu/dolphin')
-
-install='dolphin-emu-git.install'
 
 sha1sums=('SKIP')
 

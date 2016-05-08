@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.4.152.rgcf88646
+pkgver=1.5.6.rg15b0917
 pkgrel=1
 _pyver=3.5m
 
@@ -20,8 +20,6 @@ conflicts=('weechat')
 source=('git+https://github.com/weechat/weechat.git')
 
 sha1sums=('SKIP')
-
-install='weechat-git.install'
 
 pkgver() {
     cd weechat 

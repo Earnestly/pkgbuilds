@@ -16,8 +16,6 @@ conflicts=('qcachegrind')
 
 source=('git://anongit.kde.org/kcachegrind')
 
-install='qcachegrind-git.install'
-
 sha1sums=('SKIP')
 
 pkgver() {
