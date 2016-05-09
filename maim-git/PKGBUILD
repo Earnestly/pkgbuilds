@@ -1,0 +1,35 @@
+pkgname=maim-git
+pkgver=3.4.47.r8.g4526cdd
+pkgrel=3
+
+pkgdesc='take screenshots of the desktop, similar to scrot'
+url='https://github.com/naelstrof/maim'
+arch=( 'i686' 'x86_64' )
+license=('GPL3')
+
+depends=('imlib2' 'libxrandr' 'libxfixes')
+makedepends=('cmake' 'git')
+optdepends=('slop: region selection support')
+
+provides=('maim')
+conflicts=('maim')
+
+source=('git://github.com/naelstrof/maim.git')
+
+md5sums=('SKIP')
+
+pkgver() {
+    cd maim
+    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+build() {
+    cd maim
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    make
+}
+
+package() {
+    cd maim
+    make DESTDIR="$pkgdir" install
+}
