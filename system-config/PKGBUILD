@@ -49,6 +49,8 @@ package_teapot-config() {
     install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
+
+    # <https://bugzilla.redhat.com/show_bug.cgi?id=1200717>
     install -Dm644 udev-psmouse-sensitivity.rules "$pkgdir"/etc/udev/rules.d/99-psmouse-sensitivity.rules
 }
 
