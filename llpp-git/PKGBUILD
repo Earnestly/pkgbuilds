@@ -1,6 +1,6 @@
-# XXX: requires mupdf-git until 1.9
+# XXX Arch doesn't provide mujs so I will continue with my mupdf-git
 pkgname=llpp-git
-pkgver=22.r82.g1e66631
+pkgver=22.r114.g1beb003
 pkgrel=1
 
 pkgdesc='opengl accelerated pdf viewer based on mupdf'
@@ -15,7 +15,8 @@ optdepends=('djvulibre: llppac djvu conversion'
             'princexml: llppac html conversion'
             'unoconv: llppac office conversion'
             'librsvg: llppac svg conversion'
-            'imagemagick: llppac image conversion')
+            'imagemagick: llppac image conversion'
+            'llpp-gc: clean nonextant history items')
 
 provides=('llpp')
 conflicts=('llpp')
@@ -39,9 +40,7 @@ source=('git://repo.or.cz/llpp.git'
 sha1sums=('SKIP'
           '2c0a383c6540e0b4eb965b0f138c5b6dceb4f757'
           'e380e593c52b1bb991f15e52f92f38c87942c652'
-          '7222284790fd04a098d328a0aba1d696e4a5e84f')
-
-install='llpp-git.install'
+          '4d189a2d66ab27302880526ad91c55eab7b9c643')
 
 pkgver() {
     cd llpp

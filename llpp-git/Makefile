@@ -9,7 +9,7 @@ LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto \
        -lz -lopenjp2 -ljpeg -lharfbuzz -lfreetype
 
 CPPFLAGS += -D_GNU_SOURCE -DOBSCURED_OPT -DFFP
-CFLAGS += -g -std=c99 -pedantic -Wall ${INCS} ${CPPFLAGS}
+CFLAGS += -g -std=c99 -pedantic -Wall ${INCS} ${CPPFLAGS} -fno-strict-aliasing
 LDFLAGS += -g ${LIBS}
 
 # Ocaml
