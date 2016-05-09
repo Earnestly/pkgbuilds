@@ -1,0 +1,27 @@
+pkgname=cloc-git
+pkgver=1.66.r60.g9caad3a
+pkgrel=2
+
+pkgdesc='count lines of code'
+url='https://github.com/AlDanial/cloc'
+arch=('any')
+license=('GPL')
+
+depends=('perl-algorithm-diff' 'perl-regexp-common' 'perl-digest-md5')
+
+provides=('cloc')
+conflicts=('cloc')
+
+source=('git+https://github.com/AlDanial/cloc')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd cloc
+    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+package() {
+    cd cloc/Unix
+    make DESTDIR="$pkgdir" install
+}
