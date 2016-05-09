@@ -1,6 +1,6 @@
 pkgname=termite-git
-pkgver=11.r4.g2a87f8d
-pkgrel=2
+pkgver=11.r20.ge7a8cdb
+pkgrel=1
 
 pkgdesc='vte-based terminal'
 url='https://github.com/thestinger/termite/'
