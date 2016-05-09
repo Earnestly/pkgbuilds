@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=8.0.r76.gb5e5475
+pkgver=8.0.r102.gfcee3da
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -33,6 +33,9 @@ prepare() {
     cd pulseaudio
     sed -i 's/^; flat-volumes = yes/flat-volumes = no/' src/daemon/daemon.conf.in
     sed -i 's/^; autospawn = yes/autospawn = no/' src/pulse/client.conf.in
+
+    # Enabled memfd instead of POSIX shm.
+    printf 'enable-memfd = yes\n' >> src/daemon/daemon.conf.in
 }
 
 build() {
