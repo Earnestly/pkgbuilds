@@ -1,0 +1,41 @@
+pkgname=pkgconf-git
+pkgver=0.9.12.r56.g7e6fa32
+pkgrel=6
+
+pkgdesc='compiler and linker configuration'
+url='https://github.com/pkgconf/pkgconf'
+arch=('i686' 'x86_64')
+license=('ISC')
+
+depends=('glibc')
+makedepends=('popt' 'git')
+
+conflicts=('pkgconfig' 'pkgconf')
+provides=('pkgconfig' 'pkgconf')
+
+source=('git+https://github.com/pkgconf/pkgconf')
+sha1sums=('SKIP')
+
+pkgver() {
+    cd pkgconf
+    git describe --long --tags | sed 's/^pkgconf-//; s/-/.r/; s/-/./'
+}
+
+build() {                                                                       
+    cd pkgconf
+    autoreconf -if
+
+    # XXX Need to define libdir and datadir explicitly
+    #     <https://github.com/pkgconf/pkgconf/issues/89>
+    ./configure --prefix=/usr --libdir=/usr/lib --datadir=/usr/share
+    make
+}
+
+package() {
+    cd pkgconf
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+
+    # Provide this as a replacement for pkg-config.
+    ln -s /usr/bin/pkgconf "$pkgdir"/usr/bin/pkg-config
+}
