@@ -1,12 +1,9 @@
-# XXX An upset has resulted in main repo taken down. Using a mirror instead
-#     https://github.com/Ryochan7/antimicro-packaging/issues/1
 pkgname=antimicro-git
 pkgver=2.21.r19.gf3764a8
 pkgrel=1
 
 pkgdesc='map keyboard and mouse actions to gamepad buttons, inspired by qjoypad'
-url='https://github.com/7185/antimicro'
-#url='https://github.com/Ryochan7/antimicro'
+url='https://github.com/AntiMicro/antimicro'
 arch=('i686' 'x86_64')
 license=('GPL3')
 
@@ -16,8 +13,7 @@ makedepends=('cmake' 'qt5-tools')
 provides=('antimicro')
 conflicts=('antimicro')
 
-source=('git+https://github.com/7185/antimicro')
-#source=('git+https://github.com/Ryochan7/antimicro')
+source=('git+https://github.com/AntiMicro/antimicro')
 
 sha1sums=('SKIP')
 
@@ -28,7 +24,7 @@ pkgver() {
 
 build() {
     cd antimicro
-    # XXX Requires -fPIC to use -flto https://github.com/Ryochan7/antimicro/issues/263
+    # XXX Requires -fPIC to use -flto
     CXXFLAGS=-fPIC cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSE_SDL_2=ON
     make
 }
