@@ -1,0 +1,35 @@
+pkgname=girara-git
+pkgver=0.2.6.r3.gb3f581d
+pkgrel=1
+
+pkgdesc='user interface library'
+url='http://pwmt.org/projects/girara'
+arch=('i686' 'x86_64')
+license=('zlib')
+
+depends=('gtk3')
+makedepends=('git' 'intltool')
+
+provides=('girara')
+conflicts=('girara')
+
+source=('git+https://git.pwmt.org/pwmt/girara.git#branch=develop')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd girara
+    git describe --tags --long | sed 's/-/.r/; s/-/./'
+}
+
+build() {
+    cd girara
+    make
+}
+
+package() {
+    cd girara
+    make DESTDIR="$pkgdir" install
+    install -Dm664 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
+
