@@ -4,30 +4,37 @@ WHY?
 
   Most of these packages were created because the ones found in the AUR were
   horrible. The majority of my packages are built from the latest developmental
-  branches for both less maintainence burden as package versions are
-  programmatically generated and for the newest fixes and bugs, hopefully fixes
-  moreso than bugs.
+  branches for both less maintainence burden, as package versions are
+  programmatically generated, and for the newest fixes and bugs; hopefully
+  fixes moreso than bugs.
   
   The pkgdesc format is losely based on man-pages(7) such as using short
   lowercase descriptions similar to a manual's synopsis. Common variables are
-  grouped together to hopefully make reading the PKGBUILDs easier.
+  grouped together to hopefully improve PKGBUILD readability.
 
-DMENU-PANGO-IMLIB
+NOTES
 
-  Pango and imlib patches from <https://github.com/Cloudef> applied to dmenu
-  allowing for proper unicode fallback and image generation.
+  - dmenu-pango-imlib
 
-HTOP-VI
+    Pango and imlib patches from <https://github.com/Cloudef> applied to dmenu
+    allowing for proper unicode fallback and image generation.
 
-  The vi patch adds vi-like movement via hjkl and switches k (kill) key to d.
+  - htop-vi
 
-GLIBC
+    The vi patch adds vi-like movement via hjkl and switches k (kill) key to d.
 
-  Removed all non-UTF-8 charmaps allowing for a simplified locale-gen script.
-  Provided an empty /etc/locales for users to add their prefered locale such as
-  en_GB without the charmap as only UTF-8 is available.
+  - glibc
 
-SYSTEM-CONFIG
+    Removed all non-UTF-8 charmaps allowing for a simplified locale-gen script.
+    Provided an empty /etc/locales for users to add their prefered locale such
+    as en_GB without the charmap as only UTF-8 is available.
 
-  A collection of personal configurations for various machines which enables
-  installing and managing system configuration as ordinary packages.
+  - system-config
+
+    A collection of personal configurations for various machines which enables
+    installing and managing system configuration as ordinary packages.
+
+  - runit-tools
+
+    The tools without the init.  Busybox also contains implementations of all
+    these tools which I may use instead in the future.
