@@ -1,5 +1,5 @@
 pkgname=dolphin-emu-git
-pkgver=4.0.r9281.gdbd67c6
+pkgver=4.0.r9318.gec40b38
 pkgrel=1
 
 pkgdesc='gamecube, wii and triforce emulator'

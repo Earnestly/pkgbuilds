@@ -39,7 +39,7 @@ confirm() {
     esac
 }
 
-# Comment: This procedure is specific to fetching changes for bare mirrors.
+# Warning: This procedure is specific to fetching changes fro bare mirrors.
 # Usage: check_updates_git branch
 check_updates_git() {
     local branch=$1
@@ -55,7 +55,7 @@ check_updates_git() {
     # explicitly fetched from instead of realising they should have used
     # FETCH_HEAD instead.
 
-    # From the school of DWIM: https://github.com/git/git/commit/f269048754f3
+    # From the school of DWIM: <https://github.com/git/git/commit/f269048754f3>
     git symbolic-ref HEAD refs/heads/"$branch"
 
     if git fetch "$(git config remote.origin.url)" "$branch" 2> /dev/null; then

@@ -1,5 +1,5 @@
 # * Maybe generate en_US.UTF-8 until glibc adds C.UTF-8?
-#   https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html 
+#   <https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html>
 
 # * It appears bintutils and gcc have to be built with -flto for --enable-lto
 #   to work.
@@ -8,8 +8,8 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.23.r296.g04794f3
-pkgrel=2
+pkgver=2.23.r312.gb7db760
+pkgrel=1
 
 pkgdesc='gnu c library'
 url='http://www.gnu.org/software/libc'
@@ -31,7 +31,7 @@ conflicts=('glibc')
 source=('git://sourceware.org/git/glibc.git'
         'locales'
         'locale-gen'
-        'nscd.service' 
+        'nscd.service'
         'nscd.tmpfiles')
 
 sha1sums=('SKIP'
@@ -58,10 +58,10 @@ build() {
     printf 'sbindir=/usr/bin\n' >> configparms
     printf 'rootsbindir=/usr/bin\n' >> configparms
 
-    # https://sourceware.org/bugzilla/show_bug.cgi?id=7065
+    # <https://sourceware.org/bugzilla/show_bug.cgi?id=7065>
     CFLAGS=${CFLAGS/-fstack-protector-strong/}
 
-    # https://gcc.gnu.org/ml/gcc-help/2013-03/msg00357.html
+    # <https://gcc.gnu.org/ml/gcc-help/2013-03/msg00357.html>
     CFLAGS=${CFLAGS/-flto/}
 
     CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}
@@ -108,7 +108,7 @@ package() {
     install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
     install -Dm755 locale-gen "$pkgdir"/usr/bin/locale-gen
     install -Dm644 locales "$pkgdir"/etc/locales
-    install -dm755 "$pkgdir"/usr/lib/locale 
+    install -dm755 "$pkgdir"/usr/lib/locale
 
     # Only support UTF-8 charmaps.
     find "$pkgdir"/usr/share/i18n/charmaps ! -name UTF-8.gz -type f -delete
