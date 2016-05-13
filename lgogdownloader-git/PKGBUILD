@@ -1,0 +1,35 @@
+pkgname=lgogdownloader-git
+pkgver=2.28
+pkgrel=1
+
+pkgdesc='an unofficial downloader for gog.com'
+url='https://github.com/Sude-/lgogdownloader'
+arch=('i686' 'x86_64')
+license=('WTFPL')
+
+depends=('boost-libs' 'jsoncpp' 'liboauth' 'rhash' 'tinyxml' 'htmlcxx')
+makedepends=('boost' 'help2man' 'git')
+
+provides=('lgogdownloader')
+conflicts=('lgogdownloader')
+
+source=('git+https://github.com/Sude-/lgogdownloader.git')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd lgogdownloader
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+build() {
+    cd lgogdownloader
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    make
+}
+
+package() {
+    cd lgogdownloader
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}
