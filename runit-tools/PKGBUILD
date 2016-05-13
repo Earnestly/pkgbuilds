@@ -1,0 +1,51 @@
+pkgname=runit-tools
+pkgver=2.1.2
+pkgrel=2
+
+pkgdesc='UNIX init scheme with service supervision without the init'
+url='http://smarden.org/runit/'
+arch=('i686' 'x86_64')
+license=('BSD')
+
+depends=('glibc')
+
+conflicts=('runit')
+
+source=("http://smarden.org/runit/runit-$pkgver.tar.gz")
+
+sha1sums=('398f7bf995acd58797c1d4a7bcd75cc1fc83aa66')
+
+prepare() {
+    cd admin/runit-"$pkgver"
+    # Use /var/service instead of /service.  This largely doesn't matter here
+    # as all my uses of the sv command will be backed by the SVDIR environment.
+    sed -i 's:/service/:/var&:' src/sv.c;
+
+    # This is a thing.
+    printf '%s %s\n' "${CC:-gcc}" "$CFLAGS" > src/conf-cc
+    printf '%s %s\n' "${CC:-gcc}" "$LDFLAGS" > src/conf-ld
+}
+
+build() {
+    cd admin/runit-"$pkgver"/src
+    # XXX Lots of implicit declarations for stuff which uses DEFAULT_SOURCE
+    make
+}
+
+check() {
+    cd admin/runit-"$pkgver"/src
+    make check
+}
+
+package() {
+    cd admin/runit-"$pkgver"
+    install -Dm755 src/sv "$pkgdir"/usr/bin/sv
+    install -Dm755 src/chpst "$pkgdir"/usr/bin/chpst
+    install -Dm755 src/runsv "$pkgdir"/usr/bin/runsv
+    install -Dm755 src/svlogd "$pkgdir"/usr/bin/svlogd
+    install -Dm755 src/utmpset "$pkgdir"/usr/bin/utmpset
+    install -Dm755 src/runsvdir "$pkgdir"/usr/bin/runsvdir
+    install -Dm755 src/runsvchdir "$pkgdir"/usr/bin/runsvchdir
+    install -D man/* -t "$pkgdir"/usr/share/man/man8
+    install -Dm644 package/COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
