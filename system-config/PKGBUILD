@@ -1,6 +1,6 @@
 pkgbase=system-config
-pkgname=(base-config teapot-config)
-pkgver=2.2.3
+pkgname=(base-config teapot-config engine-config)
+pkgver=2.5.0
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -22,6 +22,7 @@ source=('etc-zshenv'
         'xorg-intel.conf'
         'xorg-trackpoint.conf'
         'xorg-libinput-tweaks.conf'
+        'xorg-libinput-noaccel.conf'
         'xorg-synaptics-tweaks.conf'
         'udev-psmouse-sensitivity.rules')
 
@@ -41,8 +42,8 @@ package_base-config() {
 
 package_teapot-config() {
     pkgdesc='system configurations for teapot'
-    depends=('xf86-input-libinput' 'xf86-input-synaptics' 'xf86-video-intel'
-             'xf86-input-synaptics')
+    depends=('base-config' 'xf86-input-libinput' 'xf86-input-synaptics'
+             'xf86-video-intel' 'nftables')
 
     install -Dm644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
     install -Dm644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
@@ -54,6 +55,15 @@ package_teapot-config() {
 
     # <https://bugzilla.redhat.com/show_bug.cgi?id=1200717>
     install -Dm644 udev-psmouse-sensitivity.rules "$pkgdir"/etc/udev/rules.d/99-psmouse-sensitivity.rules
+}
+
+package_engine-config() {
+    pkgdesc='system configurations for engine'
+    depends=('base-config' 'xf86-input-libinput' 'nvidia' 'nvidia-utils'
+             'nvidia-settings')
+
+    install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
+    install -Dm644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-noaccel.conf
 }
 
 sha1sums=('2e5becba8c1815ddcb4aa03f28d6e015f85f115c'
@@ -69,6 +79,7 @@ sha1sums=('2e5becba8c1815ddcb4aa03f28d6e015f85f115c'
           '94e3346d3e98da1ec62bcd07901894893bd9b930'
           'c96f4a2a54797fe7a3c3f590d68a929d3b2cde53'
           'd2323a2ca403ffa7cb5bd4e7dd68d1ab1a49bfce'
-          'ae09041b46689b19c9107e2a8b8f9579d40a24d1'
+          '89092f998822e89c4082ba433e9c462a789801da'
+          '0d5b92f3fae2fbc0d523617714218cad782449b9'
           'ebf354ca8f185b9afb579731e2b23a0c767e20a9'
           '5e1080259c59fe9b884e4b2232fdb58debda272e')
