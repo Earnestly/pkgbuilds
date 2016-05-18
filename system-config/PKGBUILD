@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=2.5.1
+pkgver=2.6
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -8,7 +8,8 @@ arch=('any')
 url='https://github.com/Earnestly'
 license=('custom')
 
-source=('etc-zshenv'
+source=('env-nvidia.sh'
+        'etc-zshenv'
         'etc-locale.conf'
         'etc-vconsole.conf'
         'mod-i915.conf'
@@ -62,13 +63,15 @@ package_engine-config() {
     depends=('base-config' 'xf86-input-libinput' 'xf86-input-wacom' 'nvidia'
              'nvidia-utils' 'nvidia-settings')
 
+    install -Dm644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
     install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-noaccel.conf
 }
 
-sha1sums=('2e5becba8c1815ddcb4aa03f28d6e015f85f115c'
+sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
+          '2e5becba8c1815ddcb4aa03f28d6e015f85f115c'
           '31ff548797814ab1cf842fe3ed86e7b8c66c4be4'
-          '72e8b90c4ee277d85fd5fab5df8a5dfa538d338a'
+          'c43c8c01db104b1f5747b23fda21700819ad67fb'
           '5b59530577e11ace46fa5df59f8782f82ffe148d'
           'ee919734ce53dcebbe319f230aca847f86e2249c'
           '3b3a6f07f7934ca435deb853cd607506eda4fb1c'
