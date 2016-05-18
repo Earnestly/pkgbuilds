@@ -59,8 +59,8 @@ package_teapot-config() {
 
 package_engine-config() {
     pkgdesc='system configurations for engine'
-    depends=('base-config' 'xf86-input-libinput' 'nvidia' 'nvidia-utils'
-             'nvidia-settings')
+    depends=('base-config' 'xf86-input-libinput' 'xf86-input-wacom' 'nvidia'
+             'nvidia-utils' 'nvidia-settings')
 
     install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-noaccel.conf
