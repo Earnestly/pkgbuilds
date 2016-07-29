@@ -1,5 +1,5 @@
 diff --git a/Action.c b/Action.c
-index 3b3c3b0..3c62164 100644
+index ee34a4b..f107470 100644
 --- a/Action.c
 +++ b/Action.c
 @@ -382,7 +382,7 @@ static Htop_Reaction actionRedraw() {
@@ -11,7 +11,7 @@ index 3b3c3b0..3c62164 100644
     { .key = " Digits: ", .info = "incremental PID search" },
     { .key = "   F3 /: ", .info = "incremental name search" },
     { .key = "   F4 \\: ",.info = "incremental name filtering" },
-@@ -402,7 +402,7 @@ static struct { const char* key; const char* info; } helpRight[] = {
+@@ -403,7 +403,7 @@ static struct { const char* key; const char* info; } helpRight[] = {
     { .key = "  Space: ", .info = "tag process" },
     { .key = "      c: ", .info = "tag process and its children" },
     { .key = "      U: ", .info = "untag all processes" },
@@ -20,7 +20,7 @@ index 3b3c3b0..3c62164 100644
     { .key = "   F7 ]: ", .info = "higher priority (root only)" },
     { .key = "   F8 [: ", .info = "lower priority (+ nice)" },
  #if (HAVE_LIBHWLOC || HAVE_LINUX_AFFINITY)
-@@ -410,11 +410,11 @@ static struct { const char* key; const char* info; } helpRight[] = {
+@@ -411,11 +411,11 @@ static struct { const char* key; const char* info; } helpRight[] = {
  #endif
     { .key = "      e: ", .info = "show process environment" },
     { .key = "      i: ", .info = "set IO priority" },
@@ -34,7 +34,7 @@ index 3b3c3b0..3c62164 100644
     { .key = "  F10 q: ", .info = "quit" },
     { .key = NULL, .info = NULL }
  };
-@@ -550,7 +550,7 @@ void Action_setBindings(Htop_Action* keys) {
+@@ -551,7 +551,7 @@ void Action_setBindings(Htop_Action* keys) {
     keys['q'] = actionQuit;
     keys['a'] = actionSetAffinity;
     keys[KEY_F(9)] = actionKill;
@@ -43,7 +43,7 @@ index 3b3c3b0..3c62164 100644
     keys[KEY_RECLICK] = actionExpandOrCollapse;
     keys['+'] = actionExpandOrCollapse;
     keys['='] = actionExpandOrCollapse;
-@@ -560,12 +560,11 @@ void Action_setBindings(Htop_Action* keys) {
+@@ -561,12 +561,11 @@ void Action_setBindings(Htop_Action* keys) {
     keys['S'] = actionSetup;
     keys['C'] = actionSetup;
     keys[KEY_F(2)] = actionSetup;
@@ -58,7 +58,7 @@ index 3b3c3b0..3c62164 100644
     keys['U'] = actionUntagAll;
     keys['c'] = actionTagAllChildren;
 diff --git a/Panel.c b/Panel.c
-index 1c45714..ed57262 100644
+index 579a82c..a57e779 100644
 --- a/Panel.c
 +++ b/Panel.c
 @@ -375,10 +375,12 @@ bool Panel_onKey(Panel* this, int key) {
@@ -67,12 +67,12 @@ index 1c45714..ed57262 100644
     switch (key) {
 +   case 'j':
     case KEY_DOWN:
-    case KEY_CTRLN:
+    case KEY_CTRL('N'):
        this->selected++;
        break;
 +   case 'k':
     case KEY_UP:
-    case KEY_CTRLP:
+    case KEY_CTRL('P'):
        this->selected--;
 @@ -393,6 +395,7 @@ bool Panel_onKey(Panel* this, int key) {
        this->selected--;
@@ -80,7 +80,7 @@ index 1c45714..ed57262 100644
     #endif
 +   case 'h':
     case KEY_LEFT:
-    case KEY_CTRLB:
+    case KEY_CTRL('B'):
        if (this->scrollH > 0) {
 @@ -400,6 +403,7 @@ bool Panel_onKey(Panel* this, int key) {
           this->needsRedraw = true;
@@ -88,5 +88,5 @@ index 1c45714..ed57262 100644
        break;
 +   case 'l':
     case KEY_RIGHT:
-    case KEY_CTRLF:
+    case KEY_CTRL('F'):
        this->scrollH += CRT_scrollHAmount;

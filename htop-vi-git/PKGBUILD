@@ -1,5 +1,5 @@
 pkgname=htop-vi-git
-pkgver=2.0.1.r31.g7d72715
+pkgver=2.0.2.r4.g3cd0339
 pkgrel=1
 
 pkgdesc='interactive process viewer patched with rudimentary vi style motions'
@@ -17,7 +17,7 @@ source=('git+https://github.com/hishamhm/htop'
         'htop-vi.patch')
 
 sha1sums=('SKIP'
-          '1e01cc530f286fc950b4cee4c35ad99b574dd5d0')
+          '77c3b3d0aaaa610af3b42286eeae18b8a69f4d44')
 
 pkgver() {
     cd htop
