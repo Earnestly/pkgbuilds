@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=8.99.1
+pkgver=9.0.r60.ge4fa17d
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -43,8 +43,11 @@ build() {
     # makefile will naively expand $(bashcompletiondir) to nothing and create
     # symlinks directly under $(DESTDIR).
     cd pulseaudio
-    # XXX requires -fPIC to build with -flto
-    CFLAGS=-fPIC ./autogen.sh \
+
+    # XXX cannot build -flto because libtool
+    CFLAGS="${CFLAGS//-flto/} -fno-strict-aliasing -fPIC"
+    LDFLAGS=${LDFLAGS//-flto/}
+    ./autogen.sh \
         --prefix=/usr \
         --enable-orc \
         --disable-x11 \
