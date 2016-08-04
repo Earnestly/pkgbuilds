@@ -1,6 +1,6 @@
 pkgname=pkgconf-git
-pkgver=0.9.12.r56.g7e6fa32
-pkgrel=6
+pkgver=0.9.12.r65.gf44f839
+pkgrel=1
 
 pkgdesc='compiler and linker configuration'
 url='https://github.com/pkgconf/pkgconf'
@@ -24,10 +24,7 @@ pkgver() {
 build() {                                                                       
     cd pkgconf
     autoreconf -if
-
-    # XXX Need to define libdir and datadir explicitly
-    #     <https://github.com/pkgconf/pkgconf/issues/89>
-    ./configure --prefix=/usr --libdir=/usr/lib --datadir=/usr/share
+    ./configure --prefix=/usr
     make
 }
 
