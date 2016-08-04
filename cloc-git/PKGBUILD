@@ -1,6 +1,6 @@
 pkgname=cloc-git
-pkgver=1.66.r60.g9caad3a
-pkgrel=2
+pkgver=1.70.r20.ga2c0a58
+pkgrel=1
 
 pkgdesc='count lines of code'
 url='https://github.com/AlDanial/cloc'

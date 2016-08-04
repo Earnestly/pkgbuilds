@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=1.2.2.r371.g2c84411
+pkgver=1.2.2.r786.gfa3f219
 pkgrel=1
 
 pkgdesc='psp emulator'
@@ -7,7 +7,7 @@ url='http://www.ppsspp.org/'
 arch=('i686' 'x86_64')
 license=('BSD' 'GPL2')
 
-depends=('sdl2' 'ffmpeg' 'glew' 'snappy')
+depends=('sdl2' 'ffmpeg' 'glew' 'snappy' 'libzip')
 makedepends=('git' 'cmake')
 
 provides=('ppsspp')
@@ -40,7 +40,6 @@ build() {
 
 package() {
     cd ppsspp
-
     install -dm755 "$pkgdir"/usr/bin
     install -Dm755 PPSSPPSDL "$pkgdir"/usr/share/ppsspp/PPSSPPSDL
     install -Dm644 LICENSE.TXT "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
