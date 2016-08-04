@@ -1,5 +1,5 @@
 pkgname=lgogdownloader-git
-pkgver=2.28
+pkgver=2.28.r22.ge47a148
 pkgrel=1
 
 pkgdesc='an unofficial downloader for gog.com'
@@ -7,7 +7,7 @@ url='https://github.com/Sude-/lgogdownloader'
 arch=('i686' 'x86_64')
 license=('WTFPL')
 
-depends=('boost-libs' 'jsoncpp' 'liboauth' 'rhash' 'tinyxml' 'htmlcxx')
+depends=('boost-libs' 'jsoncpp' 'liboauth' 'rhash' 'tinyxml2' 'htmlcxx')
 makedepends=('boost' 'help2man' 'git')
 
 provides=('lgogdownloader')
