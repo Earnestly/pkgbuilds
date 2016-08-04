@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=2.6
+pkgver=3.0
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -14,6 +14,7 @@ source=('env-nvidia.sh'
         'etc-vconsole.conf'
         'mod-i915.conf'
         'mod-pcspkr.conf'
+        'mod-usbhid.conf'
         'mod-uvcvideo.conf'
         'nft-nftables.conf'
         'sudo-wheel'
@@ -35,6 +36,7 @@ package_base-config() {
     install -Dm644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
     install -Dm644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
+    install -Dm644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
     install -Dm644 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
     install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
@@ -74,6 +76,7 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           'c43c8c01db104b1f5747b23fda21700819ad67fb'
           '5b59530577e11ace46fa5df59f8782f82ffe148d'
           'ee919734ce53dcebbe319f230aca847f86e2249c'
+          '7548bbe488a8b02cf47e365eb3eca35a8eb5f3da'
           '3b3a6f07f7934ca435deb853cd607506eda4fb1c'
           '1b677e55c9a74777a190e4cd504323d2b093fc08'
           '7efaee60412cce9275e2fbfa6e8b967c6c504621'
