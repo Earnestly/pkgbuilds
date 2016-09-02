@@ -1,0 +1,40 @@
+pkgname=opendoas-git
+pkgver=0.3.2.r12.gb3a6a29
+pkgrel=1
+
+pkgdesc='run commands as another user, alternative to sudo'
+url='https://github.com/Duncaen/OpenDoas'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('pam')
+makedepends=('git')
+
+provides=('opendoas')
+conflicts=('opendoas')
+
+# XXX: https://github.com/Duncaen/OpenDoas/issues/10
+source=('git+https://github.com/Duncaen/OpenDoas#branch=OPENBSD_6_0')
+
+sha1sums=('SKIP')
+
+install='opendoas.install'
+
+pkgver() {
+    cd  OpenDoas
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+build() {
+    cd OpenDoas
+    ./configure --prefix=/usr
+
+    # XXX: https://github.com/Duncaen/OpenDoas/issues/9
+    make COPTS=-Wno-error
+}
+
+package() {
+    cd  OpenDoas
+    make DESTDIR="$pkgdir" install
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
