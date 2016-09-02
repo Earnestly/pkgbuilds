@@ -1,5 +1,5 @@
 pkgname=zathura-git
-pkgver=0.3.6.r20.gd913eda
+pkgver=0.3.6.r21.g945929c
 pkgrel=1
 
 pkgdesc='modular document viewer supporting'

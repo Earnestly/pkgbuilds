@@ -1,6 +1,6 @@
 pkgname=sxiv-git
-pkgver=1.3.2.r6.gf32771a
-pkgrel=2
+pkgver=1.3.2.r10.gd69f39e
+pkgrel=1
 
 pkgdesc='x image viewer'
 url='https://github.com/muennich/sxiv'
