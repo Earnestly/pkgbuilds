@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=3.0
+pkgver=4.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -17,11 +17,10 @@ source=('env-nvidia.sh'
         'mod-usbhid.conf'
         'mod-uvcvideo.conf'
         'nft-nftables.conf'
-        'sudo-wheel'
+        'doas-wheel.conf'
         'sysctl-swap.conf'
         'sysctl-dirty.conf'
         'sysctl-fq_codel.conf'
-        'xorg-intel.conf'
         'xorg-trackpoint.conf'
         'xorg-libinput-tweaks.conf'
         'xorg-libinput-noaccel.conf'
@@ -30,14 +29,14 @@ source=('env-nvidia.sh'
 
 package_base-config() {
     pkgdesc='common system configuration'
-    depends=('zsh' 'sudo')
+    depends=('zsh' 'opendoas')
 
     install -Dm644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
     install -Dm644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
     install -Dm644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
-    install -Dm644 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
+    install -Dm644 doas-wheel.conf "$pkgdir"/etc/doas.conf
     install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
@@ -46,18 +45,17 @@ package_base-config() {
 package_teapot-config() {
     pkgdesc='system configurations for teapot'
     depends=('base-config' 'xf86-input-libinput' 'xf86-input-synaptics'
-             'xf86-video-intel' 'nftables')
+             'nftables')
 
     install -Dm644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
     install -Dm644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
     install -Dm644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
-    install -Dm644 xorg-intel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-intel.conf
     install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
 
     # <https://bugzilla.redhat.com/show_bug.cgi?id=1200717>
-    install -Dm644 udev-psmouse-sensitivity.rules "$pkgdir"/etc/udev/rules.d/99-psmouse-sensitivity.rules
+    install -Dm644 udev-psmouse-sensitivity.rules "$pkgdir"/etc/udev/rules.d/01-psmouse-sensitivity.rules
 }
 
 package_engine-config() {
@@ -67,7 +65,7 @@ package_engine-config() {
 
     install -Dm644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
     install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
-    install -Dm644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-noaccel.conf
+    install -Dm644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
 }
 
 sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
@@ -79,11 +77,10 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           '7548bbe488a8b02cf47e365eb3eca35a8eb5f3da'
           '3b3a6f07f7934ca435deb853cd607506eda4fb1c'
           '1b677e55c9a74777a190e4cd504323d2b093fc08'
-          '7efaee60412cce9275e2fbfa6e8b967c6c504621'
+          '3f06cc977284ce6a75ad1261809fef76d4b26ac1'
           '929b10c4bb2c3414458420ad86ed32be47723769'
           'b8518cddebd8e5c2c034b622887ebd1ec4f54602'
           '94e3346d3e98da1ec62bcd07901894893bd9b930'
-          'c96f4a2a54797fe7a3c3f590d68a929d3b2cde53'
           'd2323a2ca403ffa7cb5bd4e7dd68d1ab1a49bfce'
           'b2f3e8baae07dc0dc972ed018a75b3adb73bbd46'
           '0d5b92f3fae2fbc0d523617714218cad782449b9'
