@@ -1,0 +1,50 @@
+pkgname=pacutils-git
+pkgver=0.4.0.r14.g1e06b57
+pkgrel=1
+
+pkgdesc='ALPM front-end tools'
+url='https://github.com/andrewgregory/pacutils'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('pacman')
+makedepends=('git')
+checkdepends=('perl')
+
+provides=('pacutils')
+conflicts=('pacutils')
+
+source=('git+https://github.com/andrewgregory/pacutils'
+        'git+https://github.com/andrewgregory/mINI.c'
+        'git+https://github.com/andrewgregory/tap.c')
+
+sha1sums=('SKIP' 'SKIP' 'SKIP')
+
+pkgver() {
+    cd pacutils
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+prepare() {
+    cd pacutils
+    git submodule init
+    git config submodule.ext/mini.c.url "$srcdir"/mINI.c
+    git config submodule.t/tap.c.url "$srcdir/"tap.c
+    git submodule update t/tap.c ext/mini.c
+}
+
+build() {
+    cd pacutils
+    make SYSCONFDIR=/etc LOCALSTATEDIR=/var
+}
+
+check() {
+    cd pacutils
+    make check
+}
+
+package() {
+    cd pacutils
+    make PREFIX=/usr DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}
