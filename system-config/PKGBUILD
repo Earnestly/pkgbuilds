@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=4.1
+pkgver=4.3
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -77,7 +77,7 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           '7548bbe488a8b02cf47e365eb3eca35a8eb5f3da'
           '3b3a6f07f7934ca435deb853cd607506eda4fb1c'
           '1b677e55c9a74777a190e4cd504323d2b093fc08'
-          '3f06cc977284ce6a75ad1261809fef76d4b26ac1'
+          'd4995d3910c772f62878bacba286fb1de8b77513'
           '929b10c4bb2c3414458420ad86ed32be47723769'
           'b8518cddebd8e5c2c034b622887ebd1ec4f54602'
           '94e3346d3e98da1ec62bcd07901894893bd9b930'
@@ -85,4 +85,4 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           'b2f3e8baae07dc0dc972ed018a75b3adb73bbd46'
           '0d5b92f3fae2fbc0d523617714218cad782449b9'
           'ebf354ca8f185b9afb579731e2b23a0c767e20a9'
-          '5e1080259c59fe9b884e4b2232fdb58debda272e')
+          '64e00f74abe4cb39badccc8172d3214cbcd5708a')

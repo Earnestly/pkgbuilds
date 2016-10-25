@@ -1,5 +1,5 @@
 pkgname=ppsspp-git
-pkgver=1.2.2.r895.gdde50cb
+pkgver=1.3.r37.g8b5693b
 pkgrel=1
 
 pkgdesc='psp emulator'
@@ -27,6 +27,7 @@ pkgver() {
 prepare() {
     cd ppsspp
     git submodule init
+    # XXX error: pathspec 'lang' did not match any file(s) known to git.
     git config submodule.lang.url "$srcdir"/ppsspp-lang
     git config submodule.ext/armips.url "$srcdir"/armips
     git submodule update lang ext/armips

@@ -1,6 +1,6 @@
 # XXX Arch doesn't provide mujs so I will continue with my mupdf-git
 pkgname=llpp-git
-pkgver=22.r185.g2fd8950
+pkgver=22.r196.g04aefe8
 pkgrel=1
 
 pkgdesc='opengl accelerated pdf viewer based on mupdf'

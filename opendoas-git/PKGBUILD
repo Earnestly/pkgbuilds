@@ -1,6 +1,6 @@
 pkgname=opendoas-git
-pkgver=0.3.2.r12.gb3a6a29
-pkgrel=1
+pkgver=6.0.r0.g5a7014d
+pkgrel=2
 
 pkgdesc='run commands as another user, alternative to sudo'
 url='https://github.com/Duncaen/OpenDoas'
@@ -13,8 +13,7 @@ makedepends=('git')
 provides=('opendoas')
 conflicts=('opendoas')
 
-# XXX: https://github.com/Duncaen/OpenDoas/issues/10
-source=('git+https://github.com/Duncaen/OpenDoas#branch=OPENBSD_6_0')
+source=('git+https://github.com/Duncaen/OpenDoas')
 
 sha1sums=('SKIP')
 
