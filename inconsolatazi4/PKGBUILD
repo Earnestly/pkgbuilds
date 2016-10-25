@@ -1,0 +1,24 @@
+pkgname=inconsolatazi4
+pkgver=1.10
+pkgrel=1
+
+pkgdesc='opentype variant of inconsolata from ctan'
+url='https://www.ctan.org/tex-archive/fonts/inconsolata'
+arch=('any')
+license=('OFL')
+
+makedepends=('fontconfig')
+
+# XXX CTAN mirror does not provide the referenced OFL license.
+source=('http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Bold.otf'
+        'http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Regular.otf')
+
+install='inconsolatazi4.install'
+
+sha1sums=('d6a1844404d4acc0ed464e721a777b6fe3f3d2ee'
+          '590d6ff29527c7bd64db02d6d4b2bf2df5215f2e')
+
+package() {
+    install -Dm644 Inconsolatazi4-Regular.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Regular.otf
+    install -Dm644 Inconsolatazi4-Bold.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Bold.otf
+}
