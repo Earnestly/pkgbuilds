@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r56.gc3b21f6
+pkgver=6.0.r60.g16fea43
 pkgrel=1
 
 pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -25,8 +25,7 @@ pkgver() {
 
 build() {
     cd ncurses
-    # XXX -fPIC is needed for -flto
-    CFLAGS=-fPIC ./configure --prefix=/usr \
+    ./configure --prefix=/usr \
         --with-shared \
         --with-normal \
         --without-ada  \
