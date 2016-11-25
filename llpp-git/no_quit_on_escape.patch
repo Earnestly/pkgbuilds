@@ -14,11 +14,11 @@ index 70c4fa4..4f173bb 100644
 --- a/main.ml
 +++ b/main.ml
 @@ -4851,7 +4851,7 @@ let viewkeyboard key mask =
-       )
-       else showtext '!' "Keyboard link navigation does not work under rotation"
+      )
+      else impmsg '!' "Keyboard link navigation does not work under rotation"
  
 -  | @escape | @q ->
 +  | @q ->
-       begin match state.mstate with
-       | Mzoomrect _ ->
-           resetmstate ();
+      begin match state.mstate with
+      | Mzoomrect _ ->
+          resetmstate ();

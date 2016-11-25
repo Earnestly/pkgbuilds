@@ -1,30 +1,31 @@
-VERSION = 21
+VERSION = $(shell test -d .git && git describe --tags --dirty 2>/dev/null)
+ifeq "${VERSION}" ""
+VERSION = 23
+endif
 
-# Paths
+# paths
 PREFIX ?= /usr/local
 
-# Includes and libs
+# includes and libs
 INCS = -I/usr/include -I/usr/include/freetype2 -include ft2build.h
-LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmujs -ljbig2dec -lcrypto \
-       -lz -lopenjp2 -ljpeg -lharfbuzz -lfreetype
+LIBS = -L/usr/lib -lX11 -lpthread -lmupdf -lmupdfthird -ljbig2dec -lcrypto \
+       -lz -lopenjp2 -ljpeg -lfreetype -lharfbuzz
 
-CPPFLAGS += -D_GNU_SOURCE -DOBSCURED_OPT -DFFP
-CFLAGS += -g -std=c99 -pedantic -Wall ${INCS} ${CPPFLAGS} -fno-strict-aliasing
+CPPFLAGS += -D_GNU_SOURCE -DFFP
+CFLAGS += -g -std=c99 -pedantic -Wall -Wextra -Wshadow ${INCS} ${CPPFLAGS}
 LDFLAGS += -g ${LIBS}
 
-# Ocaml
+# ocaml
 CAMLOPT = ocamlopt
-CAMLFLAGS = -g -w +a-4 -I +lablGL
-
-BO = le
-VPATH := ${BO}
+CAMLFLAGS = -g -w +a -safe-string -I +lablGL
 
 SRC = utils.ml wsi.ml parser.ml config.ml main.ml
 OBJ = help.cmx ${SRC:.ml=.cmx}
 MOD = unix.cmxa str.cmxa lablgl.cmxa
 
 DISTFILES := Makefile ${SRC} link.c glfont.c keysym2ucs.c wsi.mli pp.sed
-DISTFILES += mkhelp.sh keystoml.ml KEYS be/ le/ misc/
+DISTFILES += mkhelp.sh KEYS README BUILDING
+DISTFILES += misc/
 
 all: llpp
 
@@ -39,9 +40,9 @@ wsi.cmx: wsi.cmi utils.cmx
 wsi.cmi: utils.cmx
 
 help.ml: mkhelp.sh KEYS
-	sh mkhelp.sh KEYS > $@
+	sh mkhelp.sh KEYS ${VERSION} > $@
 
-config.cmx: parser.cmx utils.cmx help.cmx wsi.cmi
+config.cmx: wsi.cmi parser.cmx utils.cmx help.cmx
 
 link.o: glfont.c keysym2ucs.c
 
@@ -56,7 +57,7 @@ link.o: glfont.c keysym2ucs.c
 .mli.cmi:
 	${CAMLOPT} -c -o $@ ${CAMLFLAGS} $<
 
-.PHONY: all clean install
+.PHONY: all clean dist install
 
 clean:
 	${RM} llpp link.o help.ml ${OBJ} ${OBJ:.cmx=.cmi} ${OBJ:.cmx=.o}
@@ -71,3 +72,5 @@ install:
 	install -Dm755 llpp ${DESTDIR}${PREFIX}/bin/llpp
 	install -Dm755 misc/llppac ${DESTDIR}${PREFIX}/bin/llppac
 	install -Dm644 misc/llpp.desktop ${DESTDIR}${PREFIX}/share/applications/llpp.desktop
+	install -Dm755 misc/gc.awk ${DESTDIR}${PREFIX}/lib/llpp/gc
+	install -Dm644 README ${DESTDIR}${PREFIX}/share/licenses/llpp/README

@@ -1,6 +1,5 @@
-# XXX Arch doesn't provide mujs so I will continue with my mupdf-git
 pkgname=llpp-git
-pkgver=22.r196.g04aefe8
+pkgver=23.r22.g84b2e88
 pkgrel=1
 
 pkgdesc='opengl accelerated pdf viewer based on mupdf'
@@ -9,7 +8,7 @@ arch=('i686' 'x86_64')
 license=('GPL')
 
 depends=('glu' 'openjpeg2' 'jbig2dec' 'libjpeg-turbo' 'freetype2' 'desktop-file-utils')
-makedepends=('git' 'ocaml' 'ocaml-lablgl' 'mupdf-git' 'camlp4')
+makedepends=('git' 'ocaml' 'ocaml-lablgl' 'libmupdf' 'camlp4')
 optdepends=('djvulibre: llppac djvu conversion'
             'ghostscript: llppac ps, dvi, and djvu conversion'
             'princexml: llppac html conversion'
@@ -38,9 +37,9 @@ source=('git://repo.or.cz/llpp.git'
         'Makefile')
 
 sha1sums=('SKIP'
-          '2c0a383c6540e0b4eb965b0f138c5b6dceb4f757'
+          'f792c671006257fdf93c94d04b75dfac9d0a585c'
           'e380e593c52b1bb991f15e52f92f38c87942c652'
-          '4d189a2d66ab27302880526ad91c55eab7b9c643')
+          'b42bd64cb063953650dd5f12bdf30407cdb7ac52')
 
 pkgver() {
     cd llpp
@@ -63,5 +62,5 @@ package() {
     make -f "$srcdir"/Makefile PREFIX=/usr DESTDIR="$pkgdir" install
 
     cd misc/completions
-    make  PREFIX=/usr DESTDIR="$pkgdir" install
+    make PREFIX=/usr DESTDIR="$pkgdir" install
 }
