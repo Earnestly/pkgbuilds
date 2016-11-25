@@ -1,5 +1,5 @@
 pkgname=girara-git
-pkgver=0.2.6.r8.g0b54065
+pkgver=0.2.6.r14.gce5ad80
 pkgrel=1
 
 pkgdesc='user interface library'

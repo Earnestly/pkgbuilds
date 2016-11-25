@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.6.12.rg133cbbd
+pkgver=1.6.44.rg6aad13f
 pkgrel=1
 _pyver=3.5m
 

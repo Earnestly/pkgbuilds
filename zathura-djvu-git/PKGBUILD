@@ -1,6 +1,6 @@
 pkgname=zathura-djvu-git
-pkgver=0.2.5.r3.gba510b7
-pkgrel=2
+pkgver=0.2.5.r4.g6c50123
+pkgrel=1
 
 pkgdesc='plugin for djvu support within zathura'
 url='https://pwmt.org/projects/zathura/'
