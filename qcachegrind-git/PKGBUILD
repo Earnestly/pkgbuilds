@@ -1,13 +1,13 @@
 pkgname=qcachegrind-git
-pkgver=16.08.2.r3.gbfc26ad
-pkgrel=1
+pkgver=16.11.80.r83.g6872a23
+pkgrel=3
 
 pkgdesc='visualization of performance profiling data'
 url='http://kcachegrind.sourceforge.net'
 arch=('i686' 'x86_64')
 license=('GPL')
 
-depends=('qt5-base' 'desktop-file-utils' 'hicolor-icon-theme')
+depends=('qt5-base')
 makedepends=('git')
 optdepends=('graphviz: to draw call graphs')
 
@@ -31,9 +31,7 @@ build() {
 
 package() {
     cd kcachegrind
-    install -Dm755 qcachegrind/qcachegrind "$pkgdir"/usr/bin/qcachegrind
     install -Dm755 cgview/cgview "$pkgdir"/usr/bin/cgview
+    install -Dm755 qcachegrind/qcachegrind "$pkgdir"/usr/bin/qcachegrind
     install -Dm644 qcachegrind/qcachegrind.desktop "$pkgdir"/usr/share/applications/qcachegrind.desktop
-    install -Dm644 kcachegrind/hi32-app-kcachegrind.png "$pkgdir"/usr/share/icons/hicolor/32x32/apps/kcachegrind.png
-    install -Dm644 kcachegrind/hi48-app-kcachegrind.png "$pkgdir"/usr/share/icons/hicolor/48x48/apps/kcachegrind.png
 }
