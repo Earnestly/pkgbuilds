@@ -1,5 +1,5 @@
 pkgname=ponyc-git
-pkgver=0.4.0.r122.ga83991a
+pkgver=0.4.0.r186.gbfdd57469
 pkgrel=1
 
 pkgdesc='actor model and capabilities programming language'
@@ -18,7 +18,6 @@ provides=('ponyc')
 conflicts=('ponyc')
 
 source=('git+https://github.com/ponylang/ponyc')
-install='ponyc-git.install'
 
 sha1sums=('SKIP')
 
@@ -32,13 +31,14 @@ build() {
     make config=release prefix=/usr
 
     mkdir docs
-    build/release/ponyc packages/stdlib -rexpr -g -o docs
+    build/release/ponyc packages/stdlib -r expr -g -o docs
 }
 
 check() {
     cd ponyc
-    # XXX net/Broadcast will fail https://github.com/ponylang/ponyc/issues/602
-    make config=release prefix=/usr test || true
+    # XXX net/Broadcast can fail https://github.com/ponylang/ponyc/issues/602
+    # XXX Currently uses too much memory on my 4G machine and invokes the oomkiller
+    #make config=release prefix=/usr test || true
 }
 
 package() {

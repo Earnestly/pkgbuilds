@@ -1,8 +1,0 @@
-post_install() {
-    cat <<EOF
-Additional resources for Ponylang:
-    
-    vim syntax: https://github.com/dleonard0/pony-vim-syntax
-    emacs mode: https://github.com/abingham/ponylang-mode
-EOF
-}
