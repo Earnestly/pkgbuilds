@@ -22,12 +22,12 @@ index 7ef80b5..5f0c3b3 100644
       begin match state.mstate with
       | Mzoomrect _ ->
          resetmstate ();
-@@ -5162,7 +5162,7 @@ let viewkeyboard key mask =
+@@ -5150,7 +5150,7 @@ let viewkeyboard key mask =
       G.postRedisplay "|";
       state.mode <- Textentry (te, onleave);
  
--  | (Ascii _|Fn _|Enter|Left|Right|Code _) ->
-+  | (Escape|Ascii _|Fn _|Enter|Left|Right|Code _) ->
+-  | (Ascii _|Fn _|Enter|Left|Right|Code _|Ctrl _) ->
++  | (Escape|Ascii _|Fn _|Enter|Left|Right|Code _|Ctrl _) ->
       vlog "huh? %s" (Wsi.keyname key)
  ;;
  
