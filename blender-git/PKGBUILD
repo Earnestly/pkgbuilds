@@ -2,7 +2,7 @@ pkgname=blender-git
 pkgver=2.74.rc12999.g32578db
 pkgrel=1
 
-pkgdesc='Development version of Blender'
+pkgdesc='integrated 3d graphics creation and animation'
 url='http://blender.org/'
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -11,8 +11,11 @@ depends=('libgl' 'python' 'desktop-file-utils' 'hicolor-icon-theme' 'sdl'
         'ffmpeg' 'fftw' 'openal' 'freetype2' 'libxi' 'openimageio' 'opencolorio'
         'openshadinglanguage' 'libtiff' 'libpng' 'libjpeg-turbo' 'boost-libs'
         'libsndfile' 'openexr')
-makedepends=('git' 'cmake' 'boost' 'mesa')
-optdepends=('cuda: CUDA support in cycles')
+
+makedepends=('git' 'cmake' 'boost' 'mesa' 'llvm')
+makedepends_x86_64=('cuda')
+
+optdepends=('cuda: cycles renderer support')
 
 provides=('blender')
 conflicts=('blender')
@@ -23,8 +26,11 @@ source=('git://git.blender.org/blender.git'
         'git://git.blender.org/blender-translations.git'
         'blender.desktop')
 
-md5sums=('SKIP' 'SKIP' 'SKIP' 'SKIP'
-         'e9c26e370839fd902eb76c98fe3b9589')
+sha1sums=('SKIP'
+          'SKIP'
+          'SKIP'
+          'SKIP'
+          '590661ee80756386358f1031934d071895283d28')
 
 pkgver() {
     cd blender
@@ -38,19 +44,21 @@ prepare() {
     git config submodule.release/scripts/addons_contrib.url "$srcdir"/blender-addons-contrib
     git config submodule.release/datafiles/locale.url "$srcdir"/blender-translations
     git submodule update release/scripts/addons release/scripts/addons_contrib release/datafiles/locale
-    mkdir blender_build
+    mkdir build
 }
 
 build() {
-    # XXX I don't have enough memory to build this with -flto
     # Blender won't let us build in the source tree directly.
-    cd blender/blender_build
+    cd blender/build
     
     if [[ $CARCH == i686 ]]; then
-        _BUILDCUDA=OFF
-        else
-        _BUILDCUDA=ON
+        _cuda=OFF
+    else
+        _cuda=ON
     fi
+
+    _llvm=$(llvm-config --version)
+    _python=$(python -c 'import sys; print("{}.{}m".format(*sys.version_info))')
 
     cmake "$srcdir"/blender \
           -DWITH_LLVM=ON \
@@ -58,8 +66,6 @@ build() {
           -DWITH_PLAYER=ON \
           -DWITH_CYCLES=ON \
           -DLLVM_STATIC=OFF \
-          -DLLVM_VERSION=3.7 \
-          -DPYTHON_VERSION=3.4 \
           -DWITH_CYCLES_OSL=ON \
           -DWITH_GAMEENGINE=ON \
           -DWITH_SYSTEM_GLEW=ON \
@@ -68,29 +74,24 @@ build() {
           -DWITH_MOD_OCEANSIM=ON \
           -DWITH_CODEC_FFMPEG=ON \
           -DWITH_CODEC_SNDFILE=ON \
+          -DLLVM_VERSION="$_llvm" \
           -DPYTHON_LIBPATH=/usr/lib \
           -DWITH_PYTHON_INSTALL=OFF \
           -DCMAKE_INSTALL_PREFIX=/usr \
           -DOPENIMAGEIO_ROOT_DIR=/usr \
-          -DPYTHON_LIBRARY=python3.4m \
           -DWITH_INSTALL_PORTABLE=OFF \
-          -DWITH_CYCLES_CUDA_BINARIES=$_BUILDCUDA \
-          -DPYTHON_INCLUDE_DIRS=/usr/include/python3.4m \
-          -DCMAKE_C_FLAGS_RELEASE="-fno-delete-null-pointer-checks -DNDEBUG" \
-          -DCMAKE_CXX_FLAGS_RELEASE="-fno-delete-null-pointer-checks -DNDEBUG"
+          -DPYTHON_VERSION="$_python" \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+          -DPYTHON_LIBRARY=python"$_python"m \
+          -DWITH_CYCLES_CUDA_BINARIES="$_cuda" \
+          -DPYTHON_INCLUDE_DIRS=/usr/include/python"$_python"m
     make
 }
 
 package() {
-    cd blender_build
+    cd blender/build
     make DESTDIR="$pkgdir" install
 
-    # Track pyc files.
-    python -m compileall "$pkgdir"/usr/share/blender
-    
-    if [[ -e "$pkgdir"/usr/share/blender/*/scripts/addons/cycles/lib/ ]]; then
-        # Make sure the CUDA kernels are not stripped while stripping
-        # everything else.
-        chmod 444 "$pkgdir"/usr/share/blender/*/scripts/addons/cycles/lib/*
-    fi
+    # Track the .pyc files.
+    python -Om compileall "$pkgdir"/usr/share/blender
 }
