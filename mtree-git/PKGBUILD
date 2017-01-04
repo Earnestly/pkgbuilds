@@ -1,0 +1,38 @@
+pkgname=mtree-git
+pkgver=1.0.3.r7.g373706c
+pkgrel=1
+
+pkgdesc='map a directory hierarchy'
+url='https://github.com/archiecobbs/mtree-port'
+arch=('i686' 'x86_64')
+license=('BSD')
+
+depends=('openssl')
+
+source=('git+https://github.com/archiecobbs/mtree-port')
+
+provides=('mtree')
+conflicts=('mtree')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd mtree-port
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+build() {
+    cd mtree-port
+    ./autogen.sh
+    ./configure --prefix=/usr
+    make
+}
+
+package() {
+    cd mtree-port
+    make DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+
+    # Clean up
+    rm -rf -- "$pkgdir"/usr/share/doc
+}
