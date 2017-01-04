@@ -1,7 +1,7 @@
 pkgname=weechat-git
-pkgver=1.6.44.rg6aad13f
+pkgver=1.7.rc1.r9.g914bda1a7
 pkgrel=1
-_pyver=3.5m
+_pyver=3.6m
 
 pkgdesc='terminal based irc client'
 url='http://www.weechat.org/'
@@ -28,14 +28,17 @@ pkgver() {
 
 build() {
     cd weechat
-    # -DENABLE_TESTS=ON
+
+    _python=$(python -c 'import sys; print("{}.{}m".format(*sys.version_info))')
+
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_PYTHON3=ON \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DPYTHON_LIBRARY=/usr/lib/libpython$_pyver.so
+        -DPYTHON_LIBRARY=/usr/lib/libpython$_python.so
 }
 
 # XXX cpputest required for testing, which is not officially packaged
+#     -DENABLE_TESTS=ON
 # check() {
 #     cd weechat/tests
 #     cmake
