@@ -1,6 +1,6 @@
 pkgname=mtree-git
 pkgver=1.0.3.r7.g373706c
-pkgrel=1
+pkgrel=2
 
 pkgdesc='map a directory hierarchy'
 url='https://github.com/archiecobbs/mtree-port'
@@ -30,9 +30,11 @@ build() {
 
 package() {
     cd mtree-port
-    make DESTDIR="$pkgdir" install
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm755 mtree "$pkgdir"/usr/bin/mtree
+    install -Dm644 mtree.8 "$pkgdir"/usr/share/man/man8/mtree.8
 
-    # Clean up
-    rm -rf -- "$pkgdir"/usr/share/doc
+    # XXX libarchive provides an mtree.5 which differs from FreeBSDs mtree format
+    install -Dm644 mtree.5 "$pkgdir"/usr/share/man/man5/mtree-port.5
+
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
