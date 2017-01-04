@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=4.3
+pkgver=4.6
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -17,7 +17,7 @@ source=('env-nvidia.sh'
         'mod-usbhid.conf'
         'mod-uvcvideo.conf'
         'nft-nftables.conf'
-        'doas-wheel.conf'
+        'sudo-wheel'
         'sysctl-swap.conf'
         'sysctl-dirty.conf'
         'sysctl-fq_codel.conf'
@@ -29,14 +29,14 @@ source=('env-nvidia.sh'
 
 package_base-config() {
     pkgdesc='common system configuration'
-    depends=('zsh' 'opendoas')
+    depends=('zsh' 'sudo')
 
     install -Dm644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
     install -Dm644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
     install -Dm644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
-    install -Dm644 doas-wheel.conf "$pkgdir"/etc/doas.conf
+    install -Dm644 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
     install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
@@ -77,7 +77,7 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           '7548bbe488a8b02cf47e365eb3eca35a8eb5f3da'
           '3b3a6f07f7934ca435deb853cd607506eda4fb1c'
           '1b677e55c9a74777a190e4cd504323d2b093fc08'
-          'd4995d3910c772f62878bacba286fb1de8b77513'
+          '9ab5618b9c186d99e3ba8a88272761f34ff4b00c'
           '929b10c4bb2c3414458420ad86ed32be47723769'
           'b8518cddebd8e5c2c034b622887ebd1ec4f54602'
           '94e3346d3e98da1ec62bcd07901894893bd9b930'
