@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=23.r22.g84b2e88
+pkgver=25.r15.gf1310fe
 pkgrel=1
 
 pkgdesc='opengl accelerated pdf viewer based on mupdf'
@@ -32,14 +32,14 @@ conflicts=('llpp')
 # For obvious reasons I'm sticking with the custom makefile which greatly
 # reduces maintainence burden and unecessary dependency bloat.
 source=('git://repo.or.cz/llpp.git'
-        'no_quit_on_escape.patch'
-        'fix_xdg_usage.patch'
+        'no-quit-on-escape.patch'
+        'fix-xdg-usage.patch'
         'Makefile')
 
 sha1sums=('SKIP'
-          'f792c671006257fdf93c94d04b75dfac9d0a585c'
+          'd15ef23d5f11bb4cf6670fab0d4347f083d5d76d'
           'e380e593c52b1bb991f15e52f92f38c87942c652'
-          'b42bd64cb063953650dd5f12bdf30407cdb7ac52')
+          '65b285f94bbad8718b7fcdb99689e0069d2aa7a0')
 
 pkgver() {
     cd llpp
@@ -48,8 +48,8 @@ pkgver() {
 
 prepare() {
     cd llpp
-    patch -Np1 -i "$srcdir"/fix_xdg_usage.patch
-    patch -Np1 -i "$srcdir"/no_quit_on_escape.patch
+    patch -Np1 -i "$srcdir"/fix-xdg-usage.patch
+    patch -Np1 -i "$srcdir"/no-quit-on-escape.patch
 }
 
 build() {

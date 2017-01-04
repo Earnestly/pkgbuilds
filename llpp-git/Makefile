@@ -19,11 +19,11 @@ LDFLAGS += -g ${LIBS}
 CAMLOPT = ocamlopt
 CAMLFLAGS = -g -w +a -safe-string -I +lablGL
 
-SRC = utils.ml wsi.ml parser.ml config.ml main.ml
+SRC = utils.ml keys.ml wsi.ml parser.ml config.ml main.ml
 OBJ = help.cmx ${SRC:.ml=.cmx}
 MOD = unix.cmxa str.cmxa lablgl.cmxa
 
-DISTFILES := Makefile ${SRC} link.c glfont.c keysym2ucs.c wsi.mli pp.sed
+DISTFILES := Makefile ${SRC} link.c glfont.c keysym2ucs.c wsi.mli
 DISTFILES += mkhelp.sh KEYS README BUILDING
 DISTFILES += misc/
 
@@ -33,9 +33,9 @@ llpp: ${OBJ} link.o
 	${CAMLOPT} -o $@ ${CAMLFLAGS} link.o -cclib '${LDFLAGS}' ${MOD} ${OBJ}
 
 main.cmx: main.ml utils.cmx config.cmx
-	${CAMLOPT} -c -o $@ ${CAMLFLAGS} -pp "sed -f pp.sed" -thread $^
+	${CAMLOPT} -c -o $@ ${CAMLFLAGS} -thread $^
 
-wsi.cmx: wsi.cmi utils.cmx
+wsi.cmx: wsi.cmi utils.cmx keys.cmx
 
 wsi.cmi: utils.cmx
 
@@ -43,6 +43,8 @@ help.ml: mkhelp.sh KEYS
 	sh mkhelp.sh KEYS ${VERSION} > $@
 
 config.cmx: wsi.cmi parser.cmx utils.cmx help.cmx
+
+parser.cmx: utils.cmx
 
 link.o: glfont.c keysym2ucs.c
 
