@@ -6,18 +6,19 @@ WHY?
   horrible. The majority of my packages are built from the latest developmental
   branches for both less maintainence burden, as package versions are
   programmatically generated, and for the newest fixes and bugs; hopefully
-  fixes moreso than bugs.
+  fixes moreso than bugs.  Primarily this eases working with upstream as any
+  issues are reported against the latest code.
   
   The pkgdesc format is losely based on man-pages(7) such as using short
   lowercase descriptions similar to a manual's synopsis. Common variables are
   grouped together to hopefully improve PKGBUILD readability.
 
-NOTES
+NOTABLE PACKAGES
 
   - dmenu-pango-imlib
 
     Pango and imlib patches from <https://github.com/Cloudef> applied to dmenu
-    allowing for proper unicode fallback and image generation.
+    allowing for proper unicode fallback and embedded image support.
 
   - htop-vi
 
