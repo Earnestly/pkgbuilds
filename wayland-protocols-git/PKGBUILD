@@ -1,5 +1,5 @@
 pkgname=wayland-protocols-git
-pkgver=r111.a1d574f
+pkgver=r114.642dd7a
 pkgrel=1
 
 pkgdesc='additional protocols not available in wayland core'

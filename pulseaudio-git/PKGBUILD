@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=9.0.r110.g451d1d6
+pkgver=9.99.1
 pkgrel=1
 
 pkgdesc='network transparent sound server'

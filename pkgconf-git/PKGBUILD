@@ -1,5 +1,5 @@
 pkgname=pkgconf-git
-pkgver=0.9.12.r65.gf44f839
+pkgver=1.1.0.r1.g9c426b6
 pkgrel=1
 
 pkgdesc='compiler and linker configuration'

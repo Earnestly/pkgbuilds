@@ -1,5 +1,5 @@
 pkgname=xxd-git
-pkgver=8.0.0094
+pkgver=8.0.0142
 pkgrel=1
 
 pkgdesc='create or reverse hex dumps'

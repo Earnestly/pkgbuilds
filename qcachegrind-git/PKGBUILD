@@ -1,6 +1,6 @@
 pkgname=qcachegrind-git
-pkgver=16.11.80.r83.g6872a23
-pkgrel=3
+pkgver=16.12.0.r113.g8fd94fe
+pkgrel=1
 
 pkgdesc='visualization of performance profiling data'
 url='http://kcachegrind.sourceforge.net'
