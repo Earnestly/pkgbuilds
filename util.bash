@@ -39,7 +39,7 @@ confirm() {
     esac
 }
 
-# Warning: This procedure is specific to fetching changes fro bare mirrors.
+# Warning: This procedure is specific to fetching changes from bare mirrors.
 # Usage: check_updates_git branch
 check_updates_git() {
     local branch=$1
