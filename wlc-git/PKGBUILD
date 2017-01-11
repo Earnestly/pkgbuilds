@@ -1,5 +1,5 @@
 pkgname=wlc-git
-pkgver=r893.8047fa7
+pkgver=0.0.7.r5.gf8bb91b
 pkgrel=1
 
 pkgdesc='wayland compositor library'
@@ -11,36 +11,33 @@ options=('debug' '!strip')
 
 depends=('wayland' 'pixman' 'libxkbcommon' 'libinput' 'libx11' 'libxcb' 'libgl'
          'libdrm' 'mesa' 'xcb-util-image' 'xcb-util-wm')
-makedepends=('git' 'cmake')
+makedepends=('git' 'cmake' 'wayland-protocols')
 
 provides=('wlc')
 conflicts=('wlc')
 
 source=('git+https://github.com/Cloudef/wlc'
-        'git+https://github.com/Cloudef/chck'
-        'git+https://anongit.freedesktop.org/git/wayland/wayland-protocols')
+        'git+https://github.com/Cloudef/chck')
 
-sha1sums=('SKIP' 'SKIP' 'SKIP')
+sha1sums=('SKIP' 'SKIP')
 
 pkgver() {
     cd wlc
-    printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --tags --long | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 prepare() {
     cd wlc
     git submodule init
     git config submodule.lib/chck.url "$srcdir"/chck
-    git config submodule.protos/wayland-protocols.url "$srcdir"/wayland-protocols
-    git submodule update lib/chck protos/wayland-protocols
+    git submodule update lib/chck
 }
 
 build() {
     cd wlc
     cmake -DCMAKE_BUILD_TYPE=Upstream \
         -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DSOURCE_WLPROTO=ON
+        -DCMAKE_INSTALL_PREFIX=/usr
     make
 }
 
