@@ -1,0 +1,46 @@
+pkgname=reptyr-git
+pkgver=0.6.2.r42.g3c9d720
+pkgrel=1
+
+pkgdesc='reparent running programs to a new terminal'
+url='https://github.com/nelhage/reptyr'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('glibc')
+makedepends=('git')
+checkdepends=('python-pexpect')
+
+provides=('reptyr')
+conflicts=('reptyr')
+
+source=('git+https://github.com/nelhage/reptyr')
+install='reptyr-git.install'
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd reptyr
+    git describe --long --tags | sed 's/^reptyr-//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+build() {
+    cd reptyr
+    make
+}
+
+check() {
+    cd reptyr
+    # XXX currently getting IO errors, should replace this with issue link
+    # make test
+}
+
+package() {
+    cd reptyr
+    # The project makes novel use of pkg-config's --variable feature to
+    # determine the appropriate completion directory, however Arch Linux
+    # doesn't seem to package the bash-completion.pc file, so instead we
+    # define it manually.
+    make PREFIX=/usr BASHCOMPDIR=/usr/share/bash-completion/completions DESTDIR="$pkgdir" install
+    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}
