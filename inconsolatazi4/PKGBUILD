@@ -14,8 +14,6 @@ source=('http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Bold.
         'http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Regular.otf'
         'http://mirrors.ctan.org/fonts/inconsolata/doc/OFL.txt')
 
-install='inconsolatazi4.install'
-
 sha1sums=('d6a1844404d4acc0ed464e721a777b6fe3f3d2ee'
           '590d6ff29527c7bd64db02d6d4b2bf2df5215f2e'
           '0d8ee7bc811b92f758101f267559dd79373ed069')
