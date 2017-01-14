@@ -1,5 +1,5 @@
 pkgname=ponyc-git
-pkgver=0.4.0.r186.gbfdd57469
+pkgver=0.4.0.r205.g4bf8ca22d
 pkgrel=1
 
 pkgdesc='actor model and capabilities programming language'

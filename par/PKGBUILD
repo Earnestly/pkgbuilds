@@ -1,3 +1,4 @@
+# pkgver=$(curl -s "$url" | awk '/<title>/ { print $2 }')
 pkgname=par
 pkgver=1.52
 pkgrel=1
