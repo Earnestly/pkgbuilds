@@ -1,15 +1,12 @@
 # * Maybe generate en_US.UTF-8 until glibc adds C.UTF-8?
 #   <https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html>
 
-# * It appears bintutils and gcc have to be built with -flto for --enable-lto
-#   to work.
-
 # * Investigate whether I can build glibc without all the charmaps and just
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.24.r608.g2b18fe78fe
-pkgrel=1
+pkgver=2.24.r640.g099191b1f5
+pkgrel=4
 
 pkgdesc='gnu c library'
 url='http://www.gnu.org/software/libc'
@@ -24,7 +21,7 @@ install='glibc-git.install'
 depends=('linux-api-headers' 'tzdata' 'filesystem' 'gd')
 makedepends=('git')
 
-provides=('glibc=2.23')
+provides=("glibc=$pkgver")
 conflicts=('glibc')
 
 # XXX Known good #commit=1eb8930608705702d5746e5491b
@@ -53,40 +50,42 @@ prepare() {
 build() {
     cd build
 
-    printf 'slibdir=/usr/lib\n' >> configparms
-    printf 'rtlddir=/usr/lib\n' >> configparms
-    printf 'sbindir=/usr/bin\n' >> configparms
-    printf 'rootsbindir=/usr/bin\n' >> configparms
+    { printf 'slibdir=/usr/lib\n'
+      printf 'rtlddir=/usr/lib\n'
+      printf 'sbindir=/usr/bin\n'
+      printf 'rootsbindir=/usr/bin\n'
+    } >> configparms
 
     # <https://sourceware.org/bugzilla/show_bug.cgi?id=7065>
     CFLAGS=${CFLAGS/-fstack-protector-strong/}
-
-    # <https://gcc.gnu.org/ml/gcc-help/2013-03/msg00357.html>
-    CFLAGS=${CFLAGS/-flto/}
-
     CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}
 
-    "$srcdir"/glibc/configure --with-bugurl=https://bugs.archlinux.org/ \
-        --enable-stackguard-randomization \
-        --with-headers=/usr/include \
-        --enable-kernel=2.6.32 \
-        --enable-obsolete-rpc \
-        --libexecdir=/usr/lib \
-        --enable-multi-arch \
+    # This is handled properly by --enable-bind-now
+    LDFLAGS=${LDFLAGS/,-z,now/}
+
+    "$srcdir"/glibc/configure \
+        --prefix=/usr \
         --libdir=/usr/lib \
+        --libexecdir=/usr/lib \
+        --with-headers=/usr/include \
+        --with-bugurl=https://bugs.archlinux.org/ \
         --enable-bind-now \
-        --disable-profile \
+        --enable-multi-arch \
+        --enable-obsolete-rpc \
+        --enable-lock-elision \
+        --enable-kernel=2.6.32 \
+        --enable-stackguard-randomization \
         --enable-add-ons \
         --disable-werror \
-        --prefix=/usr
+        --disable-profile
 
     printf 'build-programs=no\n' >> configparms
     make
 
     # Re-enable hardening for programs.
     sed -i '/build-programs=/s/no/yes/' configparms
-    printf 'CC += -fstack-protector-strong -fstack-check -D_FORTIFY_SOURCE=2\n' >> configparms
-    printf 'CXX += -fstack-protector-strong -fstack-check -D_FORTIFY_SOURCE=2\n' >> configparms
+    printf 'CC += -fstack-protector-strong -D_FORTIFY_SOURCE=2\n' >> configparms
+    printf 'CXX += -fstack-protector-strong -D_FORTIFY_SOURCE=2\n' >> configparms
     make
 
     # Remove harding in preparation to run test-suite.
@@ -95,20 +94,20 @@ build() {
 
 check() {
     cd build
-    # XXX Running test a bit pointless if exit status ignored
-    #make check || true
+    # XXX Running tests is a bit pointless if exit status ignored
+    make check || true
 }
 
 package() {
     make -C build install_root="$pkgdir" install
 
-    install -Dm644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
-    install -Dm644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
-    install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
-    install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
-    install -Dm755 locale-gen "$pkgdir"/usr/bin/locale-gen
-    install -Dm644 locales "$pkgdir"/etc/locales
     install -dm755 "$pkgdir"/usr/lib/locale
+    install -Dm644 locales "$pkgdir"/etc/locales
+    install -Dm755 locale-gen "$pkgdir"/usr/bin/locale-gen
+    install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
+    install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
+    install -Dm644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
+    install -Dm644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
 
     # Only support UTF-8 charmaps.
     find "$pkgdir"/usr/share/i18n/charmaps ! -name UTF-8.gz -type f -delete
@@ -122,16 +121,16 @@ package() {
     # I use 2> /dev/null for all of these due to many false-positives as it
     # attempts to strip scripts or other unstrippable files--I don't care
     # though.
-    find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES '{}' + 2> /dev/null || true
+    find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES {} + 2> /dev/null || true
 
     # Do not strip these for gdb and valgrind functionality, but strip the
     # rest.
     find "$pkgdir"/usr/lib ! -name 'ld-*.so' \
                            ! -name 'libc-*.so' \
                            ! -name 'libpthread-*.so' \
-                           ! -name 'libthread_db-1.0.so' \
-                             -name '*.so' -type f -exec strip $STRIP_SHARED '{}' + 2> /dev/null || true
+                           ! -name 'libthread_db-*.so' \
+                             -name '*-*.so' -type f -exec strip $STRIP_SHARED {} + 2> /dev/null || true
 
     # Strip the remaining static libraries.
-    find "$pkgdir"/usr/lib -name '*.a' -type f -exec strip $STRIP_STATIC '{}' + 2> /dev/null || true
+    find "$pkgdir"/usr/lib -name '*.a' -type f -exec strip $STRIP_STATIC {} + 2> /dev/null || true
 }
