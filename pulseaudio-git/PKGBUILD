@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=9.99.1.r2.g0530c252
+pkgver=10.0.r54.gd442da3a
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -26,7 +26,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd pulseaudio
-    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 prepare() {
@@ -41,9 +41,6 @@ build() {
     # symlinks directly under $(DESTDIR).
     cd pulseaudio
 
-    # XXX cannot build -flto because libtool
-    CFLAGS="${CFLAGS//-flto/} -fno-strict-aliasing -fPIC"
-    LDFLAGS=${LDFLAGS//-flto/}
     ./autogen.sh \
         --prefix=/usr \
         --enable-orc \
@@ -72,7 +69,7 @@ build() {
     make
 
     # Fight unused direct dependencies
-    sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+    sed -ie 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 }
 
 package() {
