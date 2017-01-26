@@ -1,0 +1,18 @@
+# /etc/udev/hwdb.d/61-capslock-as-control.hwdb
+
+# Remap capslock to left control on the keyboards I use.
+
+# Run evtest on the input device of choice, press the key you desire and look
+# for the EV_MSC value, not EV_KEY, e.g.:
+
+#   # evtest /dev/input/event...
+#   ..., type 4 (EV_MSC), code 4 (MSC_SCAN), value 3a
+#   ..., type 1 (EV_KEY), code 58 (KEY_CAPSLOCK), value 1
+
+# "Holtek Semiconductor" generic keyboard
+evdev:input:*v04D9pA0CD*
+ KEYBOARD_KEY_70039=leftctrl
+
+# Thinkpad X220 "AT Translated Set 2 keyboard"
+evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn42912XG:pvr*
+ KEYBOARD_KEY_3a=leftctrl

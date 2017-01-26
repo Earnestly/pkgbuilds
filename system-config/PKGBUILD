@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=4.6
+pkgver=5.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -25,7 +25,8 @@ source=('env-nvidia.sh'
         'xorg-libinput-tweaks.conf'
         'xorg-libinput-noaccel.conf'
         'xorg-synaptics-tweaks.conf'
-        'udev-psmouse-sensitivity.rules')
+        'hwdb-capslock-as-control.hwdb'
+        'hwdb-pointingstick-thinkpadx220.hwdb')
 
 package_base-config() {
     pkgdesc='common system configuration'
@@ -54,8 +55,11 @@ package_teapot-config() {
     install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
 
-    # <https://bugzilla.redhat.com/show_bug.cgi?id=1200717>
-    install -Dm644 udev-psmouse-sensitivity.rules "$pkgdir"/etc/udev/rules.d/01-psmouse-sensitivity.rules
+    # https://github.com/systemd/systemd/pull/5083
+    install -Dm644 hwdb-pointingstick-thinkpadx220.hwdb "$pkgdir"/etc/udev/hwdb.d/71-pointingstick-thinkpadx220.hwdb
+
+    install -Dm644 hwdb-capslock-as-control.hwdb "$pkgdir"/etc/udev/hwdb.d/61-capslock-as-control.hwdb
+
 }
 
 package_engine-config() {
@@ -85,4 +89,5 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           'b2f3e8baae07dc0dc972ed018a75b3adb73bbd46'
           '0d5b92f3fae2fbc0d523617714218cad782449b9'
           'ebf354ca8f185b9afb579731e2b23a0c767e20a9'
-          '64e00f74abe4cb39badccc8172d3214cbcd5708a')
+          'b22120e03eb951e6717a7b7684caaec440a2402b'
+          'c2db65b9d483d67428462d0ecae920dd92fd076d')
