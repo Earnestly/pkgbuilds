@@ -10,8 +10,8 @@ license=('OFL')
 
 depends=('fontconfig')
 
-source=('http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Bold.otf'
-        'http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Regular.otf'
+source=('http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Regular.otf'
+        'http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Bold.otf'
         'http://mirrors.ctan.org/fonts/inconsolata/doc/OFL.txt')
 
 sha1sums=('d6a1844404d4acc0ed464e721a777b6fe3f3d2ee'
