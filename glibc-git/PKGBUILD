@@ -5,7 +5,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.24.r657.gf3bef6a748
+pkgver=2.24.r663.gf8bf15febc
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -94,20 +94,19 @@ build() {
 
 check() {
     cd build
-    # XXX Running tests is a bit pointless if exit status ignored
-    make check || true
+    # make check || true
 }
 
 package() {
     make -C build install_root="$pkgdir" install
 
-    install -dm755 "$pkgdir"/usr/lib/locale
-    install -Dm644 locales "$pkgdir"/etc/locales
-    install -Dm755 locale-gen "$pkgdir"/usr/bin/locale-gen
-    install -Dm644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
-    install -Dm644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
-    install -Dm644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
-    install -Dm644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
+    install -dm0755 "$pkgdir"/usr/lib/locale
+    install -Dm0644 locales "$pkgdir"/etc/locales
+    install -Dm0755 locale-gen "$pkgdir"/usr/bin/locale-gen
+    install -Dm0644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
+    install -Dm0644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
+    install -Dm0644 nscd.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/nscd.conf
+    install -Dm0644 nscd.service "$pkgdir"/usr/lib/systemd/system/nscd.service
 
     # Only support UTF-8 charmaps.
     find "$pkgdir"/usr/share/i18n/charmaps ! -name UTF-8.gz -type f -delete

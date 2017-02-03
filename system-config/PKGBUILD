@@ -32,14 +32,14 @@ package_base-config() {
     pkgdesc='common system configuration'
     depends=('zsh' 'sudo')
 
-    install -Dm644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
-    install -Dm644 etc-locale.conf "$pkgdir"/etc/locale.conf
-    install -Dm644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
-    install -Dm644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
-    install -Dm644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
-    install -Dm644 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
-    install -Dm644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
-    install -Dm644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
+    install -Dm0644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
+    install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
+    install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
+    install -Dm0644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
+    install -Dm0644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
+    install -Dm0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
+    install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
+    install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
 }
 
@@ -48,17 +48,16 @@ package_teapot-config() {
     depends=('base-config' 'xf86-input-libinput' 'xf86-input-synaptics'
              'nftables')
 
-    install -Dm644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
-    install -Dm644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
-    install -Dm644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
-    install -Dm644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
-    install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
-    install -Dm644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
+    install -Dm0644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
+    install -Dm0644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
+    install -Dm0644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
+    install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
+    install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
+    install -Dm0644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
 
     # https://github.com/systemd/systemd/pull/5083
-    install -Dm644 hwdb-pointingstick-thinkpadx220.hwdb "$pkgdir"/etc/udev/hwdb.d/71-pointingstick-thinkpadx220.hwdb
-
-    install -Dm644 hwdb-capslock-as-control.hwdb "$pkgdir"/etc/udev/hwdb.d/61-capslock-as-control.hwdb
+    install -Dm0644 hwdb-pointingstick-thinkpadx220.hwdb "$pkgdir"/etc/udev/hwdb.d/71-pointingstick-thinkpadx220.hwdb
+    install -Dm0644 hwdb-capslock-as-control.hwdb "$pkgdir"/etc/udev/hwdb.d/61-capslock-as-control.hwdb
 
 }
 
@@ -67,9 +66,9 @@ package_engine-config() {
     depends=('base-config' 'xf86-input-libinput' 'xf86-input-wacom' 'nvidia'
              'nvidia-utils' 'nvidia-settings')
 
-    install -Dm644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
-    install -Dm644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
-    install -Dm644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
+    install -Dm0644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
+    install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
+    install -Dm0644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
 }
 
 sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
