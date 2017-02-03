@@ -1,5 +1,5 @@
 pkgname=newsbeuter-git
-pkgver=r2190.9b7bd06
+pkgver=r2204.c22dcaf
 pkgrel=1
 
 pkgdesc='rss feed reader for the text console with podcast support'
