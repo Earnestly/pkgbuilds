@@ -9,6 +9,8 @@
 #   ..., type 4 (EV_MSC), code 4 (MSC_SCAN), value 3a
 #   ..., type 1 (EV_KEY), code 58 (KEY_CAPSLOCK), value 1
 
+# See /usr/lib/udev/hwdb.d/60-keyboard.hwdb
+
 # "Holtek Semiconductor" generic keyboard
 evdev:input:*v04D9pA0CD*
  KEYBOARD_KEY_70039=leftctrl
