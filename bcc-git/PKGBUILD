@@ -1,0 +1,45 @@
+pkgname=bcc-git
+pkgver=0.2.0.r401.g0a34d1e
+pkgrel=1
+
+pkgdesc='bpf compiler collection'
+url='https://github.com/iovisor/bcc'
+arch=('i686' 'x86_64')
+license=('Apache')
+
+depends=('libelf')
+makedepends=('git' 'llvm')
+# checkdepends=('python')
+optdepends=('python: required for many of the tools')
+
+provides=('bcc')
+conflicts=('bcc')
+
+source=('git+https://github.com/iovisor/bcc')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd bcc
+    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+build() {
+    cd bcc
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    make
+}
+
+check() {
+    cd bcc
+    # XXX Uses sudo(8)
+    # make test
+}
+
+package() {
+    cd bcc
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 LICENSE.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
