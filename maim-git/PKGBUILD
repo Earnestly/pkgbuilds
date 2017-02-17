@@ -1,6 +1,6 @@
 pkgname=maim-git
-pkgver=3.4.47.r8.g4526cdd
-pkgrel=3
+pkgver=3.4.47.r10.g97ce37b
+pkgrel=1
 
 pkgdesc='take screenshots of the desktop, similar to scrot'
 url='https://github.com/naelstrof/maim'

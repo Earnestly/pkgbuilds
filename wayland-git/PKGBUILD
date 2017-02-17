@@ -1,5 +1,5 @@
 pkgname=wayland-git
-pkgver=1.12.91.r10.g56f2dad
+pkgver=1.12.93
 pkgrel=1
 
 pkgdesc='display server protocol'
