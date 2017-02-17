@@ -5,7 +5,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.24.r663.gf8bf15febc
+pkgver=2.25.r54.g3b33d6ed60
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -57,7 +57,7 @@ build() {
     } >> configparms
 
     # <https://sourceware.org/bugzilla/show_bug.cgi?id=7065>
-    CFLAGS=${CFLAGS/-fstack-protector-strong/}
+    # CFLAGS=${CFLAGS/-fstack-protector-strong/}
     CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}
 
     # This is handled properly by --enable-bind-now
@@ -74,6 +74,7 @@ build() {
         --enable-obsolete-rpc \
         --enable-lock-elision \
         --enable-kernel=2.6.32 \
+        --enable-stack-protector=strong \
         --enable-stackguard-randomization \
         --enable-add-ons \
         --disable-werror \
