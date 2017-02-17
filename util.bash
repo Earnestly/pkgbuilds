@@ -1,36 +1,26 @@
 #!/bin/bash
+# util.bash - various utility functions used in other helper scripts
 
-# Usage: in_array mark list
-#        mark  item to search for
-#        list  list in which to look
-in_array() {
-    local mark=$1
-    local search
+bold=$(tput bold)
+sgr0=$(tput sgr0)
 
-    for search in "${@:2}"; do
-        if [[ $search == "$mark" ]]; then
-            return 0
-        fi
-    done
-
-    # Mark not found.
-    return 1
-}
-
-# Usage: confirm bias format ...
+# usage: confirm bias format ...
 #        bias    yes | no
 #        format  printf formatter
 confirm() {
     local -l reply
-    local message prompt
-    local bias=$1; shift
+    local message prompt bias=$1
+    shift
 
     case $bias in
         yes) prompt=Y/n ;;
         no)  prompt=y/N ;;
     esac
 
-    printf -v message -- "\033[1;29m* $1 [$prompt]\033[0m " "${@:2}"
+    # I'm placing the terminal control and prompt variables in the printf
+    # formatter as I want to expose printf's DSL to the user but without
+    # letting their formats break the layout.
+    printf -v message -- "$bold* $1 [$prompt]$sgr0 " "${@:2}"
     read -rp "$message" reply
 
     case $bias in
@@ -39,8 +29,8 @@ confirm() {
     esac
 }
 
-# Warning: This procedure is specific to fetching changes from bare mirrors.
-# Usage: check_updates_git branch
+# warning: This procedure is specific to fetching changes from bare mirrors
+# usage: check_updates_git branch
 check_updates_git() {
     local branch=$1
     local format='%C(auto)%h %C(blue)%an %C(green bold)(%cr) %C(reset)%s'
@@ -55,7 +45,7 @@ check_updates_git() {
     # explicitly fetched from instead of realising they should have used
     # FETCH_HEAD instead.
 
-    # From the school of DWIM: <https://github.com/git/git/commit/f269048754f3>
+    # <https://github.com/git/git/commit/f269048754f3>
     git symbolic-ref HEAD refs/heads/"$branch"
 
     if git fetch "$(git config remote.origin.url)" "$branch" 2> /dev/null; then
@@ -63,7 +53,6 @@ check_updates_git() {
     fi
 
     if ((distance == 0)); then
-        # No new commit(s) found.
         return 1
     elif confirm yes '%d new commits found, view log?' "$distance"; then
         git log --pretty=format:"$format" HEAD...FETCH_HEAD
