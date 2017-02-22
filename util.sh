@@ -1,5 +1,5 @@
-#!/bin/bash
-# util.bash - various utility functions used in other helper scripts
+#!/bin/sh --
+# util.sh - various utility functions used in other helper scripts
 
 bold=$(tput bold)
 sgr0=$(tput sgr0)
@@ -9,7 +9,7 @@ sgr0=$(tput sgr0)
 #        format  printf formatter
 confirm() {
     local -l reply
-    local message prompt bias=$1
+    local prompt bias=$1
     shift
 
     case $bias in
@@ -20,12 +20,12 @@ confirm() {
     # I'm placing the terminal control and prompt variables in the printf
     # formatter as I want to expose printf's DSL to the user but without
     # letting their formats break the layout.
-    printf -v message -- "$bold* $1 [$prompt]$sgr0 " "${@:2}"
-    read -rp "$message" reply
+    printf -- "$bold* $1 [$prompt]$sgr0 " "${@:2}"
+    read -r reply
 
     case $bias in
-        yes) [[ $reply = y || ! $reply ]] ;;
-        no)  [[ $reply = y ]] ;;
+        yes) [ "$reply" = y ] || [ ! "$reply" ] ;;
+        no)  [ "$reply" = y ] ;;
     esac
 }
 
@@ -52,7 +52,7 @@ check_updates_git() {
         distance=$(git rev-list HEAD...FETCH_HEAD --count "$branch")
     fi
 
-    if ((distance == 0)); then
+    if [ "$distance" -eq 0 ]; then
         return 1
     elif confirm yes '%d new commits found, view log?' "$distance"; then
         git log --pretty=format:"$format" HEAD...FETCH_HEAD
