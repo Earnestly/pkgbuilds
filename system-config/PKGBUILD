@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=5.1
+pkgver=6.0
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -25,8 +25,7 @@ source=('env-nvidia.sh'
         'xorg-libinput-tweaks.conf'
         'xorg-libinput-noaccel.conf'
         'xorg-synaptics-tweaks.conf'
-        'hwdb-capslock-as-control.hwdb'
-        'hwdb-pointingstick-thinkpadx220.hwdb')
+        'hwdb-capslock-as-control.hwdb')
 
 package_base-config() {
     pkgdesc='common system configuration'
@@ -54,9 +53,6 @@ package_teapot-config() {
     install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm0644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
-
-    # https://github.com/systemd/systemd/pull/5083
-    install -Dm0644 hwdb-pointingstick-thinkpadx220.hwdb "$pkgdir"/etc/udev/hwdb.d/71-pointingstick-thinkpadx220.hwdb
     install -Dm0644 hwdb-capslock-as-control.hwdb "$pkgdir"/etc/udev/hwdb.d/61-capslock-as-control.hwdb
 
 }
@@ -82,11 +78,10 @@ sha1sums=('d5b9bc75719e4bdeeff0ed13d09c74382d0ffa3b'
           '1b677e55c9a74777a190e4cd504323d2b093fc08'
           '9ab5618b9c186d99e3ba8a88272761f34ff4b00c'
           '929b10c4bb2c3414458420ad86ed32be47723769'
-          'b8518cddebd8e5c2c034b622887ebd1ec4f54602'
+          '430e8a142b7c9f1c78b3a70ca3370302c350e950'
           '94e3346d3e98da1ec62bcd07901894893bd9b930'
           'd2323a2ca403ffa7cb5bd4e7dd68d1ab1a49bfce'
           'b2f3e8baae07dc0dc972ed018a75b3adb73bbd46'
           '0d5b92f3fae2fbc0d523617714218cad782449b9'
           'ebf354ca8f185b9afb579731e2b23a0c767e20a9'
-          'b22120e03eb951e6717a7b7684caaec440a2402b'
-          'c2db65b9d483d67428462d0ecae920dd92fd076d')
+          '07d9adb18380d212fe886894ed620c90cdc6cf2e')
