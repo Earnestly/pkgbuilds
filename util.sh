@@ -1,9 +1,6 @@
 #!/bin/sh --
 # util.sh - various utility functions used in other helper scripts
 
-bold=$(tput bold)
-sgr0=$(tput sgr0)
-
 # usage: confirm bias format ...
 #        bias    yes | no
 #        format  printf formatter
@@ -20,7 +17,7 @@ confirm() {
     # I'm placing the terminal control and prompt variables in the printf
     # formatter as I want to expose printf's DSL to the user but without
     # letting their formats break the layout.
-    printf -- "$bold* $1 [$prompt]$sgr0 " "${@:2}"
+    printf -- "$(tput bold)* $1 [$prompt]$(tput sgr0) " "${@:2}"
     read -r reply
 
     case $bias in
@@ -29,8 +26,8 @@ confirm() {
     esac
 }
 
-# warning: This procedure is specific to fetching changes from bare mirrors
 # usage: check_updates_git branch
+# warning: This procedure is specific to fetching changes from bare mirrors
 check_updates_git() {
     local branch=$1
     local format='%C(auto)%h %C(blue)%an %C(green bold)(%cr) %C(reset)%s'
