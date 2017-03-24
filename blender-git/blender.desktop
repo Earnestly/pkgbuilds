@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Blender
-Exec=blender
-Icon=blender
-Terminal=false
-X-MultipleArgs=false
-Type=Application
-Categories=Graphics;3DGraphics;
-MimeType=application/blender;application/x-blender;
