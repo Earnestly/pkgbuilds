@@ -19,7 +19,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd sxiv
-    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {

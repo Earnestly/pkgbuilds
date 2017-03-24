@@ -46,5 +46,5 @@ check() {
 package() {
     cd pacutils
     make PREFIX=/usr DESTDIR="$pkgdir" install
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

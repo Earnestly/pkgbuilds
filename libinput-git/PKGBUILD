@@ -1,5 +1,5 @@
 pkgname=libinput-git
-pkgver=1.6.0.r111.g6b561d4
+pkgver=1.7.0.r15.g078d5cb
 pkgrel=1
 
 pkgdesc='library to handle input devices'
@@ -24,7 +24,8 @@ pkgver() {
 
 build() {
     cd libinput
-    ./autogen.sh --prefix=/usr --enable-libwacom --disable-static
+    autoreconf -fi
+    ./configure --prefix=/usr --enable-libwacom --disable-static
     make
 }
 
@@ -36,5 +37,5 @@ check() {
 package() {
     cd libinput
     make DESTDIR="$pkgdir" install
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

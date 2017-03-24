@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.7.32.rgb8a399ced
+pkgver=1.7.64.rgeebb0547e
 pkgrel=1
 _pyver=3.6m
 
@@ -34,7 +34,7 @@ build() {
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_PYTHON3=ON \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DPYTHON_LIBRARY=/usr/lib/libpython$_python.so
+        -DPYTHON_LIBRARY=/usr/lib/libpython"$_python".so
 }
 
 # XXX cpputest required for testing, which is not officially packaged

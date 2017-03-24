@@ -19,7 +19,7 @@ sha1sums=('d6a1844404d4acc0ed464e721a777b6fe3f3d2ee'
           '0d8ee7bc811b92f758101f267559dd79373ed069')
 
 package() {
-    install -Dm644 Inconsolatazi4-Regular.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Regular.otf
-    install -Dm644 Inconsolatazi4-Bold.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Bold.otf
-    install -Dm644 OFL.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0644 Inconsolatazi4-Regular.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Regular.otf
+    install -Dm0644 Inconsolatazi4-Bold.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Bold.otf
+    install -Dm0644 OFL.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

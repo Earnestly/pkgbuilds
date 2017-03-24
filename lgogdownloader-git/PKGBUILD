@@ -1,8 +1,8 @@
 pkgname=lgogdownloader-git
-pkgver=3.1.r3.g2b9c7f9
+pkgver=3.2
 pkgrel=1
 
-pkgdesc='an unofficial downloader for gog.com'
+pkgdesc='unofficial downloader for gog.com'
 url='https://github.com/Sude-/lgogdownloader'
 arch=('i686' 'x86_64')
 license=('WTFPL')
@@ -31,5 +31,5 @@ build() {
 package() {
     cd lgogdownloader
     make DESTDIR="$pkgdir" install
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

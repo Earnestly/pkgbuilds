@@ -31,7 +31,7 @@ prepare() {
 
 build() {
     cd htop
-    ./autogen.sh
+    autoreconf -fi
     ./configure --prefix=/usr --enable-cgroup --enable-unicode
     make
 }

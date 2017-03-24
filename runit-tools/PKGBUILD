@@ -39,13 +39,13 @@ check() {
 
 package() {
     cd admin/runit-"$pkgver"
-    install -Dm755 src/sv "$pkgdir"/usr/bin/sv
-    install -Dm755 src/chpst "$pkgdir"/usr/bin/chpst
-    install -Dm755 src/runsv "$pkgdir"/usr/bin/runsv
-    install -Dm755 src/svlogd "$pkgdir"/usr/bin/svlogd
-    install -Dm755 src/utmpset "$pkgdir"/usr/bin/utmpset
-    install -Dm755 src/runsvdir "$pkgdir"/usr/bin/runsvdir
-    install -Dm755 src/runsvchdir "$pkgdir"/usr/bin/runsvchdir
-    install -D man/* -t "$pkgdir"/usr/share/man/man8
-    install -Dm644 package/COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0755 src/sv "$pkgdir"/usr/bin/sv
+    install -Dm0755 src/chpst "$pkgdir"/usr/bin/chpst
+    install -Dm0755 src/runsv "$pkgdir"/usr/bin/runsv
+    install -Dm0755 src/svlogd "$pkgdir"/usr/bin/svlogd
+    install -Dm0755 src/utmpset "$pkgdir"/usr/bin/utmpset
+    install -Dm0755 src/runsvdir "$pkgdir"/usr/bin/runsvdir
+    install -Dm0755 src/runsvchdir "$pkgdir"/usr/bin/runsvchdir
+    install -Dm0644 man/* -t "$pkgdir"/usr/share/man/man8
+    install -Dm0644 package/COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

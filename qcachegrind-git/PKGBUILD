@@ -1,5 +1,5 @@
 pkgname=qcachegrind-git
-pkgver=16.12.2.r123.g49ba608
+pkgver=16.12.2.r125.gf115d05
 pkgrel=1
 
 pkgdesc='visualization of performance profiling data'
@@ -20,7 +20,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd kcachegrind
-    git describe | sed 's/^v//; s/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {
@@ -31,7 +31,7 @@ build() {
 
 package() {
     cd kcachegrind
-    install -Dm755 cgview/cgview "$pkgdir"/usr/bin/cgview
-    install -Dm755 qcachegrind/qcachegrind "$pkgdir"/usr/bin/qcachegrind
-    install -Dm644 qcachegrind/qcachegrind.desktop "$pkgdir"/usr/share/applications/qcachegrind.desktop
+    install -Dm0755 cgview/cgview "$pkgdir"/usr/bin/cgview
+    install -Dm0755 qcachegrind/qcachegrind "$pkgdir"/usr/bin/qcachegrind
+    install -Dm0644 qcachegrind/qcachegrind.desktop "$pkgdir"/usr/share/applications/qcachegrind.desktop
 }

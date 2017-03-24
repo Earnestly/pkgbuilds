@@ -1,22 +1,22 @@
 pkgname=maim-git
-pkgver=3.4.47.r10.g97ce37b
-pkgrel=1
+pkgver=4.4.61.r0.g49e17bb
+pkgrel=2
 
 pkgdesc='take screenshots of the desktop, similar to scrot'
 url='https://github.com/naelstrof/maim'
 arch=( 'i686' 'x86_64' )
 license=('GPL3')
 
-depends=('imlib2' 'libxrandr' 'libxfixes')
+depends=('imlib2' 'libxrandr' 'libxfixes' 'glm')
 makedepends=('cmake' 'git')
 optdepends=('slop: region selection support')
 
 provides=('maim')
 conflicts=('maim')
 
-source=('git://github.com/naelstrof/maim.git')
+source=('git+https://github.com/naelstrof/maim.git')
 
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 pkgver() {
     cd maim

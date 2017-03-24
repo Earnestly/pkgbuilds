@@ -1,5 +1,5 @@
 pkgname=perf-tools-git
-pkgver=r183.5a511f5
+pkgver=r183.g5a511f5
 pkgrel=1
 
 pkgdesc='performance analysis tools based on linux perf_events and ftrace'
@@ -18,30 +18,30 @@ sha1sums=('SKIP')
 
 pkgver () {
     cd perf-tools
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    printf 'r%s.g%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package () {
     cd perf-tools
-    install -Dm755 iosnoop "$pkgdir"/usr/bin/iosnoop 
-    install -Dm755 syscount "$pkgdir"/usr/bin/syscount 
-    install -Dm755 user/uprobe "$pkgdir"/usr/bin/uprobe 
-    install -Dm755 iolatency "$pkgdir"/usr/bin/iolatency 
-    install -Dm755 killsnoop "$pkgdir"/usr/bin/killsnoop 
-    install -Dm755 opensnoop "$pkgdir"/usr/bin/opensnoop 
-    install -Dm755 execsnoop "$pkgdir"/usr/bin/execsnoop 
-    install -Dm755 kernel/kprobe "$pkgdir"/usr/bin/kprobe 
-    install -Dm755 system/tpoint "$pkgdir"/usr/bin/tpoint 
-    install -Dm755 fs/cachestat "$pkgdir"/usr/bin/cachestat 
-    install -Dm755 disk/bitesize "$pkgdir"/usr/bin/bitesize 
-    install -Dm755 net/tcpretrans "$pkgdir"/usr/bin/tcpretrans 
-    install -Dm755 tools/reset-ftrace "$pkgdir"/usr/bin/ftrace 
-    install -Dm755 kernel/funccount "$pkgdir"/usr/bin/funccount 
-    install -Dm755 kernel/funcgraph "$pkgdir"/usr/bin/funcgraph 
-    install -Dm755 kernel/functrace "$pkgdir"/usr/bin/functrace 
-    install -Dm755 kernel/funcslower "$pkgdir"/usr/bin/funcslower 
-    install -Dm755 misc/perf-stat-hist "$pkgdir"/usr/bin/perf-stat-hist 
+    install -Dm0755 iosnoop "$pkgdir"/usr/bin/iosnoop
+    install -Dm0755 syscount "$pkgdir"/usr/bin/syscount
+    install -Dm0755 user/uprobe "$pkgdir"/usr/bin/uprobe
+    install -Dm0755 iolatency "$pkgdir"/usr/bin/iolatency
+    install -Dm0755 killsnoop "$pkgdir"/usr/bin/killsnoop
+    install -Dm0755 opensnoop "$pkgdir"/usr/bin/opensnoop
+    install -Dm0755 execsnoop "$pkgdir"/usr/bin/execsnoop
+    install -Dm0755 kernel/kprobe "$pkgdir"/usr/bin/kprobe
+    install -Dm0755 system/tpoint "$pkgdir"/usr/bin/tpoint
+    install -Dm0755 fs/cachestat "$pkgdir"/usr/bin/cachestat
+    install -Dm0755 disk/bitesize "$pkgdir"/usr/bin/bitesize
+    install -Dm0755 net/tcpretrans "$pkgdir"/usr/bin/tcpretrans
+    install -Dm0755 tools/reset-ftrace "$pkgdir"/usr/bin/ftrace
+    install -Dm0755 kernel/funccount "$pkgdir"/usr/bin/funccount
+    install -Dm0755 kernel/funcgraph "$pkgdir"/usr/bin/funcgraph
+    install -Dm0755 kernel/functrace "$pkgdir"/usr/bin/functrace
+    install -Dm0755 kernel/funcslower "$pkgdir"/usr/bin/funcslower
+    install -Dm0755 misc/perf-stat-hist "$pkgdir"/usr/bin/perf-stat-hist
 
-    install -Dm644 man/man8/* -t "$pkgdir"/usr/share/man/man8
-    install -Dm644 examples/* -t "$pkgdir"/usr/share/doc/perf-tools/examples
+    install -Dm0644 man/man8/* -t "$pkgdir"/usr/share/man/man8
+    install -Dm0644 examples/* -t "$pkgdir"/usr/share/doc/perf-tools/examples
 }

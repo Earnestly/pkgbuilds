@@ -1,5 +1,5 @@
 pkgname=wayland-git
-pkgver=1.12.93
+pkgver=1.13.0.r6.g3f2c194
 pkgrel=1
 
 pkgdesc='display server protocol'
@@ -31,5 +31,5 @@ build() {
 package() {
     cd wayland
     make DESTDIR="$pkgdir" install
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

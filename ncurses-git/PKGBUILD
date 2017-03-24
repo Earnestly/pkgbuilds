@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r73.g44a63c85
+pkgver=6.0.r78.g5eb17787
 pkgrel=1
 
 pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -10,7 +10,7 @@ license=('MIT')
 depends=('glibc' 'gcc-libs')
 makedepends=('git')
 
-# Library provide now needed for Arch Linux's bash package, sigh.
+# XXX Library provides now needed for Arch Linux's bash package, sigh
 provides=('ncurses' 'libtinfo' 'libncursesw.so')
 conflicts=('ncurses' 'libtinfo')
 
@@ -20,7 +20,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd ncurses
-    git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
 }
 
 build() {
@@ -54,8 +54,8 @@ package() {
     ln -sf libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
     # Include some introduction and informal guides as they're quite nicely written.
-    install -Dm644 doc/hackguide.doc "$pkgdir"/usr/share/doc/"$pkgname"/hackguide.doc
-    install -Dm644 doc/ncurses-intro.doc "$pkgdir"/usr/share/doc/"$pkgname"/ncurses-intro.doc
+    install -Dm0644 doc/hackguide.doc "$pkgdir"/usr/share/doc/"$pkgname"/hackguide.doc
+    install -Dm0644 doc/ncurses-intro.doc "$pkgdir"/usr/share/doc/"$pkgname"/ncurses-intro.doc
 
-    install -Dm755 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0755 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

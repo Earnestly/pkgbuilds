@@ -1,5 +1,5 @@
 pkgname=newsbeuter-git
-pkgver=r2215.e8db24c
+pkgver=2.9.r521.g20330ea
 pkgrel=1
 
 pkgdesc='rss feed reader for the text console with podcast support'
@@ -19,7 +19,8 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd newsbeuter
-    printf 'r%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
+    _tag=$(git tag --sort=v:refname | sed -n '$p')
+    printf '%s.r%s.g%s' "${_tag#r}" "$(git rev-list "$_tag"..HEAD --count)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
@@ -32,5 +33,5 @@ build() {
 package() {
     cd newsbeuter
     make prefix=/usr DESTDIR="$pkgdir" install
-    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

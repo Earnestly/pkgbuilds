@@ -30,6 +30,6 @@ build() {
 package() {
     cd girara
     make DESTDIR="$pkgdir" install
-    install -Dm664 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0664 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
 

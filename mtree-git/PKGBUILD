@@ -23,18 +23,18 @@ pkgver() {
 
 build() {
     cd mtree-port
-    ./autogen.sh
+    ./autogen.sh # XXX This should favour autoreconf instead
     ./configure --prefix=/usr
     make
 }
 
 package() {
     cd mtree-port
-    install -Dm755 mtree "$pkgdir"/usr/bin/mtree
-    install -Dm644 mtree.8 "$pkgdir"/usr/share/man/man8/mtree.8
+    install -Dm0755 mtree "$pkgdir"/usr/bin/mtree
+    install -Dm0644 mtree.8 "$pkgdir"/usr/share/man/man8/mtree.8
 
     # XXX libarchive provides an mtree.5 which differs from FreeBSDs mtree format
-    install -Dm644 mtree.5 "$pkgdir"/usr/share/man/man5/mtree-port.5
+    install -Dm0644 mtree.5 "$pkgdir"/usr/share/man/man5/mtree-port.5
 
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

@@ -1,5 +1,5 @@
 pkgname=ponyc-git
-pkgver=0.4.0.r272.gbfeb0bedf
+pkgver=0.4.0.r401.g44ef57691
 pkgrel=1
 
 pkgdesc='actor model and capabilities programming language'
@@ -37,36 +37,30 @@ build() {
 check() {
     cd ponyc
     # XXX net/Broadcast can fail https://github.com/ponylang/ponyc/issues/602
-    # XXX Currently uses too much memory on my 4G machine and invokes the oomkiller
-    #make config=release prefix=/usr test || true
+    make config=release prefix=/usr test || true
 }
 
 package() {
     cd ponyc
-    # XXX Cannot reasonably use the provided Makefile for installation
-    # The current makefile uses some logic to try and symlink the ponyc to the
-    # prefix but ignoring the $(destdir).  In fact, the prefix= command-line is
-    # ignored completely for this innvocation.
-
-    # Given the issues with the makefile I will instead install pony manually.
+    # Given the issues with the makefile I will install pony manually.
     # make config=release prefix=/usr destdir="$pkgdir" symlink=no install
-    install -Dm755 build/release/ponyc "$pkgdir"/usr/lib/pony/ponyc
-    install -Dm644 src/libponyrt/pony.h "$pkgdir"/usr/include/pony.h
+    install -Dm0755 build/release/ponyc "$pkgdir"/usr/lib/pony/ponyc
+    install -Dm0644 src/libponyrt/pony.h "$pkgdir"/usr/include/pony.h
 
-    install -Dm644 build/release/libponyc.a "$pkgdir"/usr/lib/libponyc.a
-    install -Dm644 build/release/libponyrt.a "$pkgdir"/usr/lib/libponyrt.a
+    install -Dm0644 build/release/libponyc.a "$pkgdir"/usr/lib/libponyc.a
+    install -Dm0644 build/release/libponyrt.a "$pkgdir"/usr/lib/libponyrt.a
 
     # Ponyc is designed to read its standard packages from the same directory.
     # With this we install the binary to package directory and add a symlink
     # to /bin for PATH access.
-    install -dm755 "$pkgdir"/usr/bin
+    install -dm0755 "$pkgdir"/usr/bin
     ln -sf /usr/lib/pony/ponyc "$pkgdir"/usr/bin/ponyc
     cp -dr --no-preserve=ownership packages/* "$pkgdir"/usr/lib/pony
 
     # Documentation.
-    install -dm755 "$pkgdir"/usr/share/doc/pony
+    install -dm0755 "$pkgdir"/usr/share/doc/pony
     cp -dr --no-preserve=ownership docs "$pkgdir"/usr/share/doc/pony
     cp -dr --no-preserve=ownership examples "$pkgdir"/usr/share/doc/pony
 
-    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

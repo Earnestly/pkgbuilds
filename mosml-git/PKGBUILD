@@ -19,7 +19,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd mosml
-    git describe --tags | sed 's/^ver-//; s/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/^ver-//; s/-/.r/; s/-/./'
 }
 
 build() {
@@ -33,6 +33,6 @@ package() {
 
     # This isn't done by the Makefile.
     for man in "$srcdir"/mosml/man/*.1; do
-        install -Dm644 "$man" "$pkgdir"/usr/share/man/man1/"${man##*/}"
+        install -Dm0644 "$man" "$pkgdir"/usr/share/man/man1/"${man##*/}"
     done
 }

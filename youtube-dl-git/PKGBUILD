@@ -1,5 +1,5 @@
 pkgname=youtube-dl-git
-pkgver=2017.02.17
+pkgver=2017.03.24.r1.g54b960f34
 pkgrel=1
 
 pkgdesc='tool to download videos from different websites'

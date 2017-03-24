@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=10.0.r61.g066d4c2c
+pkgver=10.0.r102.g2de5fc22
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -40,9 +40,14 @@ build() {
     # makefile will naively expand $(bashcompletiondir) to nothing and create
     # symlinks directly under $(DESTDIR).
     cd pulseaudio
-
     ./autogen.sh \
         --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --libexecdir=/usr/lib \
+        --with-database=tdb \
+        --with-udev-rules-dir=/usr/lib/udev/rules.d \
+        --with-bash-completion-dir=/usr/share/bash-completion/completions \
         --enable-orc \
         --disable-x11 \
         --disable-xen \
@@ -55,17 +60,11 @@ build() {
         --disable-bluez4 \
         --disable-esound \
         --disable-tcpwrap \
-        --sysconfdir=/etc \
-        --with-database=tdb \
         --disable-hal-compat \
-        --localstatedir=/var \
-        --libexecdir=/usr/lib \
         --disable-systemd-daemon \
         --disable-default-build-tests \
         --disable-per-user-esound-socket \
-        --disable-legacy-database-entry-format \
-        --with-udev-rules-dir=/usr/lib/udev/rules.d \
-        --with-bash-completion-dir=/usr/share/bash-completion/completions
+        --disable-legacy-database-entry-format
     make
 
     # Fight unused direct dependencies
@@ -74,7 +73,7 @@ build() {
 
 package() {
     cd pulseaudio
-    make  DESTDIR="$pkgdir" install
+    make DESTDIR="$pkgdir" install
     rm -rf "$pkgdir"/etc/dbus-1
     rm -rf "$pkgdir"/etc/xdg
 }

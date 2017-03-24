@@ -23,7 +23,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd bemenu
-    printf 'r%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
+    printf 'r%s.g%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
