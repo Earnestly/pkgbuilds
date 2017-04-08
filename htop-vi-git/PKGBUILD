@@ -1,5 +1,5 @@
 pkgname=htop-vi-git
-pkgver=2.0.2.r32.gfa30938
+pkgver=2.0.2.r36.g5570748
 pkgrel=1
 
 pkgdesc='interactive process viewer patched with rudimentary vi style motions'

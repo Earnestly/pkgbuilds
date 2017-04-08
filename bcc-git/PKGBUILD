@@ -1,5 +1,5 @@
 pkgname=bcc-git
-pkgver=0.3.0.r28.g0ccced3
+pkgver=0.3.0.r87.ge2a0377
 pkgrel=1
 
 pkgdesc='bpf compiler collection'
