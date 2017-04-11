@@ -1,6 +1,6 @@
 VERSION = $(shell test -d .git && git describe --tags --dirty 2>/dev/null)
 ifeq "${VERSION}" ""
-VERSION = 23
+VERSION = 26
 endif
 
 # paths
@@ -18,6 +18,8 @@ LDFLAGS += -g ${LIBS}
 # ocaml
 CAMLOPT = ocamlopt
 CAMLFLAGS = -g -w +a -safe-string -I +lablGL
+
+VPATH = wsi/x11
 
 SRC = utils.ml keys.ml wsi.ml parser.ml config.ml main.ml
 OBJ = help.cmx ${SRC:.ml=.cmx}
@@ -74,5 +76,4 @@ install:
 	install -Dm755 llpp ${DESTDIR}${PREFIX}/bin/llpp
 	install -Dm755 misc/llppac ${DESTDIR}${PREFIX}/bin/llppac
 	install -Dm644 misc/llpp.desktop ${DESTDIR}${PREFIX}/share/applications/llpp.desktop
-	install -Dm755 misc/gc.awk ${DESTDIR}${PREFIX}/lib/llpp/gc
 	install -Dm644 README ${DESTDIR}${PREFIX}/share/licenses/llpp/README

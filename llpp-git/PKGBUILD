@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=25.r50.g8c4191e
+pkgver=26b.r9.g1415638
 pkgrel=1
 
 pkgdesc='opengl accelerated pdf viewer based on mupdf'
@@ -39,7 +39,7 @@ source=('git://repo.or.cz/llpp.git'
 sha1sums=('SKIP'
           '3329c58376aca840cf6a8b42410492791fba92ff'
           'e380e593c52b1bb991f15e52f92f38c87942c652'
-          '65b285f94bbad8718b7fcdb99689e0069d2aa7a0')
+          '1031dc7904105f11eed770b14566e8ce2bde2fbb')
 
 pkgver() {
     cd llpp
