@@ -1,0 +1,44 @@
+pkgname=pacman-contrib-git
+pkgver=0.0.1.r13.ge3536de
+pkgrel=1
+
+pkgdesc='additional utilities based around pacman'
+url='http://www.archlinux.org/pacman/'
+arch=('i686' 'x86_64')
+license=('GPL')
+
+depends=('pacman' 'libarchive')
+makedepends=('git' 'asciidoc')
+
+provides=('pacman-contrib')
+conflicts=('pacman-contrib')
+
+source=('git+https://git.archlinux.org/pacman-contrib.git')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd pacman-contrib
+    git describe --tags --long | sed 's/^v//; s/-/.r/; s/-/./g'
+}
+
+build() {
+    cd pacman-contrib
+    autoreconf -fi
+    ./configure --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --enable-debug \
+        --enable-git-version
+    make
+}
+
+check() {
+    cd pacman-contrib
+    PMTEST_BIN_DIR=src make check
+}
+
+package() {
+    cd pacman-contrib
+    make DESTDIR="$pkgdir" install
+}
