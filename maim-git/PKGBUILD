@@ -1,5 +1,5 @@
 pkgname=maim-git
-pkgver=4.4.62.r0.g24ea317
+pkgver=4.4.62.r2.gf0436aa
 pkgrel=1
 
 pkgdesc='take screenshots of the desktop, similar to scrot'
