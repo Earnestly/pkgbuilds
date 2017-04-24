@@ -1,5 +1,5 @@
 pkgname=libinput-git
-pkgver=1.7.0.r28.g88eaa7c
+pkgver=1.7.0.r32.g60d3b6a
 pkgrel=1
 
 pkgdesc='library to handle input devices'
@@ -8,7 +8,8 @@ arch=('i686' 'x86_64')
 license=('MIT')
 
 depends=('mtdev' 'libevdev' 'libwacom')
-makedepends=('git')
+makedepends=('git' 'doxygen')
+checkdepends=('check')
 
 provides=("libinput=$pkgver") # XXX Sigh
 conflicts=('libinput')
