@@ -1,5 +1,5 @@
 pkgname=htop-vi-git
-pkgver=2.0.2.r36.g5570748
+pkgver=2.0.2.r49.gb1028e0
 pkgrel=1
 
 pkgdesc='interactive process viewer patched with rudimentary vi style motions'
@@ -17,7 +17,7 @@ source=('git+https://github.com/hishamhm/htop'
         'htop-vi.patch')
 
 sha1sums=('SKIP'
-          '77c3b3d0aaaa610af3b42286eeae18b8a69f4d44')
+          'fdea7f44563424ccc29b45403d645dbd5d6b38e8')
 
 pkgver() {
     cd htop
@@ -26,6 +26,7 @@ pkgver() {
 
 prepare() {
     cd htop
+    sed -i '1 s/python$/&2/' scripts/MakeHeader.py
     patch -Np1 -i "$srcdir"/htop-vi.patch
 }
 

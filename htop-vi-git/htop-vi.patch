@@ -20,7 +20,7 @@ index ee34a4b..f107470 100644
     { .key = "   F7 ]: ", .info = "higher priority (root only)" },
     { .key = "   F8 [: ", .info = "lower priority (+ nice)" },
  #if (HAVE_LIBHWLOC || HAVE_LINUX_AFFINITY)
-@@ -411,11 +411,11 @@ static struct { const char* key; const char* info; } helpRight[] = {
+@@ -414,6 +414,6 @@ static struct { const char* key; const char* info; } helpRight[] = {
  #endif
     { .key = "      e: ", .info = "show process environment" },
     { .key = "      i: ", .info = "set IO priority" },
