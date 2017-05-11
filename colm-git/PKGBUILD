@@ -28,6 +28,14 @@ build() {
     make
 }
 
+check() {
+    cd colm/test
+    ./autogen.sh
+    ./configure
+    make
+    ./runtests
+}
+
 package() {
     cd colm
     make DESTDIR="$pkgdir" install
