@@ -1,0 +1,35 @@
+pkgname=ragel-git
+pkgver=7.0.0.9.r41.gbe3e3af4
+pkgrel=1
+
+pkgdesc='finite state machine generator for c, c++, and asm'
+url='http://www.colm.net/open-source/ragel'
+arch=('i686' 'x86_64')
+license=('GPL')
+
+depends=('colm')
+
+provides=('ragel')
+conflicts=('ragel')
+
+source=('git://git.colm.net/ragel.git')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd ragel
+    git describe --long --tags | sed 's/^ragel-//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+build() {
+    cd ragel
+    autoreconf -fi
+    ./configure --prefix=/usr
+    make
+}
+
+package() {
+    cd ragel
+    make DESTDIR="$pkgdir/" install
+    install -Dm0644 ragel.vim "$pkgdir"/usr/share/vim/vimfiles/syntax/ragel.vim
+}
