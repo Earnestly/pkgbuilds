@@ -1,6 +1,6 @@
 pkgname=colm-git
-pkgver=0.13.0.4.r39.g6982b13d
-pkgrel=3
+pkgver=0.13.0.5.r0.g152832c0
+pkgrel=2
 
 pkgdesc='programming language designed for the analysis and transformation of computer languages'
 url='http://www.colm.net/open-source/colm'
@@ -9,16 +9,24 @@ license=('MIT')
 
 depends=('gcc-libs')
 
-source=('git://git.colm.net/colm.git')
+source=('git://git.colm.net/colm.git'
+        'fix-test-compile.patch')
 
 provides=('colm')
 conflicts=('colm')
 
-sha1sums=('SKIP')
+sha1sums=('SKIP'
+          'd0a6989269ed5d35afb09ee5a8aa47b4b7cfd26c')
 
 pkgver() {
     cd colm
     git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+prepare() {
+    cd colm
+    # XXX Awaiting moderation(?): http://www.colm.net/pipermail/colm
+    patch -Np1 -i "$srcdir"/fix-test-compile.patch
 }
 
 build() {
