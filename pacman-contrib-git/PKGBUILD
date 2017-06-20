@@ -9,6 +9,7 @@ license=('GPL')
 
 depends=('pacman' 'libarchive')
 makedepends=('git' 'asciidoc')
+optdepends=('fakeroot: for checkupdates')
 
 provides=('pacman-contrib')
 conflicts=('pacman-contrib')

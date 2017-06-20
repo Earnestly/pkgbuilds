@@ -8,7 +8,7 @@ WHY?
   programmatically generated, and for the newest fixes and bugs; hopefully
   fixes moreso than bugs.  Primarily this eases working with upstream as any
   issues are reported against the latest code.
-  
+
   The pkgdesc format is losely based on man-pages(7) such as using short
   lowercase descriptions similar to a manual's synopsis. Common variables are
   grouped together to hopefully improve PKGBUILD readability.

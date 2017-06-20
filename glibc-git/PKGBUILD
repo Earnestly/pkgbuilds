@@ -5,7 +5,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.25.r244.g5ea9ce3749
+pkgver=2.25.r494.g52243b520e
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -18,7 +18,8 @@ options=('!strip' 'debug' 'staticlibs')
 backup=('etc/gai.conf' 'etc/nscd.conf' 'etc/locales')
 install='glibc-git.install'
 
-depends=('linux-api-headers' 'tzdata' 'filesystem' 'gd')
+depends=('linux-api-headers' 'tzdata' 'filesystem')
+optdepends=('gd: graph image generation with memusage')
 makedepends=('git')
 
 # XXX Arch Linux's valgrind package requires an exact version
@@ -32,11 +33,11 @@ source=('git+https://sourceware.org/git/glibc.git'
         'nscd.service'
         'nscd.tmpfiles')
 
-sha1sums=('SKIP'
-          'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
-          '8207ebaea96b11b3f4b06f2a0142e100666b3441'
-          '18406ad58e562a85a13b3cebe938841cf5d624ff'
-          '1a9eb962463409159792a1a2d768524f37ce2e7b')
+sha256sums=('SKIP'
+            'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
+            '1e921366322c220b9296735de559e5673a312029'
+            '18406ad58e562a85a13b3cebe938841cf5d624ff'
+            '1a9eb962463409159792a1a2d768524f37ce2e7b')
 
 pkgver() {
     cd glibc
@@ -86,16 +87,17 @@ build() {
 
     # Re-enable hardening for programs.
     sed -i '/build-programs=/s/no/yes/' configparms
-    printf 'CC += -fstack-protector-strong -D_FORTIFY_SOURCE=2\n' >> configparms
-    printf 'CXX += -fstack-protector-strong -D_FORTIFY_SOURCE=2\n' >> configparms
+    { printf 'CC += -D_FORTIFY_SOURCE=2\n'
+      printf 'CXX += -D_FORTIFY_SOURCE=2\n'
+    } >> configparms
     make
 
-    # Remove harding in preparation to run test-suite.
-    sed -i '/FORTIFY/d' configparms
 }
 
 check() {
     cd build
+    # Remove harding in preparation to run test-suite.
+    # sed -i '/FORTIFY/d' configparms
     # make check || true
 }
 
@@ -112,9 +114,6 @@ package() {
 
     # Only support UTF-8 charmaps.
     find "$pkgdir"/usr/share/i18n/charmaps ! -name UTF-8.gz -type f -delete
-
-    # Tidy up.
-    rm -r "$pkgdir"/var
 
     # We generate these in the post-install with ldconfig -r .
     rm "$pkgdir"/etc/ld.so.cache

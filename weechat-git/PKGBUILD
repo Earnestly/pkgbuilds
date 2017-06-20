@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.7.150.rg669ca77c4
+pkgver=1.9.rc1.r6.gfadee5066
 pkgrel=1
 _pyver=3.6m
 
@@ -23,7 +23,7 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd weechat 
-    git describe | sed 's/^v//; s/-/./; s/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
 build() {

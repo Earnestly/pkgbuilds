@@ -1,6 +1,11 @@
 #!/bin/sh --
 # util.sh - various utility functions used in other helper scripts
 
+# requires tig
+
+# This is POSIX sh with the local keyword
+# shellcheck disable=SC2039
+
 # usage: confirm bias format ...
 #        bias    yes | no
 #        format  printf formatter
@@ -17,6 +22,7 @@ confirm() {
     # I'm placing the terminal control and prompt variables in the printf
     # formatter as I want to expose printf's DSL to the user but without
     # letting their formats break the layout.
+    # shellcheck disable=SC2059
     printf -- "$(tput bold)* $1 [$prompt]$(tput sgr0) " "${@:2}"
     read -r reply
 
@@ -30,7 +36,6 @@ confirm() {
 # warning: This procedure is specific to fetching changes from bare mirrors
 check_updates_git() {
     local branch=$1
-    local format='%C(auto)%h %C(blue)%an %C(green bold)(%cr) %C(reset)%s'
     local distance=0
 
     # Using symbolic-ref is required as bare repos have no checkout, without
@@ -52,7 +57,7 @@ check_updates_git() {
     if [ "$distance" -eq 0 ]; then
         return 1
     elif confirm yes '%d new commits found, view log?' "$distance"; then
-        git log --pretty=format:"$format" HEAD...FETCH_HEAD
+        tig HEAD...FETCH_HEAD
         return 0
     fi
 }

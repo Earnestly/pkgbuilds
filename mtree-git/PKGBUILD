@@ -1,6 +1,6 @@
 pkgname=mtree-git
-pkgver=1.0.3.r7.g373706c
-pkgrel=2
+pkgver=1.0.3.r9.g4f3e901
+pkgrel=1
 
 pkgdesc='map a directory hierarchy'
 url='https://github.com/archiecobbs/mtree-port'

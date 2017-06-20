@@ -1,6 +1,6 @@
 pkgname=htop-vi-git
-pkgver=2.0.2.r49.gb1028e0
-pkgrel=2
+pkgver=2.0.2.r53.g89d1539
+pkgrel=1
 
 pkgdesc='interactive process viewer patched with rudimentary vi style motions'
 url='http://htop.sourceforge.net/'

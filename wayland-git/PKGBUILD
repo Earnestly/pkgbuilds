@@ -8,7 +8,6 @@ arch=('i686' 'x86_64')
 license=('MIT')
 
 depends=('libffi' 'expat' 'libxml2')
-makedepends=('doxygen' 'xmlto' 'docbook-xsl' 'graphviz')
 
 provides=('wayland')
 conflicts=('wayland')
@@ -24,7 +23,9 @@ pkgver() {
 
 build() {
     cd wayland
-    ./autogen.sh --prefix=/usr --disable-static
+    autoreconf -fi
+    # XXX documentation is failing to build
+    ./configure --prefix=/usr --disable-static --disable-documentation
     make
 }
 

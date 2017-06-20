@@ -1,5 +1,5 @@
 pkgname=lgogdownloader-git
-pkgver=3.2
+pkgver=3.2.r7.g3fb0568
 pkgrel=1
 
 pkgdesc='unofficial downloader for gog.com'
