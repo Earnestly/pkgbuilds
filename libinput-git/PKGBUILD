@@ -1,5 +1,5 @@
 pkgname=libinput-git
-pkgver=1.7.0.r155.g980ad92
+pkgver=1.8.0.r16.g6060abc
 pkgrel=1
 
 pkgdesc='library to handle input devices'
@@ -7,8 +7,9 @@ url='http://freedesktop.org/wiki/Software/libinput/'
 arch=('i686' 'x86_64')
 license=('MIT')
 
-depends=('mtdev' 'libevdev' 'libwacom')
-makedepends=('git' 'doxygen')
+depends=('mtdev' 'libevdev' 'libwacom' 'gtk3')
+optdepends=('python: needed for tool used to measure touchpad pressure')
+makedepends=('git' 'doxygen' 'meson')
 checkdepends=('check')
 
 provides=("libinput=$pkgver")
@@ -25,9 +26,9 @@ pkgver() {
 
 build() {
     cd libinput
-    autoreconf -fi
-    ./configure --prefix=/usr --enable-libwacom --disable-static
-    make
+    mkdir -p build
+    meson --prefix=/usr --libexecdir=/usr/lib -Dtests=false build
+    ninja -C build
 }
 
 check() {
@@ -45,6 +46,6 @@ check() {
 
 package() {
     cd libinput
-    make DESTDIR="$pkgdir" install
+    DESTDIR="$pkgdir" ninja -C build install
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
