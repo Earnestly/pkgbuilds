@@ -1,17 +1,23 @@
 #!/bin/sh --
 
-if [ ! -s /etc/locales ]; then
-    printf '/etc/locales: file not found or empty\n'
+if [ ! -d /etc/locales ]; then
+    printf 'locale-gen: /etc/locales: no such directory\n' >&2
     exit 1
 fi
 
-while read -r locale; do
-    printf 'generating locale %s...\n' "$locale".utf-8
+for locale in /etc/locales/*; do
+    if [ -f "$locale" ]; then
+        locale=${locale##*/}
+    else
+        continue
+    fi
+
+    printf 'locale-gen: generating %s...\n' "$locale".UTF-8 >&2
 
     localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8
 
     case $? in
-        4) printf '%s: invalid locale\n' "$locale" ;;
+        4) printf 'locale-gen: %s: invalid locale\n' "$locale" >&2 ;;
         1) exit
     esac
-done < /etc/locales
+done

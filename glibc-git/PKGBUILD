@@ -1,11 +1,12 @@
 # * Maybe generate en_US.UTF-8 until glibc adds C.UTF-8?
-#   <https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html>
+#   https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html
+#   https://sourceware.org/glibc/wiki/Proposals/C.UTF-8
 
 # * Investigate whether I can build glibc without all the charmaps and just
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.25.r494.g52243b520e
+pkgver=2.26.r75.g86c6519ee7
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -15,7 +16,7 @@ groups=('base')
 license=('GPL' 'LGPL')
 
 options=('!strip' 'debug' 'staticlibs')
-backup=('etc/gai.conf' 'etc/nscd.conf' 'etc/locales')
+backup=('etc/gai.conf' 'etc/nscd.conf')
 install='glibc-git.install'
 
 depends=('linux-api-headers' 'tzdata' 'filesystem')
@@ -26,18 +27,15 @@ makedepends=('git')
 provides=('glibc=2.25')
 conflicts=('glibc')
 
-# XXX Known good #commit=1eb8930608705702d5746e5491b
 source=('git+https://sourceware.org/git/glibc.git'
-        'locales'
         'locale-gen'
         'nscd.service'
         'nscd.tmpfiles')
 
 sha256sums=('SKIP'
-            'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
-            '1e921366322c220b9296735de559e5673a312029'
-            '18406ad58e562a85a13b3cebe938841cf5d624ff'
-            '1a9eb962463409159792a1a2d768524f37ce2e7b')
+            '123a549312d81e149fa9052e0b6abdff68cf7b010debb657a65264fb4ba25728'
+            '0d261c4b677b8a7a820febaccd60877da091a4200fa05dc3e0c2b140254f313a'
+            '79c9cec5dd2414dcb76d11e75903aa6fd9b7785c897cb9f853edcb140a71b779')
 
 pkgver() {
     cd glibc
@@ -58,7 +56,7 @@ build() {
       printf 'rootsbindir=/usr/bin\n'
     } >> configparms
 
-    # <https://sourceware.org/bugzilla/show_bug.cgi?id=7065>
+    # https://sourceware.org/bugzilla/show_bug.cgi?id=7065
     # CFLAGS=${CFLAGS/-fstack-protector-strong/}
     CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}
 
@@ -74,8 +72,8 @@ build() {
         --enable-bind-now \
         --enable-multi-arch \
         --enable-obsolete-rpc \
+        --enable-obsolete-nsl \
         --enable-lock-elision \
-        --enable-kernel=2.6.32 \
         --enable-stack-protector=strong \
         --enable-stackguard-randomization \
         --enable-add-ons \
@@ -105,7 +103,7 @@ package() {
     make -C build install_root="$pkgdir" install
 
     install -dm0755 "$pkgdir"/usr/lib/locale
-    install -Dm0644 locales "$pkgdir"/etc/locales
+    install -dm0755 "$pkgdir"/etc/locales
     install -Dm0755 locale-gen "$pkgdir"/usr/bin/locale-gen
     install -Dm0644 glibc/posix/gai.conf "$pkgdir"/etc/gai.conf
     install -Dm0644 glibc/nscd/nscd.conf "$pkgdir"/etc/nscd.conf
