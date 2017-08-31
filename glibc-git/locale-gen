@@ -1,4 +1,5 @@
 #!/bin/sh --
+# locale-gen: generate system locales
 
 if [ ! -d /etc/locales ]; then
     printf 'locale-gen: /etc/locales: no such directory\n' >&2

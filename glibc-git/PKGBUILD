@@ -6,7 +6,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.26.r75.g86c6519ee7
+pkgver=2.26.r186.g7ab70c98e8
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -24,7 +24,7 @@ optdepends=('gd: graph image generation with memusage')
 makedepends=('git')
 
 # XXX Arch Linux's valgrind package requires an exact version
-provides=('glibc=2.25')
+provides=('glibc=2.26')
 conflicts=('glibc')
 
 source=('git+https://sourceware.org/git/glibc.git'
@@ -33,7 +33,7 @@ source=('git+https://sourceware.org/git/glibc.git'
         'nscd.tmpfiles')
 
 sha256sums=('SKIP'
-            '123a549312d81e149fa9052e0b6abdff68cf7b010debb657a65264fb4ba25728'
+            '5af29b3b1f60663c01075c2a9be0727e8e8fa4a5704fdd0ac92a13bf4d6f6de2'
             '0d261c4b677b8a7a820febaccd60877da091a4200fa05dc3e0c2b140254f313a'
             '79c9cec5dd2414dcb76d11e75903aa6fd9b7785c897cb9f853edcb140a71b779')
 

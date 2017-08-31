@@ -1,8 +1,3 @@
-post_install() {
-    printf 'Add your locale(s) to /etc/locales and run locale-gen\n'
-    printf 'Valid locales can be found in /usr/share/i18n/locales\n'
-}
-
 post_upgrade() {
     locale-gen
     ldconfig -r .
