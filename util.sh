@@ -21,7 +21,7 @@ confirm() {
 
     # I'm placing the terminal control and prompt variables in the printf
     # formatter as I want to expose printf's DSL to the user but without
-    # letting their formats break the layout.
+    # letting their formats break the general layout.
     # shellcheck disable=SC2059
     printf -- "$(tput bold)* $1 [$prompt]$(tput sgr0) " "${@:2}"
     read -r reply
@@ -42,12 +42,12 @@ check_updates_git() {
     # this git will do the wrong thing and update the HEAD regardless of what
     # the refs point at even if git is explicitly configured to not do this.
 
-    # This changed was made based on the assumption that users would find it
+    # This change was made based on the assumption that users would find it
     # confusing if they couldn't compare the HEAD against the branch they
     # explicitly fetched from instead of realising they should have used
     # FETCH_HEAD instead.
 
-    # <https://github.com/git/git/commit/f269048754f3>
+    # https://github.com/git/git/commit/f269048754f3
     git symbolic-ref HEAD refs/heads/"$branch"
 
     if git fetch "$(git config remote.origin.url)" "$branch" 2> /dev/null; then
