@@ -1,5 +1,5 @@
 pkgname=llpp-git
-pkgver=26b.r11.g5bf40fc
+pkgver=26b.r19.g4fc8055
 pkgrel=1
 
 pkgdesc='opengl accelerated pdf viewer based on mupdf'

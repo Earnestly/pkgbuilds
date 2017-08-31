@@ -1,5 +1,5 @@
 pkgname=pacman-contrib-git
-pkgver=0.0.1.r13.ge3536de
+pkgver=0.0.1.r15.gb61b9b2
 pkgrel=1
 
 pkgdesc='additional utilities based around pacman'

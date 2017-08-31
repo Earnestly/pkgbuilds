@@ -1,0 +1,41 @@
+pkgname=cpputest-git
+pkgver=3.8.r176.gcc8cda79
+pkgrel=1
+
+pkgdesc='unit testing and mocking framework for c/c++'
+url='http://cpputest.github.com'
+arch=('i686' 'x86_64')
+license=('BSD')
+
+depends=('glibc')
+makedepends=('git')
+
+provides=('cpputest')
+conflicts=('cpputest')
+
+source=('git+https://github.com/cpputest/cpputest')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd cpputest
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd cpputest
+    autoreconf -fi
+    ./configure --prefix=/usr
+    make
+}
+
+check() {
+    cd cpputest
+    make tdd
+}
+
+package() {
+    cd cpputest
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}

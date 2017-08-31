@@ -1,0 +1,65 @@
+pkgname=pacman-git
+pkgver=5.0.1.r182.gbcc9c417
+pkgrel=1
+
+pkgdesc='package manager with dependency support'
+url='http://www.archlinux.org/pacman/'
+arch=('i686' 'x86_64')
+license=('GPL')
+
+groups=('base' 'base-devel')
+backup=('etc/pacman.conf' 'etc/makepkg.conf')
+
+depends=('curl' 'gpgme' 'libarchive' 'pacman-mirrorlist' 'archlinux-keyring')
+makedepends=('git' 'asciidoc')
+checkdepends=('python2' 'fakechroot')
+
+provides=("pacman=$pkgver")
+conflicts=('pacman')
+
+source=('git+https://projects.archlinux.org/git/pacman.git')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd pacman
+    git describe --tags --long | sed 's/^v//; s/-/.r/; s/-/./g'
+}
+
+build() {
+    cd pacman
+    autoreconf -fi
+    ./configure --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --with-ldconfig=/usr/bin/ldconfig \
+        --with-scriptlet-shell=/usr/bin/bash \
+        --enable-doc \
+        --enable-debug \
+        --enable-git-version
+    make
+}
+
+check() {
+    cd pacman
+    make check
+}
+
+package() {
+    # XXX Get bash completions sorted out
+    cd pacman
+    make DESTDIR="$pkgdir" install
+
+    # Tidy up makepkg.conf
+    _chost=$(gcc -dumpmachine)
+
+    # XXX Consider maybe using source_$CARCH specific patches instead
+    case $CARCH in
+        i686)   _flags='-march=i686 ' ;;
+        x86_64) _flags='-march=x86-64 '
+    esac
+
+    sed -i "s|@CARCH[@]|$CARCH|g; 
+            s|@CHOST[@]|$_chost|g; 
+            s|@CARCHFLAGS[@]|$_flags|g" "$pkgdir"/etc/makepkg.conf 
+}

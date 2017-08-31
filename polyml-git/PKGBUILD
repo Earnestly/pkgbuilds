@@ -1,6 +1,6 @@
 # XXX unable to build shared runtime libraries due to relocation issues
 pkgname=polyml-git
-pkgver=5.7.r18.g7b4bdf30
+pkgver=5.7.r145.ge7a662f8
 pkgrel=1
 
 pkgdesc='standard ml implementation'

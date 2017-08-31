@@ -1,6 +1,6 @@
 pkgname=pkgconf-git
-pkgver=1.3.7.r22.gb77fbbb
-pkgrel=1
+pkgver=1.3.7.r33.g9505213
+pkgrel=2
 
 pkgdesc='compiler and linker configuration'
 url='https://github.com/pkgconf/pkgconf'
@@ -21,7 +21,7 @@ pkgver() {
     git describe --long --tags | sed 's/^pkgconf-//; s/-/.r/; s/-/./'
 }
 
-build() {                                                                       
+build() {
     cd pkgconf
     autoreconf -fi
     ./configure --prefix=/usr

@@ -1,6 +1,6 @@
 pkgname=colm-git
-pkgver=0.13.0.5.r0.g152832c0
-pkgrel=2
+pkgver=0.13.0.5.r12.g83e3cbcb
+pkgrel=1
 
 pkgdesc='programming language designed for the analysis and transformation of computer languages'
 url='http://www.colm.net/open-source/colm'

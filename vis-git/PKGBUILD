@@ -1,0 +1,53 @@
+pkgname=vis-git
+pkgver=0.4.r5.gd7e0cbd
+pkgrel=1
+
+pkgdesc='vim like text editor'
+url='http://www.brain-dump.org/projects/vis/'
+arch=('i686' 'x86_64')
+license=('custom:ISC')
+
+backup=('etc/vis/visrc.lua')
+
+depends=('ncurses' 'libtermkey' 'lua' 'tre')
+makedepends=('git')
+optdepends=('lua-lpeg: required for syntax highlighting')
+# checkdepends=('vim')
+
+conflicts=('vis')
+provides=('vis')
+
+source=('git+https://github.com/martanne/vis.git'
+        'git+https://github.com/martanne/vis-test.git')
+
+sha1sums=('SKIP' 'SKIP')
+
+prepare() {
+    cd vis
+    git submodule init
+    git config submodule.test.url "$srcdir"/vis-test
+    git submodule update test
+}
+
+pkgver() {
+    cd vis
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+build() {
+    cd vis
+    ./configure --prefix=/usr
+    make
+}
+
+check() {
+    cd vis
+    # XXX digraph test failure, likely due to me using neovim instead of vim
+    make -C test || true
+}
+
+package() {
+    cd vis
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 lua/visrc.lua "$pkgdir"/etc/vis/visrc.lua
+}

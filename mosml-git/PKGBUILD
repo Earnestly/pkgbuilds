@@ -1,5 +1,5 @@
 pkgname=mosml-git
-pkgver=2.10.1.r52.g9ec43ac
+pkgver=2.10.1.r54.gf529b33
 pkgrel=1
 
 pkgdesc='the moscow standard ml implementation'
