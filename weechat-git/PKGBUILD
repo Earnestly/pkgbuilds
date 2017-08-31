@@ -1,7 +1,6 @@
 pkgname=weechat-git
-pkgver=1.9.rc1.r6.gfadee5066
+pkgver=1.9.r270.g387ddb98a
 pkgrel=1
-_pyver=3.6m
 
 pkgdesc='terminal based irc client'
 url='http://www.weechat.org/'
@@ -11,7 +10,7 @@ license=('GPL3')
 depends=('curl' 'gnutls' 'libgcrypt' 'hicolor-icon-theme')
 makedepends=('git' 'asciidoc' 'source-highlight' 'aspell' 'cmake' 'lua' 'perl'
              'python' 'ruby' 'tcl' 'guile' 'lua')
-#checkdepends=('cpputest')
+checkdepends=('cpputest')
 optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile')
 
 provides=('weechat')
@@ -22,29 +21,27 @@ source=('git+https://github.com/weechat/weechat.git')
 sha1sums=('SKIP')
 
 pkgver() {
-    cd weechat 
+    cd weechat
     git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
 build() {
     cd weechat
-
     _python=$(python -c 'import sys; print("{}.{}m".format(*sys.version_info))')
 
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DENABLE_PYTHON3=ON \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DPYTHON_LIBRARY=/usr/lib/libpython"$_python".so
+        -DPYTHON_LIBRARY=/usr/lib/libpython"$_python".so \
+        -DENABLE_PYTHON3=ON \
+        -DENABLE_TESTS=ON
+    make
 }
 
-# XXX cpputest required for testing, which is not officially packaged
-#     -DENABLE_TESTS=ON
-# check() {
-#     cd weechat/tests
-#     cmake
-#     make
-#     ??? profit
-# }
+# XXX These tests require the en_US.UTF-8 locale and charmap
+check() {
+    cd weechat
+    ctest -V
+}
 
 package() {
     cd weechat
