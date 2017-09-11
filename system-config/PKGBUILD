@@ -12,6 +12,8 @@ source=('env-nvidia.sh'
         'etc-zshenv'
         'etc-locale.conf'
         'etc-vconsole.conf'
+        'hwdb-caps-as-ctrl-holtek-generic.hwdb'
+        'hwdb-caps-as-ctrl-thinkpad.hwdb'
         'locale-en_GB'
         'mod-i915.conf'
         'mod-pcspkr.conf'
@@ -25,8 +27,8 @@ source=('env-nvidia.sh'
         'xorg-trackpoint.conf'
         'xorg-libinput-tweaks.conf'
         'xorg-libinput-noaccel.conf'
-        'xorg-synaptics-tweaks.conf'
-        'hwdb-capslock-as-control.hwdb')
+        'xorg-synaptics-tweaks.conf')
+
 
 package_base-config() {
     pkgdesc='common system configuration'
@@ -55,8 +57,7 @@ package_teapot-config() {
     install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm0644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
-    install -Dm0644 hwdb-capslock-as-control.hwdb "$pkgdir"/etc/udev/hwdb.d/61-capslock-as-control.hwdb
-
+    install -Dm0644 hwdb-caps-as-ctrl-thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-thinkpad.hwdb
 }
 
 package_engine-config() {
@@ -67,6 +68,7 @@ package_engine-config() {
     install -Dm0644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm0644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
+    install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
 }
 
 sha256sums=('c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'

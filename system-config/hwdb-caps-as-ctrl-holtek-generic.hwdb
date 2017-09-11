@@ -1,4 +1,4 @@
-# /etc/udev/hwdb.d/61-capslock-as-control.hwdb
+# /etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
 
 # Remap capslock to left control on the keyboards I use.
 
@@ -14,7 +14,3 @@
 # "Holtek Semiconductor" generic keyboard
 evdev:input:*v04D9pA0CD*
  KEYBOARD_KEY_70039=leftctrl
-
-# Thinkpad X220 "AT Translated Set 2 keyboard"
-evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn42912XG:pvr*
- KEYBOARD_KEY_3a=leftctrl
