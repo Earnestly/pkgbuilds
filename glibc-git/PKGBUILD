@@ -6,7 +6,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.26.r186.g7ab70c98e8
+pkgver=2.26.r326.g4c03a696800
 pkgrel=1
 
 pkgdesc='gnu c library'
