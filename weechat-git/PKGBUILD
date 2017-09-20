@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=1.9.r274.g8c046d9be
+pkgver=1.9.r304.g24bef50ab
 pkgrel=1
 
 pkgdesc='terminal based irc client'
@@ -9,9 +9,9 @@ license=('GPL3')
 
 depends=('curl' 'gnutls' 'libgcrypt' 'hicolor-icon-theme')
 makedepends=('git' 'asciidoc' 'source-highlight' 'aspell' 'cmake' 'lua' 'perl'
-             'python' 'ruby' 'tcl' 'guile' 'lua')
+             'python' 'ruby' 'tcl' 'guile' 'lua' 'php-embed')
 checkdepends=('cpputest')
-optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile')
+optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile' 'php-embed')
 
 provides=('weechat')
 conflicts=('weechat')
