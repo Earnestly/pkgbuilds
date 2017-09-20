@@ -1,0 +1,39 @@
+pkgname=newsboat-git
+pkgver=r2.10.r0.g3d9a8a0
+pkgrel=1
+
+pkgdesc='rss feed reader for the text console with podcast support'
+url='https://newsboat.org/'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('sqlite3' 'curl' 'libxml2' 'stfl' 'json-c')
+makedepends=('git' 'swig' 'asciidoc' 'docbook-xsl' 'pkgconfig')
+
+provides=('newsboat')
+conflicts=('newsboat')
+
+source=('git+https://github.com/newsboat/newsboat')
+
+sha1sums=('SKIP')
+
+pkgver() {
+    cd newsboat
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd newsboat
+    make all doc test
+}
+
+check() {
+    cd newsboat/test
+    ./test --order rand
+}
+
+package() {
+    cd newsboat
+    make prefix=/usr DESTDIR="$pkgdir" install
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
