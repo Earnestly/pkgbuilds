@@ -1,0 +1,54 @@
+# Test suite takes far too long
+
+pkgname=curl-git
+pkgver=7.56.0.r58.g2509395ec
+pkgrel=1
+
+pkgdesc='url retrieval utility and library'
+url='http://curl.haxx.se/'
+arch=('i686' 'x86_64')
+license=('MIT')
+
+depends=('ca-certificates' 'krb5' 'libssh2' 'openssl' 'zlib' 'libpsl' 'libnghttp2')
+makedepends=('git')
+# checkdepends=('perl' 'python' 'diff' 'stunnel' 'openssh' 'nghttp2' 'groff')
+
+provides=("curl=$pkgver" 'libcurl.so')
+conflicts=('curl')
+
+source=('git+https://github.com/curl/curl.git')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd curl
+    git describe --long --tags | sed -r 's/^curl-//; s/_/./g; s/-/.r/; s/-/./'
+}
+
+build() {
+    cd curl
+    ./buildconf
+    ./configure --prefix=/usr \
+        --mandir=/usr/share/man \
+        --with-gssapi \
+        --with-random=/dev/urandom \
+        --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
+        --enable-ipv6 \
+        --enable-manual \
+        --enable-threaded-resolver \
+        --enable-versioned-symbols \
+        --disable-ldap \
+        --disable-ldaps
+    make
+}
+
+check() {
+    cd curl
+    # make test
+}
+
+package() {
+    cd curl
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}
