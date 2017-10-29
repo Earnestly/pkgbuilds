@@ -1,12 +1,13 @@
 # * Maybe generate en_US.UTF-8 until glibc adds C.UTF-8?
-#   https://sourceware.org/ml/libc-alpha/2015-02/msg00247.html
-#   https://sourceware.org/glibc/wiki/Proposals/C.UTF-8
+
+#     https://sourceware.org/glibc/wiki/Proposals/C.UTF-8
+#     https://src.fedoraproject.org/cgit/rpms/glibc.git/tree/glibc-c-utf8-locale.patch
 
 # * Investigate whether I can build glibc without all the charmaps and just
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.26.r326.g4c03a696800
+pkgver=2.26.9000.r676.gf301e53340
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -24,7 +25,7 @@ optdepends=('gd: graph image generation with memusage')
 makedepends=('git')
 
 # XXX Arch Linux's valgrind package requires an exact version
-provides=('glibc=2.26')
+provides=("glibc=${pkgver%.*.*.*}")
 conflicts=('glibc')
 
 source=('git+https://sourceware.org/git/glibc.git'
@@ -33,7 +34,7 @@ source=('git+https://sourceware.org/git/glibc.git'
         'nscd.tmpfiles')
 
 sha256sums=('SKIP'
-            '5af29b3b1f60663c01075c2a9be0727e8e8fa4a5704fdd0ac92a13bf4d6f6de2'
+            '7e4a8d3fd37c67ec57b5e27575155d958628a92729098cf8a01ba9aba7078a80'
             '0d261c4b677b8a7a820febaccd60877da091a4200fa05dc3e0c2b140254f313a'
             '79c9cec5dd2414dcb76d11e75903aa6fd9b7785c897cb9f853edcb140a71b779')
 
@@ -56,8 +57,6 @@ build() {
       printf 'rootsbindir=/usr/bin\n'
     } >> configparms
 
-    # https://sourceware.org/bugzilla/show_bug.cgi?id=7065
-    # CFLAGS=${CFLAGS/-fstack-protector-strong/}
     CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}
 
     # This is handled properly by --enable-bind-now
@@ -117,8 +116,7 @@ package() {
     rm "$pkgdir"/etc/ld.so.cache
 
     # I use 2> /dev/null for all of these due to many false-positives as it
-    # attempts to strip scripts or other unstrippable files--I don't care
-    # though.
+    # attempts to strip scripts or other unstrippable files.
     find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES {} + 2> /dev/null || true
 
     # Do not strip these for gdb and valgrind functionality, but strip the

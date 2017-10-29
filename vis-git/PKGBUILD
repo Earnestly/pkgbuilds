@@ -1,5 +1,5 @@
 pkgname=vis-git
-pkgver=0.4.r5.gd7e0cbd
+pkgver=0.4.r12.g1e414d2
 pkgrel=1
 
 pkgdesc='vim like text editor'
@@ -9,9 +9,8 @@ license=('custom:ISC')
 
 backup=('etc/vis/visrc.lua')
 
-depends=('ncurses' 'libtermkey' 'lua' 'tre')
+depends=('ncurses' 'libtermkey' 'lua' 'tre' 'lua-lpeg')
 makedepends=('git')
-optdepends=('lua-lpeg: required for syntax highlighting')
 # checkdepends=('vim')
 
 conflicts=('vis')

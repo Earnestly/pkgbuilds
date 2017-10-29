@@ -1,5 +1,5 @@
 pkgname=pacman-git
-pkgver=5.0.1.r182.gbcc9c417
+pkgver=5.0.1.r192.ge4f13e62
 pkgrel=1
 
 pkgdesc='package manager with dependency support'
@@ -59,7 +59,7 @@ package() {
         x86_64) _flags='-march=x86-64 '
     esac
 
-    sed -i "s|@CARCH[@]|$CARCH|g; 
-            s|@CHOST[@]|$_chost|g; 
-            s|@CARCHFLAGS[@]|$_flags|g" "$pkgdir"/etc/makepkg.conf 
+    sed -i "s|@CARCH[@]|$CARCH|g;
+            s|@CHOST[@]|$_chost|g;
+            s|@CARCHFLAGS[@]|$_flags|g" "$pkgdir"/etc/makepkg.conf
 }

@@ -2,7 +2,7 @@
 # locale-gen: generate system locales
 
 if [ ! -d /etc/locales ]; then
-    printf 'locale-gen: /etc/locales: no such directory\n' >&2
+    printf '/etc/locales: no such directory\n' >&2
     exit 1
 fi
 
@@ -13,12 +13,12 @@ for locale in /etc/locales/*; do
         continue
     fi
 
-    printf 'locale-gen: generating %s...\n' "$locale".UTF-8 >&2
+    printf '%s: generating locale\n' "$locale".UTF-8 >&2
 
     localedef -i "$locale" -f UTF-8 -c "$locale".UTF-8
 
     case $? in
-        4) printf 'locale-gen: %s: invalid locale\n' "$locale" >&2 ;;
+        4) printf '%s: invalid locale\n' "$locale" >&2 ;;
         1) exit
     esac
 done
