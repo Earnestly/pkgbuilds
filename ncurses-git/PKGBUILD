@@ -1,6 +1,6 @@
 pkgname=ncurses-git
-pkgver=6.0.r101.ga3bbc522
-pkgrel=1
+pkgver=6.0.r109.g58369d64
+pkgrel=4
 
 pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
 url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
@@ -10,8 +10,8 @@ license=('MIT')
 depends=('glibc' 'gcc-libs')
 makedepends=('git')
 
-# XXX Library provides now needed for Arch Linux's bash package, sigh
-provides=('ncurses' 'libtinfo' 'libncursesw.so')
+# Library provides now needed for Arch Linux's readline package.
+provides=('ncurses' 'libtinfo' 'libncursesw.so=6-64')
 conflicts=('ncurses' 'libtinfo')
 
 source=('git://ncurses.scripts.mit.edu/ncurses.git')
@@ -28,13 +28,15 @@ build() {
     ./configure --prefix=/usr \
         --with-shared \
         --with-normal \
-        --without-ada  \
-        --enable-widec \
-        --without-debug \
-        --enable-pthread \
-        --enable-pc-files \
+        --with-ticlib=tic \
         --with-cxx-shared \
         --with-cxx-binding \
+        --with-termlib=tinfo \
+        --without-ada \
+        --without-debug \
+        --enable-widec \
+        --enable-pthread \
+        --enable-pc-files \
         --enable-hard-tabs \
         --enable-weak-symbols
     make
@@ -44,13 +46,27 @@ package() {
     cd ncurses
     make DESTDIR="$pkgdir" install
 
-    # Fool packages looking to link to non-wide-character (n)curses libraries.
+    # Ensure that projects linking against non-wide curses libraries use the
+    # wide character varients instead.
     for lib in ncurses ncurses++ form panel menu; do
         printf 'INPUT(-l%sw)\n' "$lib" > "$pkgdir"/usr/lib/lib"$lib".so
         ln -s "$lib"w.pc "$pkgdir"/usr/share/pkgconfig/"$lib".pc
     done
 
+    # Add the -ltinfo flag when linking ncurses as many upstream projects don't
+    # use pkg-config or ncurses-config to correctly determine the LDLIBS for
+    # ncurses.  This is a hack around Arch deciding to enable tinfo as a split
+    # library: https://bugs.archlinux.org/task/56000
+
+    # This symlink needs to be explicitly removed first because shell
+    # redirection will otherwise follow it.
+    rm -f -- "$pkgdir"/usr/lib/libncursesw.so
+    printf 'INPUT(libncursesw.so.%s -ltinfo)\n' "${pkgver:0:1}" > "$pkgdir"/usr/lib/libncursesw.so
+
+    # Make projects link against ncurses instead when attempting to link with
+    # curses.
     printf 'INPUT(-lncursesw)\n' > "$pkgdir"/usr/lib/libcursesw.so
+
     ln -sf libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
     # Include some introduction and informal guides as they're quite nicely written.
