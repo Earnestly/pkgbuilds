@@ -1,5 +1,5 @@
 pkgname=pacutils-git
-pkgver=0.4.0.r21.g63df710
+pkgver=0.6.1.r0.ga8302fd
 pkgrel=1
 
 pkgdesc='ALPM front-end tools'
@@ -16,9 +16,10 @@ conflicts=('pacutils')
 
 source=('git+https://github.com/andrewgregory/pacutils'
         'git+https://github.com/andrewgregory/mINI.c'
-        'git+https://github.com/andrewgregory/tap.c')
+        'git+https://github.com/andrewgregory/tap.c'
+        'git+https://github.com/andrewgregory/globdir.c.git')
 
-sha1sums=('SKIP' 'SKIP' 'SKIP')
+sha1sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
     cd pacutils
@@ -29,8 +30,9 @@ prepare() {
     cd pacutils
     git submodule init
     git config submodule.ext/mini.c.url "$srcdir"/mINI.c
-    git config submodule.t/tap.c.url "$srcdir/"tap.c
-    git submodule update t/tap.c ext/mini.c
+    git config submodule.ext/globdir.c.url "$srcdir"/globdir.c
+    git config submodule.t/tap.c.url "$srcdir"/tap.c
+    git submodule update t/tap.c ext/mini.c ext/globdir.c
 }
 
 build() {
