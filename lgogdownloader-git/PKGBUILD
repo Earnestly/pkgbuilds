@@ -1,5 +1,5 @@
 pkgname=lgogdownloader-git
-pkgver=3.2.r16.g6f42fec
+pkgver=3.2.r29.g8191b9d
 pkgrel=1
 
 pkgdesc='unofficial downloader for gog.com'
@@ -25,7 +25,7 @@ pkgver() {
 build() {
     cd lgogdownloader
     cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    make
+    make VERBOSE=1
 }
 
 package() {

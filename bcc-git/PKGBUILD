@@ -1,5 +1,5 @@
 pkgname=bcc-git
-pkgver=0.3.0.r311.gd9641be
+pkgver=0.4.0.r22.gfab43ed
 pkgrel=1
 
 pkgdesc='bpf compiler collection'
@@ -17,7 +17,7 @@ conflicts=('bcc')
 
 source=('git+https://github.com/iovisor/bcc')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd bcc
@@ -29,7 +29,7 @@ build() {
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=/usr/lib \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    make
+    make VERBOSE=1
 }
 
 check() {

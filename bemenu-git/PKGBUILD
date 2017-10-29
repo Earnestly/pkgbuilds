@@ -28,8 +28,10 @@ pkgver() {
 
 build() {
     cd bemenu
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib
-    make
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    make VERBOSE=1
 }
 
 check() {
