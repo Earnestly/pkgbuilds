@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=7.0
+pkgver=7.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -72,9 +72,11 @@ package_engine-config() {
 }
 
 sha256sums=('c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
-            '2eb9328ca77ef4b2b25d7a3f0279fc9b156e34453d47830fc8efc82b221f8f1c'
+            'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
+            'f18fb2629138504be8631f365d44f5de37e02e2eaa2d862fcdeed3df9350c571'
+            '14a5257880b3d92aa018299d54e97bd356732aa22a24ca9f3db61a7d8dadc4a4'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
             '81733f1de38b8421aaa5bc3b3f4274490c1fd8ba5343b4aab7ec73a89cfda0af'
             'e30f05181fa754a9b1071ef48bf50f0296d9cbe16a8ba097a95df40506af8ce3'
@@ -88,5 +90,4 @@ sha256sums=('c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
             'fddca78e68e9454a45c0b39bc07ee18bdc9ad34db49ec63bf102816ed18e9c65'
             'def18791c8aba7165603c48072be3b431212ed0dc67cf441833714c6858cfc25'
             'a2e65efdd328d1952692198667140aeb1be6269ba0f238c6d7970783c051348a'
-            '21f96ad3faa793f6b2f7659ad76432dce272e1e9794a5871bdbdf401bb76e287'
-            'e465360e6a19d9bfa5aeea3108fb914cd22d8bf2c54e3634cd86fe8b69cfb675')
+            '21f96ad3faa793f6b2f7659ad76432dce272e1e9794a5871bdbdf401bb76e287')
