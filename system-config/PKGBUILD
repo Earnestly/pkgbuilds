@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=7.1
+pkgver=8.0
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -19,6 +19,7 @@ source=('env-nvidia.sh'
         'mod-pcspkr.conf'
         'mod-usbhid.conf'
         'mod-uvcvideo.conf'
+        'mod-thinkpad_acpi.conf'
         'nft-nftables.conf'
         'sudo-wheel'
         'sysctl-swap.conf'
@@ -52,6 +53,7 @@ package_teapot-config() {
              'nftables')
 
     install -Dm0644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
+    install -Dm0644 mod-thinkpad_acpi.conf "$pkgdir"/etc/modprobe.d/thinkpad_acpi.conf
     install -Dm0644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
     install -Dm0644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
     install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
@@ -82,6 +84,7 @@ sha256sums=('c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
             'e30f05181fa754a9b1071ef48bf50f0296d9cbe16a8ba097a95df40506af8ce3'
             'f83b630e1fd67c37090932bd48154ba9f356c4fa519ddeca75b1f97f2bba3f73'
             'f17d620ed2de0d5b568b6eb389f6c55852e615c8b26772e404242cbf3b857f41'
+            '04b936fe10b6daa5dbc79c7e642aa9a43b2a9b2de94312bfc3b41ff04a1a9c80'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
             '1d6e65e7dcf0af1a341a414d5659b5feaf5e5d9b3e53334d531d8ec7e52be5a4'
             '0c164df1a0702723c2e2a48fe7224b2e7318cd83253126c44293ff4c9ff0ba2e'
