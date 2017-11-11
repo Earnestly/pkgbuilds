@@ -1,0 +1,22 @@
+diff --git a/glob/glob.c b/glob/glob.c
+index f3911bc..e4d551e 100644
+--- a/glob/glob.c
++++ b/glob/glob.c
+@@ -208,8 +208,6 @@ my_realloc (p, n)
+ #endif /* __GNU_LIBRARY__ || __DJGPP__ */
+ 
+ 
+-#if !defined __alloca && !defined __GNU_LIBRARY__
+-
+ # ifdef	__GNUC__
+ #  undef alloca
+ #  define alloca(n)	__builtin_alloca (n)
+@@ -229,8 +227,6 @@ extern char *alloca ();
+ 
+ # define __alloca	alloca
+ 
+-#endif
+-
+ #ifndef __GNU_LIBRARY__
+ # define __stat stat
+ # ifdef STAT_MACROS_BROKEN

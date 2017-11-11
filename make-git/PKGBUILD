@@ -1,0 +1,58 @@
+pkgname=make-git
+pkgver=4.2.1.r56.g0c5a9f9
+pkgrel=1
+
+pkgdesc='GNU make utility to maintain groups of programs'
+url='https://www.gnu.org/software/make/'
+arch=('i686' 'x86_64')
+license=('GPL')
+
+depends=('guile')
+makedepends=('git')
+
+groups=('base-devel')
+
+provides=('make')
+conflicts=('make')
+
+source=('git+https://git.savannah.gnu.org/git/make.git'
+        'output-sync-rm.patch'
+        'ensure-alloca-is-defined.patch')
+
+sha256sums=('SKIP'
+            'd1d80f027173d222f7d99497f530082556d233f05456654ae3e61c3a29f6356f'
+            'd463e3ff6c6256876bf17c96c60350592f8d6f58e977a68de9018eaa955e545c')
+
+pkgver() {
+    cd make
+    git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+    cd make
+    # http://lists.gnu.org/archive/html/bug-make/2017-11/msg00001.html
+    #   glob.c:(.text+0x2d4): undefined reference to `__alloca'
+    patch -Np1 -i "$srcdir"/ensure-alloca-is-defined.patch
+
+    # http://lists.gnu.org/archive/html/bug-make/2017-11/msg00002.html
+    #   Revert tests/scripts/features/output-sync: Remove useless rm command.
+    patch -Rp1 -i "$srcdir"/output-sync-rm.patch
+}
+
+build() {
+    cd make
+    autoreconf -fi
+    ./configure --prefix=/usr --with-guile
+    make update
+    make
+}
+
+check() {
+    cd make
+    make check
+}
+
+package() {
+    cd make
+    make DESTDIR="$pkgdir" install
+}
