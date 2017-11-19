@@ -1,5 +1,5 @@
 pkgname=pacman-git
-pkgver=5.0.1.r192.ge4f13e62
+pkgver=5.0.2.r190.ge4f13e62
 pkgrel=1
 
 pkgdesc='package manager with dependency support'
@@ -23,7 +23,8 @@ sha1sums=('SKIP')
 
 pkgver() {
     cd pacman
-    git describe --tags --long | sed 's/^v//; s/-/.r/; s/-/./g'
+    _tag=$(git tag --sort=v:refname | tail -n1)
+    printf '%s.r%s.g%s' "${_tag#v}" "$(git rev-list "$_tag"..HEAD --count)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
