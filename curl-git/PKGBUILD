@@ -1,7 +1,7 @@
 # Test suite takes far too long
 
 pkgname=curl-git
-pkgver=7.56.1.r24.g1d0c8dea9
+pkgver=7.56.1.r86.g297516e12
 pkgrel=1
 
 pkgdesc='url retrieval utility and library'

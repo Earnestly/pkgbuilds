@@ -1,5 +1,5 @@
 pkgname=newsboat-git
-pkgver=r2.10.1.r65.gec4dab3
+pkgver=r2.10.1.r100.gdd156d0
 pkgrel=1
 
 pkgdesc='rss feed reader for the text console with podcast support'

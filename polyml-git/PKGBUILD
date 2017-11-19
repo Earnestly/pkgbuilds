@@ -1,6 +1,5 @@
-# XXX unable to build shared runtime libraries due to relocation issues
 pkgname=polyml-git
-pkgver=5.7.r270.g0cdb2359
+pkgver=5.7.r290.g44b7b88e
 pkgrel=1
 
 pkgdesc='standard ml implementation'
@@ -20,7 +19,7 @@ conflicts=('polyml' 'mesa-demos')
 
 source=('git+https://github.com/polyml/polyml')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd polyml
