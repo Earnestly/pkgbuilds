@@ -1,0 +1,29 @@
+pkgname=sx-git
+pkgver=r2.g6b089b8
+pkgrel=1
+
+pkgdesc='start an xserver'
+url='https://github.com/Earnestly/sx'
+arch=('any')
+license=('MIT')
+
+depends=('sh')
+makedepends=('git')
+
+provides=('sx')
+conflicts=('sx')
+
+source=('git+https://github.com/Earnestly/sx')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd sx
+    printf 'r%s.g%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+    cd sx
+    make DESTDIR="$pkgdir" PREFIX=/usr install
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
