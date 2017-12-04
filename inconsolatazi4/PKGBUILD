@@ -1,7 +1,7 @@
 # pkgver=$(curl -s "$url" | awk '/Current version: / {print $3}')
 pkgname=inconsolatazi4
-pkgver=1.112
-pkgrel=2
+pkgver=1.113
+pkgrel=1
 
 pkgdesc='opentype variant of inconsolata from ctan'
 url='https://www.ctan.org/tex-archive/fonts/inconsolata'
@@ -14,9 +14,9 @@ source=('http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Regul
         'http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Bold.otf'
         'http://mirrors.ctan.org/fonts/inconsolata/doc/OFL.txt')
 
-sha1sums=('25bfc3747cd9f64ec2b00f6f6cfccf153d65193d'
-          'd6a1844404d4acc0ed464e721a777b6fe3f3d2ee'
-          '0d8ee7bc811b92f758101f267559dd79373ed069')
+sha256sums=('39d12bcb97f9a1112eaa470893d423c3e90dcde2eea37bd88df82ab79c379cd7'
+            '5bc316126a481d5acc3e754ffeec75d889900d0185e17e65e306d8aaead00e6e'
+            '2785c333cd73316222d596ca535e8d2cc2d6a78833301c45b9b60aefdf28d213')
 
 package() {
     install -Dm0644 Inconsolatazi4-Regular.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Regular.otf
