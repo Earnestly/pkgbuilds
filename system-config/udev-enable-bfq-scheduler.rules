@@ -1,0 +1,2 @@
+# udev/rules.d/01-udev-enable-bfq-scheduler.rules
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/scheduler}="bfq"

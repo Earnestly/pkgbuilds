@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=8.0
+pkgver=9.0
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -25,6 +25,7 @@ source=('env-nvidia.sh'
         'sysctl-swap.conf'
         'sysctl-dirty.conf'
         'sysctl-fq_codel.conf'
+        'udev-enable-bfq-scheduler.rules'
         'xorg-trackpoint.conf'
         'xorg-libinput-tweaks.conf'
         'xorg-libinput-noaccel.conf'
@@ -44,6 +45,7 @@ package_base-config() {
     install -Dm0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
     install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
+    install -Dm0644 udev-enable-bfq-scheduler.rules "$pkgdir"/etc/udev/rules.d/01-enable-bfq-scheduler.rules
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
 }
 
@@ -90,6 +92,7 @@ sha256sums=('c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
             '0c164df1a0702723c2e2a48fe7224b2e7318cd83253126c44293ff4c9ff0ba2e'
             'f3ac45e8e1c835886b3daa647033c54e889acc8766c9fbd7bccb80a006438f5d'
             '6a3a3d076b01d99693edba864270ce85e125fed853ac79fe32827c499cdccbe6'
+            'fa72ba0e0252414d9913cd002bbaf74c983cf0da20b648f8592efc91f939a018'
             'fddca78e68e9454a45c0b39bc07ee18bdc9ad34db49ec63bf102816ed18e9c65'
             'def18791c8aba7165603c48072be3b431212ed0dc67cf441833714c6858cfc25'
             'a2e65efdd328d1952692198667140aeb1be6269ba0f238c6d7970783c051348a'
