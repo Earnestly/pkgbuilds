@@ -1,5 +1,5 @@
 pkgname=sx-git
-pkgver=r2.g6b089b8
+pkgver=r6.ga5fc2e3
 pkgrel=1
 
 pkgdesc='start an xserver'

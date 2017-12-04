@@ -1,6 +1,6 @@
 pkgname=pacman-git
 pkgver=5.0.2.r190.ge4f13e62
-pkgrel=1
+pkgrel=2
 
 pkgdesc='package manager with dependency support'
 url='http://www.archlinux.org/pacman/'
@@ -54,7 +54,7 @@ package() {
     # Tidy up makepkg.conf
     _chost=$(gcc -dumpmachine)
 
-    # XXX Consider maybe using source_$CARCH specific patches instead
+    # XXX Since Arch Linux dropped i686, this may need to be revisted.
     case $CARCH in
         i686)   _flags='-march=i686 ' ;;
         x86_64) _flags='-march=x86-64 '
