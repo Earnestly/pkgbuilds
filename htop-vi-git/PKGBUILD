@@ -16,8 +16,8 @@ conflicts=('htop')
 source=('git+https://github.com/hishamhm/htop'
         'basic-vi-keys.patch')
 
-sha1sums=('SKIP'
-          '3b789c93b9485c2bbbbf55e9102bd79e83426f8e')
+sha256sums=('SKIP'
+            '81ef4a77dcfde4134def0f17e6933192c723bbd4a4259b61b5ebc539bd489c04')
 
 pkgver() {
     cd htop
@@ -26,7 +26,6 @@ pkgver() {
 
 prepare() {
     cd htop
-    sed -i '1 s/python$/&2/' scripts/MakeHeader.py
     patch -Np1 -i "$srcdir"/basic-vi-keys.patch
 }
 
@@ -39,5 +38,5 @@ build() {
 
 package() {
     cd htop
-    make DESTDIR="$pkgdir" install 
+    make DESTDIR="$pkgdir" install
 }
