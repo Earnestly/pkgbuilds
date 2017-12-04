@@ -1,0 +1,13 @@
+diff --git a/src/pulsecore/memfd-wrappers.h b/src/pulsecore/memfd-wrappers.h
+index 3bed9b2b..7cba82d7 100644
+--- a/src/pulsecore/memfd-wrappers.h
++++ b/src/pulsecore/memfd-wrappers.h
+@@ -33,7 +33,7 @@
+  * a whole conflicts with the original glibc header <fnctl.h>.
+  */
+ 
+-static inline int memfd_create(const char *name, unsigned int flags) {
++inline int memfd_create(const char *name, unsigned int flags) {
+     return syscall(SYS_memfd_create, name, flags);
+ }
+ 

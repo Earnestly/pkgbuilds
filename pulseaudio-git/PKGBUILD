@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=11.0.r69.g27067dbc
+pkgver=11.0.r74.g2f1dcea3
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -20,9 +20,11 @@ optdepends=('alsa-plugins: alsa support'
 provides=('pulseaudio' 'libpulse')
 conflicts=('pulseaudio' 'libpulse')
 
-source=('git+https://github.com/pulseaudio/pulseaudio.git')
+source=('git+https://github.com/pulseaudio/pulseaudio.git'
+        'glibc-provides-memfd_create.patch')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP'
+            'e8b79af1c0514997cb6aa0735eadfd3e7db62f64dc02adcbcd153b9338371927')
 
 pkgver() {
     cd pulseaudio
@@ -33,6 +35,7 @@ prepare() {
     cd pulseaudio
     sed -i 's/^; flat-volumes = yes/flat-volumes = no/' src/daemon/daemon.conf.in
     sed -i 's/^; autospawn = yes/autospawn = no/' src/pulse/client.conf.in
+    patch -Np1 -i "$srcdir"/glibc-provides-memfd_create.patch
 }
 
 build() {
