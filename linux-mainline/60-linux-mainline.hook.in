@@ -1,0 +1,12 @@
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = usr/lib/modules/VERSION-mainline/*
+Target = usr/lib/modules/extramodules-VERSION-mainline/*
+
+[Action]
+Description = updating linux-mainline module dependencies
+When = PostTransaction
+Exec = /usr/bin/depmod VERSION-mainline

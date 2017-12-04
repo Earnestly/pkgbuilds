@@ -1,0 +1,11 @@
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Target = boot/vmlinuz-linux-mainline
+Target = usr/lib/initcpio/*
+
+[Action]
+Description = updating linux-mainline initcpio
+When = PostTransaction
+Exec = /usr/bin/mkinitcpio -p linux-mainline

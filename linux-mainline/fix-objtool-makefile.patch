@@ -1,0 +1,28 @@
+diff --git a/tools/build/Build.include b/tools/build/Build.include
+index 418871d02ebf..afd6c5947b64 100644
+--- a/tools/build/Build.include
++++ b/tools/build/Build.include
+@@ -62,8 +62,8 @@ dep-cmd = $(if $(wildcard $(fixdep)),
+            $(fixdep) $(depfile) $@ '$(make-cmd)' > $(dot-target).tmp;           \
+            rm -f $(depfile);                                                    \
+            mv -f $(dot-target).tmp $(dot-target).cmd,                           \
+-           printf '\# cannot find fixdep (%s)\n' $(fixdep) > $(dot-target).cmd; \
+-           printf '\# using basic dep data\n\n' >> $(dot-target).cmd;           \
++           printf '# cannot find fixdep (%s)\n' $(fixdep) > $(dot-target).cmd; \
++           printf '# using basic dep data\n\n' >> $(dot-target).cmd;           \
+            cat $(depfile) >> $(dot-target).cmd;                                 \
+            printf '\n%s\n' 'cmd_$@ := $(make-cmd)' >> $(dot-target).cmd)
+ 
+diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
+index 0f94af3ccaaa..46df4a6403bc 100644
+--- a/tools/objtool/Makefile
++++ b/tools/objtool/Makefile
+@@ -33,7 +33,7 @@ CFLAGS   += -Wall -Werror $(WARNINGS) -fomit-frame-pointer -O2 -g $(INCLUDES)
+ LDFLAGS  += -lelf $(LIBSUBCMD)
+ 
+ # Allow old libelf to be used:
+-elfshdr := $(shell echo '\#include <libelf.h>' | $(CC) $(CFLAGS) -x c -E - | grep elf_getshdr)
++elfshdr := $(shell echo '#include <libelf.h>' | $(CC) $(CFLAGS) -x c -E - | grep elf_getshdr)
+ CFLAGS += $(if $(elfshdr),,-DLIBELF_USE_DEPRECATED)
+ 
+ AWK = awk

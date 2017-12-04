@@ -1,0 +1,119 @@
+pkgname=linux-mainline
+pkgver=4.15.rc2
+pkgrel=7
+
+pkgdesc='linux kernel and modules'
+url='https://www.kernel.org'
+arch=('x86_64')
+license=('GPL2')
+
+options=('!strip')
+
+backup=('etc/mkinitcpio.d/linux-mainline.preset')
+install='linux-mainline.install'
+
+depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
+makedepends=('xmlto' 'inetutils' 'bc' 'libelf' 'git')
+optdepends=('crda: to set the correct wireless channels of your country')
+
+provides=('linux-api-headers')
+conflicts=('linux-api-headers')
+
+source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+        'https://git.archlinux.org/svntogit/packages.git/plain/linux/trunk/config'
+        '60-linux-mainline.hook.in'
+        '90-linux-mainline.hook'
+        'linux-mainline.preset'
+        'install-headers'
+        'fix-objtool-makefile.patch')
+
+sha256sums=('SKIP'
+            'a68e94064f040d60e8e4c3380efeee085b54d252d527e960dd17ac688505d5b6'
+            '58c1c4e128c9b587289296fd6e362ca9c3a46f519e618aeccc068e1cd0bc21da'
+            '40ce40c386fd7f0346b2bd15c827d535ac9729c9c33b94e25a30cf097accb0f3'
+            '01f289d71128915cde0d734b863ffeb53613e27516e4121a99afe5b712936725'
+            '35f4935c67305b6bedef9c39d54688d82930185c224295bef0e25d0ceb05706d'
+            '8776c22a9167e2f92a32dd5ead2df06dbc38d1d0e5cd9a583182d8a706a0ebaf')
+
+pkgver() {
+    cd linux
+    git tag --sort=v:refname | sed -n '$ {s/v//; s/-/./;p}'
+}
+
+prepare() {
+    cd linux
+    # Bypass makepkg by manually checking out the required tag as this allows
+    # me to continue using the pkgver function which avoids the need to
+    # maintain a version and tag.
+    _tag=$(git tag --sort=v:refname | tail -n1)
+    git checkout --no-track -fB build "$_tag"
+
+    # XXX https://bugzilla.kernel.org/show_bug.cgi?id=197847
+    patch -Np1 -i "$srcdir"/fix-objtool-makefile.patch
+
+    # Adapt Arch Linux's config to our mainline package.
+    sed 's/-ARCH/-mainline/' "$srcdir"/config > .config
+    make olddefconfig
+
+    # Neutralise scripts/depmod.sh as we need to run it after faffing about
+    # with extramodules directories rather than part of make module_install.
+    printf 'true\n' > scripts/depmod.sh
+}
+
+build() {
+    cd linux
+
+    # Prevent scripts/setlocalversion from appending a '+' by setting
+    # LOCALVERSION.  This is necessary as any patches applied during prepare
+    # will mark the repository as dirty.
+    make LOCALVERSION= bzImage modules headers_check
+}
+
+package() {
+    cd linux
+    _kernel=$(make kernelversion)
+
+    make INSTALL_MOD_PATH="$pkgdir"/usr modules_install
+    make INSTALL_HDR_PATH="$pkgdir"/usr headers_install
+
+    # These headers are provided by libdrm on Arch Linux
+    rm -rf "$pkgdir"/usr/include/drm
+
+    # Clean up unecessary files generated during headers_install
+    find "$pkgdir"/usr/include \( -name .install -o -name ..install.cmd \) -delete
+
+    install -Dm0644 arch/x86/boot/bzImage "$pkgdir"/boot/vmlinuz-linux-mainline
+
+    # Provide a "weak-modules" directory for modules that may not need to be
+    # rebuilt for minor kernel version changes such as from 4.15.0 to 4.15.1
+    ln -s ../extramodules-"${_kernel%.*}"-mainline "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/extramodules
+    printf '%s\n' "$_kernel" > version
+    install -Dm0644 version "$pkgdir"/usr/lib/modules/extramodules-"${_kernel%.*}"-mainline/version
+
+    # Remove the 'build' and 'source' symlinks which just point back to the
+    # build directory.
+    rm -f "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
+    rm -f "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/source
+
+    # Manually run depmode now that the dust has settled, this also allows us
+    # to provide the correct value for -b which avoids needing to modify the
+    # depmod.sh script.
+    depmod -b "$pkgdir"/usr -F System.map "$_kernel"-mainline
+
+    # Provide vmlinux as it may be useful for debugging and other reporting.
+    # E.g. gdb vmlinux /proc/kcore
+    install -Dm0755 vmlinux "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build/vmlinux
+
+    # Documentation
+    cp -a --no-preserve=ownership Documentation "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
+
+    # Provide headers and tools for third-party modules.  There is no standard
+    # make target for this.
+    "$srcdir"/install-headers "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
+
+    install -Dm0644 "$srcdir"/linux-mainline.preset "$pkgdir"/etc/mkinitcpio.d/linux-mainline.preset
+    install -Dm0644 "$srcdir"/90-linux-mainline.hook "$pkgdir"/usr/share/libalpm/hooks/90-linux-mainline.hook
+
+    sed "s/VERSION/$_kernel/" "$srcdir"/60-linux-mainline.hook.in > "$srcdir"/60-linux-mainline.hook
+    install -Dm0644 "$srcdir"/60-linux-mainline.hook "$pkgdir"/usr/share/libalpm/hooks/60-linux-mainline.hook
+}

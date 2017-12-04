@@ -1,0 +1,71 @@
+#!/bin/sh --
+# install-headers - install additional headers for third-party modules
+
+# There are no make targets which provide these so from here on out all of
+# this is going to be pretty manual.
+
+# Nothing in here should fail, and if anything does, I want to know about it.
+set -o errexit
+
+usage() {
+    cat <<!
+usage: install-headers [-h] [-f from] dest
+       -f  where the linux directory is (default: cwd)
+       -h  this help message
+!
+}
+
+while getopts hf: arg; do
+    case $arg in
+        f) from=$OPTARG ;;
+        h) usage; exit ;;
+        *) usage >&2; exit 1
+    esac
+done
+
+shift $((OPTIND - 1))
+
+if [ ! "$1" ]; then
+    usage >&2
+    exit 1
+fi
+
+dest=$(readlink -qf "$1")
+mkdir -p "$dest"
+
+cd "${from:-$PWD}"
+
+install -Dm0644 -t "$dest" Makefile .config Module.symvers
+install -Dm0644 -t "$dest"/kernel kernel/Makefile
+install -Dm0644 -t "$dest"/arch/x86 arch/x86/Makefile
+install -Dm0644 -t "$dest"/arch/x86/kernel arch/x86/kernel/asm-offsets.s
+install -Dm0644 -t "$dest"/drivers/md drivers/md/*.h
+install -Dm0644 -t "$dest"/net/mac80211 net/mac80211/*.h
+
+# http://bugs.archlinux.org/task/99to2
+install -Dm0644 -t "$dest"/drivers/media/dvb-core drivers/media/dvb-core/*.h
+
+# http://bugs.archlinux.org/task/to3146
+install -Dm0644 -t "$dest"/drivers/media/i2c drivers/media/i2c/msp3400-driver.h
+
+# http://bugs.archlinux.org/task/20402
+install -Dm0644 -t "$dest"/drivers/media/usb/dvb-usb drivers/media/usb/dvb-usb/*.h
+install -Dm0644 -t "$dest"/drivers/media/dvb-frontends drivers/media/dvb-frontends/*.h
+install -Dm0644 -t "$dest"/drivers/media/tuners drivers/media/tuners/*.h
+
+# Add xfs and shmem for aufs building
+install -dm755 "$dest"/fs/mm
+install -dm755 "$dest"/fs/xfs
+
+# Add objtool for external module building and enabled VALIDATION_STACK option
+install -Dm0755 tools/objtool/objtool "$dest"/tools/objtool
+
+cp -a include scripts "$dest"
+cp -a arch/x86/include "$dest"/arch/x86
+
+# Copy in Kconfig files.  Note this will not work if the destination is under
+# the linux directory tree.
+find . -name 'Kconfig*' -exec install -Dm0644 {} "$dest"/{} \;
+
+# Clean up any non-x86 architectures as Arch Linux doesn't support them.
+find "$dest"/arch ! \( -path "$dest" -o -path '*/x86*' -o -name arch \) -type d -exec rm -rf {} +
