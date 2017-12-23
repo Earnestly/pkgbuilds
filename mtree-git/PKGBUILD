@@ -1,5 +1,5 @@
 pkgname=mtree-git
-pkgver=1.0.3.r9.g4f3e901
+pkgver=1.0.4.r4.ge11b065
 pkgrel=1
 
 pkgdesc='map a directory hierarchy'
@@ -14,7 +14,7 @@ source=('git+https://github.com/archiecobbs/mtree-port')
 provides=('mtree')
 conflicts=('mtree')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd mtree-port
@@ -23,18 +23,17 @@ pkgver() {
 
 build() {
     cd mtree-port
-    ./autogen.sh # XXX This should favour autoreconf instead
+    autoreconf -fi
     ./configure --prefix=/usr
     make
 }
 
 package() {
     cd mtree-port
-    install -Dm0755 mtree "$pkgdir"/usr/bin/mtree
-    install -Dm0644 mtree.8 "$pkgdir"/usr/share/man/man8/mtree.8
+    make DESTDIR="$pkgdir" doc_DATA= install
 
-    # XXX libarchive provides an mtree.5 which differs from FreeBSDs mtree format
-    install -Dm0644 mtree.5 "$pkgdir"/usr/share/man/man5/mtree-port.5
+    # libarchive provides an mtree.5 which differs from BSDs mtree format
+    mv "$pkgdir"/usr/share/man/man5/mtree.5 "$pkgdir"/usr/share/man/man5/mtree-port.5
 
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
