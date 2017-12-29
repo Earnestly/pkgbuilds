@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=11.0.r74.g2f1dcea3
+pkgver=11.0.r92.gd9624e03
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -15,7 +15,7 @@ optdepends=('alsa-plugins: alsa support'
             'jack: jack support'
             'lirc-utils: infra-red support'
             'openssl: raop support'
-            'python2-pyqt: equalizer gui (qpaeq)')
+            'python2-pyqt5: equalizer gui (qpaeq)')
 
 provides=('pulseaudio' 'libpulse')
 conflicts=('pulseaudio' 'libpulse')
