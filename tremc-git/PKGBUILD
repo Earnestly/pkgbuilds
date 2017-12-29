@@ -1,6 +1,6 @@
 pkgname=tremc-git
-pkgver=r663.g9755b50
-pkgrel=1
+pkgver=r668.ge06d08d
+pkgrel=2
 
 pkgdesc='curses frontend to transmission-daemon'
 url='https://github.com/louipc/tremc'
@@ -16,7 +16,7 @@ conflicts=('tremc')
 
 source=('git+https://github.com/louipc/tremc')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd tremc
@@ -25,10 +25,5 @@ pkgver() {
 
 package() {
     cd tremc
-    install -Dm0755 tremc "$pkgdir"/usr/bin/tremc
-    install -Dm0644 tremc.1 "$pkgdir"/usr/share/man/man1/tremc.1
-
-    # Still referencing the transmission-remote-cli project
-    # install -Dm0644 completion/bash/transmission-remote-cli-bash-completion.sh "$pkgdir"/usr/share/bash-completion/completions/transmission-remote-cli
-    # install -Dm0644 completion/zsh/_transmission-remote-cli "$pkgdir"/usr/share/zsh/site-functions/_transmission-remote-cli
+    make PREFIX=/usr DESTDIR="$pkgdir" install
 }
