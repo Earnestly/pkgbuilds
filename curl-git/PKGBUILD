@@ -1,7 +1,5 @@
-# Test suite takes far too long
-
 pkgname=curl-git
-pkgver=7.57.0.r16.g3cef6f22e
+pkgver=7.57.0.r85.g58d7cd28a
 pkgrel=1
 
 pkgdesc='url retrieval utility and library'
@@ -28,11 +26,16 @@ pkgver() {
 build() {
     cd curl
     ./buildconf
-    ./configure --prefix=/usr \
+
+    # XXX Explicitly disable brotli support instead of including it as a
+    #     dependency to keep curl-git consistent with Arch Linux.
+    # XXX https://github.com/curl/curl/issues/2202
+    PATH_SEPARATOR=: ./configure --prefix=/usr \
         --mandir=/usr/share/man \
         --with-gssapi \
         --with-random=/dev/urandom \
         --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
+        --without-brotli \
         --enable-ipv6 \
         --enable-manual \
         --enable-threaded-resolver \
