@@ -1,5 +1,5 @@
 pkgname=sx-git
-pkgver=r6.ga5fc2e3
+pkgver=r23.g1c4fbda
 pkgrel=1
 
 pkgdesc='start an xserver'
@@ -7,7 +7,7 @@ url='https://github.com/Earnestly/sx'
 arch=('any')
 license=('MIT')
 
-depends=('sh')
+depends=('xorg-server' 'xorg-xauth')
 makedepends=('git')
 
 provides=('sx')
@@ -24,6 +24,6 @@ pkgver() {
 
 package() {
     cd sx
-    make DESTDIR="$pkgdir" PREFIX=/usr install
+    make PREFIX=/usr DESTDIR="$pkgdir" install
     install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

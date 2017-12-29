@@ -1,6 +1,6 @@
 pkgname=linux-mainline
-pkgver=4.15.rc2
-pkgrel=7
+pkgver=4.15.rc4
+pkgrel=1
 
 pkgdesc='linux kernel and modules'
 url='https://www.kernel.org'

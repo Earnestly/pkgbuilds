@@ -1,5 +1,5 @@
 pkgname=vis-git
-pkgver=0.4.r20.gc00ef93
+pkgver=0.4.r28.g6557d0e
 pkgrel=1
 
 pkgdesc='vim like text editor'

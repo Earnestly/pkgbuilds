@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r114.g8d3ea902
+pkgver=6.0.r117.gaed072e2
 pkgrel=1
 
 pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
