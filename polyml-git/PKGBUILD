@@ -1,5 +1,5 @@
 pkgname=polyml-git
-pkgver=5.7.1.r7.g01482bfb
+pkgver=5.7.1.r50.g16ab2c09
 pkgrel=1
 
 pkgdesc='standard ml implementation'
@@ -14,8 +14,10 @@ makedepends=('git')
 
 provides=('polyml')
 
-# XXX mesa-demos has claimed /bin/poly
-conflicts=('polyml' 'mesa-demos')
+# XXX mesa-demos has claimed /bin/poly but my mesa-demos-git package adds a
+#     'mesa-' prefix to all of the bins which avoids the conflict.  So long
+#     as Arch Linux's mesa-demos is not used, this is fine.
+conflicts=('polyml')
 
 source=('git+https://github.com/polyml/polyml')
 
