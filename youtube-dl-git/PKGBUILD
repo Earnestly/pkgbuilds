@@ -1,5 +1,5 @@
 pkgname=youtube-dl-git
-pkgver=2017.11.26.r8.g5f699251e
+pkgver=2017.12.28.r1.g84f085d4b
 pkgrel=1
 
 pkgdesc='tool to download videos from different websites'
@@ -7,9 +7,10 @@ url='http://rg3.github.com/youtube-dl'
 arch=('any')
 license=('custom')
 
+options=('!emptydirs')
+
 depends=('python')
 makedepends=('git' 'pandoc')
-
 optdepends=('ffmpeg: video post-processing')
 
 provides=('youtube-dl')
@@ -17,29 +18,25 @@ conflicts=('youtube-dl')
 
 source=('git+https://github.com/rg3/youtube-dl.git')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd youtube-dl
-    git describe | sed 's/-/.r/; s/-/./'
+    git describe --long --tags | sed 's/-/.r/; s/-/./'
 }
 
 package() {
     cd youtube-dl
     python setup.py install --root="$pkgdir" --optimize=1
 
-    # Generate the rest of the files manually; this is because youtube-dl seems
-    # unable to use correct directory locations consistently.  Let's do it
-    # manually and more neatly.  Skipping fish because that shell is terrible.
+    # Generate the rest of the files manually because youtube-dl seems unable
+    # to use the correct directory locations consistently.  Skipping fish.
     make youtube-dl.1 bash-completion zsh-completion
 
-    install -Dm644 youtube-dl.1 "$pkgdir"/usr/share/man/man1/youtube-dl.1
-    install -Dm644 youtube-dl.zsh "$pkgdir"/usr/share/zsh/site-functions/_youtube-dl
-    install -Dm644 youtube-dl.bash-completion "$pkgdir"/usr/share/bash-completion/completions/youtube-dl
+    install -Dm0644 youtube-dl.1 "$pkgdir"/usr/share/man/man1/youtube-dl.1
+    install -Dm0644 youtube-dl.zsh "$pkgdir"/usr/share/zsh/site-functions/_youtube-dl
+    install -Dm0644 youtube-dl.bash-completion "$pkgdir"/usr/share/bash-completion/completions/youtube-dl
 
-    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 
-    # Clean up.
-    rm -rf "$pkgdir"/usr/etc
-    rm -rf "$pkgdir"/usr/share/doc
 }
