@@ -1,11 +1,13 @@
 pkgname=opendoas-git
-pkgver=6.0.r0.g5a7014d
-pkgrel=2
+pkgver=6.0.r36.gc04c64a
+pkgrel=1
 
 pkgdesc='run commands as another user, alternative to sudo'
 url='https://github.com/Duncaen/OpenDoas'
 arch=('i686' 'x86_64')
 license=('MIT')
+
+install='opendoas.install'
 
 depends=('pam')
 makedepends=('git')
@@ -15,9 +17,7 @@ conflicts=('opendoas')
 
 source=('git+https://github.com/Duncaen/OpenDoas')
 
-sha1sums=('SKIP')
-
-install='opendoas.install'
+sha256sums=('SKIP')
 
 pkgver() {
     cd  OpenDoas
@@ -26,7 +26,7 @@ pkgver() {
 
 build() {
     cd OpenDoas
-    ./configure --prefix=/usr
+    ./configure --prefix=/usr --with-timestamp
 
     # XXX https://github.com/Duncaen/OpenDoas/issues/9
     make COPTS=-Wno-error
