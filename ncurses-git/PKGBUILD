@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.0.r117.gaed072e2
+pkgver=6.0.r118.gb0bdfbb1
 pkgrel=1
 
 pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
@@ -44,13 +44,19 @@ build() {
 
 package() {
     cd ncurses
-    make DESTDIR="$pkgdir" install
+    # By default ncurses will assume the pkgconfig's directory is the same
+    # prefix used by the executable.  Because I restrict the initial
+    # environment to just HOME and PATH--where PATH is set to /bin--configure
+    # will find /bin/pkg-config and use /lib/pkgconfig, ignoring the --prefix
+    # or --libdir options.  So instead make sure to explicitly provide
+    # the correct path instead of relying on poor configure heuristics.
+    make PKG_CONFIG_LIBDIR=/usr/lib/pkgconfig DESTDIR="$pkgdir" install
 
     # Ensure that projects linking against non-wide curses libraries use the
     # wide character varients instead.
     for lib in ncurses ncurses++ form panel menu; do
         printf 'INPUT(-l%sw)\n' "$lib" > "$pkgdir"/usr/lib/lib"$lib".so
-        ln -s "$lib"w.pc "$pkgdir"/usr/share/pkgconfig/"$lib".pc
+        ln -s "$lib"w.pc "$pkgdir"/usr/lib/pkgconfig/"$lib".pc
     done
 
     # Add the -ltinfo flag when linking ncurses as many upstream projects don't
