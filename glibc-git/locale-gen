@@ -6,20 +6,32 @@ if [ ! -d /etc/locales ]; then
     exit 1
 fi
 
-for locale in /etc/locales/*; do
-    if [ -f "$locale" ]; then
-        read -r charset < "$locale"
-        charset=${charset:-UTF-8}
-        locale=${locale##*/}
-    else
-        continue
-    fi
+localegen() {
+    printf '%s: generating locale\n' "$1"."$2" >&2
 
-    printf '%s: generating locale\n' "$locale"."$charset" >&2
-
-    localedef -i "$locale" -f "$charset" -c "$locale"."$charset"
+    localedef -i "$1" -f "$2" -c "$1"."$2"
 
     case $? in
-        4) printf '%s: invalid locale\n' "$locale"."$charset" >&2
+        4) printf '%s: invalid locale\n' "$1"."$2" >&2
     esac
+}
+
+for locale in /etc/locales/*; do
+    if [ -f "$locale" ]; then
+        if [ -s "$locale" ]; then
+            while read -r charset; do
+                locale=${locale##*/}
+
+                # charset may still be empty if the locale file contains
+                # empty lines. In this case just build the locale using
+                # the UTF-8 charset. I don't care if there's multiple
+                # empty lines, the user will simply waste time generating
+                # a locale for each one.
+                localegen "$locale" "${charset:-UTF-8}"
+            done < "$locale"
+        else
+            locale=${locale##*/}
+            localegen "$locale" UTF-8
+        fi
+    fi
 done
