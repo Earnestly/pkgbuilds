@@ -7,7 +7,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.26.9000.r1041.g2bd86632b7
+pkgver=2.26.9000.r1147.g0f5e2da160
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -34,7 +34,7 @@ source=('git+https://sourceware.org/git/glibc.git'
         'nscd.tmpfiles')
 
 sha256sums=('SKIP'
-            'cdbd47144b319b0b0eca8d0488dc5173bf24158ab888340920ffe6c3d252dfa6'
+            'ef5a637d4e37ef4090af6ff94b669ee673ff89702e53c9df2189c2a37b918322'
             '0d261c4b677b8a7a820febaccd60877da091a4200fa05dc3e0c2b140254f313a'
             '79c9cec5dd2414dcb76d11e75903aa6fd9b7785c897cb9f853edcb140a71b779')
 
