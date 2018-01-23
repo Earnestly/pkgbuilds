@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=9.0
+pkgver=11.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -8,7 +8,8 @@ arch=('any')
 url='https://github.com/Earnestly'
 license=('custom')
 
-source=('env-nvidia.sh'
+source=('env-locale.sh'
+        'env-nvidia.sh'
         'etc-zshenv'
         'etc-locale.conf'
         'etc-vconsole.conf'
@@ -36,6 +37,8 @@ package_base-config() {
     pkgdesc='common system configuration'
     depends=('zsh' 'sudo')
 
+    # Named locale2.sh due to use of NoExtract=etc/profile.d/locale.sh
+    install -Dm0644 env-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
     install -Dm0644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
     install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
@@ -46,6 +49,7 @@ package_base-config() {
     install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     install -Dm0644 udev-enable-bfq-scheduler.rules "$pkgdir"/etc/udev/rules.d/01-enable-bfq-scheduler.rules
+
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
 }
 
@@ -54,6 +58,8 @@ package_teapot-config() {
     depends=('base-config' 'xf86-input-libinput' 'xf86-input-synaptics'
              'nftables')
 
+    install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
+    install -Dm0644 hwdb-caps-as-ctrl-thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-thinkpad.hwdb
     install -Dm0644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
     install -Dm0644 mod-thinkpad_acpi.conf "$pkgdir"/etc/modprobe.d/thinkpad_acpi.conf
     install -Dm0644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
@@ -61,7 +67,6 @@ package_teapot-config() {
     install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm0644 xorg-synaptics-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
-    install -Dm0644 hwdb-caps-as-ctrl-thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-thinkpad.hwdb
 }
 
 package_engine-config() {
@@ -70,12 +75,13 @@ package_engine-config() {
              'nvidia-utils' 'nvidia-settings')
 
     install -Dm0644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
+    install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm0644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
-    install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
 }
 
-sha256sums=('c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
+sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
+            'c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
             'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
