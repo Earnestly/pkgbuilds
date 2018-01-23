@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.5.3.pre1.r127.g3c51ec5e
+pkgver=0.5.4.3.r2.g15fa28e8
 pkgrel=1
 
 pkgdesc='multimedia framework'
@@ -34,8 +34,4 @@ package() {
     cd arcan
     make DESTDIR="$pkgdir" install
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
-
-    # Clean up INSTALL_PREFIX assumptions.
-    mv "$pkgdir"/usr/man "$pkgdir"/usr/share
-    mv "$pkgdir"/usr/CMake "$pkgdir"/usr/lib/cmake
 }
