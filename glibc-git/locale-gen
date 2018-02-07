@@ -20,18 +20,13 @@ for locale in /etc/locales/*; do
     if [ -f "$locale" ]; then
         if [ -s "$locale" ]; then
             while read -r charset; do
-                locale=${locale##*/}
 
-                # charset may still be empty if the locale file contains
-                # empty lines. In this case just build the locale using
-                # the UTF-8 charset. I don't care if there's multiple
-                # empty lines, the user will simply waste time generating
-                # a locale for each one.
-                localegen "$locale" "${charset:-UTF-8}"
+                # This will run for empty lines.  Doing this means we can
+                # ensure at least a UTF-8 based locale is generated.
+                localegen "${locale##*/}" "${charset:-UTF-8}"
             done < "$locale"
         else
-            locale=${locale##*/}
-            localegen "$locale" UTF-8
+            localegen "${locale##*/}" UTF-8
         fi
     fi
 done
