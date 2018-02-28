@@ -3,7 +3,7 @@ pkgbuilds <https://github.com/Earnestly/pkgbuilds>
 WHY?
 
   Most of these packages were created because the ones found in the AUR were
-  horrible. The majority of my packages are built from the latest development
+  horrible. The majority of my packages are built from the latest developmental
   branches for both less maintenance burden, as package versions are
   programmatically generated, and for the newest fixes and bugs; hopefully
   fixes moreso than bugs.  Primarily this eases working with upstream as any
