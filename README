@@ -1,41 +1,33 @@
 pkgbuilds <https://github.com/Earnestly/pkgbuilds>
 
-WHY?
+WHY
 
   Most of these packages were created because the ones found in the AUR were
-  horrible. The majority of my packages are built from the latest developmental
-  branches for both less maintainence burden, as package versions are
-  programmatically generated, and for the newest fixes and bugs; hopefully
-  fixes moreso than bugs.  Primarily this eases working with upstream as any
+  not up to my standards. The majority of my packages are built from the latest
+  developmental branches for both less maintenance burden, as package versions
+  are programmatically generated, and for the newest fixes and bugs; hopefully
+  fixes more so than bugs.  Primarily this eases working with upstream as any
   issues are reported against the latest code.
 
   The pkgdesc format is losely based on man-pages(7) such as using short
-  lowercase descriptions similar to a manual's synopsis. Common variables are
-  grouped together to hopefully improve PKGBUILD readability.
+  lowercase, buzzword free descriptions similar to a manual's synopsis. Common
+  variables are grouped together to improve PKGBUILD readability.
 
-NOTABLE PACKAGES
+  I avoid abstractions at all costs unless it provides legitimate convenience.
 
-  - dmenu-pango-imlib
+DEVIATIONS FROM ARCH LINUX
 
-    Pango and imlib patches from <https://github.com/Cloudef> applied to dmenu
-    allowing for proper unicode fallback and embedded image support.
+  While Arch Linux provides mostly complete packages I don't split packages
+  into multiple variations.  E.g. Instead of six pulseaudio packages I only
+  provide one.
 
-  - htop-vi
+  - glibc-git
 
-    The vi patch adds vi-like movement via hjkl and switches k (kill) key to d.
+    Removed all non-UTF-8 charmaps.  By simplifying the locale-gen script I
+    can provide an empty /etc/locales directory for users to add their locales
+    as empty files with the name of the locale, e.g. /etc/locales/en_GB
 
-  - glibc
+  - pulseaudio-git
 
-    Removed all non-UTF-8 charmaps allowing for a simplified locale-gen script.
-    Provided an empty /etc/locales for users to add their prefered locale such
-    as en_GB without the charmap as only UTF-8 is available.
-
-  - system-config
-
-    A collection of personal configurations for various machines which enables
-    installing and managing system configuration as ordinary packages.
-
-  - runit-tools
-
-    The tools without the init.  Busybox also contains implementations of all
-    these tools which I may use instead in the future.
+    Disables practically every additional feature from dbus to esound support
+    leaving only the main POSIX functionality
