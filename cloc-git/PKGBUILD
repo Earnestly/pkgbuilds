@@ -1,5 +1,5 @@
 pkgname=cloc-git
-pkgver=1.74.r51.g229f81a
+pkgver=1.76.r47.gfc5ea1e
 pkgrel=1
 
 pkgdesc='count lines of code'
@@ -14,11 +14,18 @@ conflicts=('cloc')
 
 source=('git+https://github.com/AlDanial/cloc')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd cloc
     git describe --tags | sed 's/^v//; s/-/.r/; s/-/./'
+}
+
+prepare() {
+    cd cloc/Unix
+    # https://github.com/AlDanial/cloc/issues/275
+    # https://github.com/dluxhu/perl-parallel-forkmanager
+    sed -i '/my \$HAVE_Parallel_ForkManager/ {s/1/0/}' cloc
 }
 
 package() {
