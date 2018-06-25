@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.5.4.3.r2.g15fa28e8
+pkgver=0.5.4.6.r31.g34e1c5b6
 pkgrel=1
 
 pkgdesc='multimedia framework'
@@ -25,7 +25,6 @@ pkgver() {
 build() {
     cd arcan
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
           -DVIDEO_PLATFORM=egl-dri src
     make VERBOSE=1
 }

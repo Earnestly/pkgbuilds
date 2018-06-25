@@ -1,5 +1,5 @@
 pkgname=bemenu-git
-pkgver=r243.gd626127
+pkgver=r254.g5ecb570
 pkgrel=1
 
 pkgdesc='dynamic menu library and client program inspired by dmenu'
@@ -29,8 +29,7 @@ pkgver() {
 build() {
     cd bemenu
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib
     make VERBOSE=1
 }
 

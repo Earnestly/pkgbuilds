@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=2.0.r30.gea9de91bc
+pkgver=2.1.r210.g91f503594
 pkgrel=1
 
 pkgdesc='terminal based irc client'
@@ -30,7 +30,6 @@ build() {
     _python=$(python -c 'import sys; print("{}.{}m".format(*sys.version_info))')
 
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DENABLE_JAVASCRIPT=OFF \
         -DENABLE_PYTHON3=ON \
         -DPYTHON_LIBRARY=/usr/lib/libpython"$_python".so \

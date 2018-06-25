@@ -35,9 +35,8 @@ prepare() {
 
 build() {
     cd wlc
-    cmake -DCMAKE_BUILD_TYPE=Upstream \
-        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-        -DCMAKE_INSTALL_PREFIX=/usr
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib
     make
 }
 

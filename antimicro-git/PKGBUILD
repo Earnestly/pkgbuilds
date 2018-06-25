@@ -24,7 +24,7 @@ pkgver() {
 
 build() {
     cd antimicro
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_SDL_2=ON
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSE_SDL_2=ON
     make VERBOSE=1
 }
 

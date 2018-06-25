@@ -1,5 +1,5 @@
 pkgname=maim-git
-pkgver=5.4.68.r2.gf0c5de9
+pkgver=5.5.1.r0.gbee32c6
 pkgrel=1
 
 pkgdesc='take screenshots of the desktop, similar to scrot'
@@ -25,7 +25,7 @@ pkgver() {
 
 build() {
     cd maim
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    cmake -DCMAKE_INSTALL_PREFIX=/usr
     make VERBOSE=1
 }
 
