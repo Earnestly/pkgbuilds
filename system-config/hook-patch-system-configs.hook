@@ -1,0 +1,13 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = File
+Target = etc/pacman.conf
+
+[Action]
+Description = Patching system configurations...
+Depends = patch
+Depends = base-config
+When = PostTransaction
+NeedsTargets
+Exec = /usr/share/libalpm/scripts/patch-system-configs

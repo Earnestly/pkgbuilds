@@ -1,0 +1,12 @@
+#!/bin/sh --
+# patch-system-configs - apply any matching patches to system configs
+
+while read -r conf; do
+    patch=/usr/share/system-config/patches/${conf##*/}.patch
+
+    if [ -e "$patch" ]; then
+        if ! patch -d / -Rfp1 -i "$patch" --dry-run > /dev/null; then
+            patch -d / -r - -Np1 -i "$patch".patch
+        fi
+    fi
+done

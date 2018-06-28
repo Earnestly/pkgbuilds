@@ -1,0 +1,104 @@
+--- /etc/pacman.conf	2018-05-31 17:32:02.000000000 +0100
++++ /etc/pacman.conf	2018-06-28 11:14:26.316888436 +0100
+@@ -9,36 +9,37 @@
+ [options]
+ # The following paths are commented out with their default values listed.
+ # If you wish to use different paths, uncomment and update the paths.
+-#RootDir     = /
+-#DBPath      = /var/lib/pacman/
+-#CacheDir    = /var/cache/pacman/pkg/
+-#LogFile     = /var/log/pacman.log
+-#GPGDir      = /etc/pacman.d/gnupg/
+-#HookDir     = /etc/pacman.d/hooks/
+-HoldPkg     = pacman glibc
++#RootDir = /
++#DBPath = /var/lib/pacman/
++#CacheDir = /var/cache/pacman/pkg/
++#LogFile = /var/log/pacman.log
++#GPGDir = /etc/pacman.d/gnupg/
++#HookDir = /etc/pacman.d/hooks/
++HoldPkg = pacman glibc
+ #XferCommand = /usr/bin/curl -C - -f %u > %o
+ #XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
+ #CleanMethod = KeepInstalled
+-#UseDelta    = 0.7
++#UseDelta = 0.7
+ Architecture = auto
+ 
+ # Pacman won't upgrade packages listed in IgnorePkg and members of IgnoreGroup
+-#IgnorePkg   =
++#IgnorePkg =
+ #IgnoreGroup =
+ 
+-#NoUpgrade   =
+-#NoExtract   =
++#NoUpgrade =
++NoExtract = usr/share/dbus-1/services/*.service etc/profile.d/locale.sh
+ 
+ # Misc options
+ #UseSyslog
+-#Color
++Color
+ #TotalDownload
+ CheckSpace
+-#VerbosePkgLists
++VerbosePkgLists
++ILoveCandy
+ 
+ # By default, pacman accepts packages signed by keys that its local keyring
+ # trusts (see pacman-key and its man page), as well as unsigned packages.
+-SigLevel    = Required DatabaseOptional
++SigLevel = Required DatabaseOptional
+ LocalFileSigLevel = Optional
+ #RemoteFileSigLevel = Required
+ 
+@@ -63,14 +64,13 @@
+ #
+ # The header [repo-name] is crucial - it must be present and
+ # uncommented to enable the repo.
+-#
+ 
+-# The testing repositories are disabled by default. To enable, uncomment the
+-# repo name header and Include lines. You can add preferred servers immediately
+-# after the header, and they will be used before the default mirrors.
++[earnestly]
++SigLevel = PackageOptional
++Server = file:///home/earnest/build/repo
+ 
+-#[testing]
+-#Include = /etc/pacman.d/mirrorlist
++[testing]
++Include = /etc/pacman.d/mirrorlist
+ 
+ [core]
+ Include = /etc/pacman.d/mirrorlist
+@@ -78,23 +78,17 @@
+ [extra]
+ Include = /etc/pacman.d/mirrorlist
+ 
+-#[community-testing]
+-#Include = /etc/pacman.d/mirrorlist
++[community-testing]
++Include = /etc/pacman.d/mirrorlist
+ 
+ [community]
+ Include = /etc/pacman.d/mirrorlist
+ 
+-# If you want to run 32 bit applications on your x86_64 system,
+-# enable the multilib repositories as required here.
+-
+-#[multilib-testing]
+-#Include = /etc/pacman.d/mirrorlist
++[multilib-testing]
++Include = /etc/pacman.d/mirrorlist
+ 
+-#[multilib]
+-#Include = /etc/pacman.d/mirrorlist
++[multilib]
++Include = /etc/pacman.d/mirrorlist
+ 
+ # An example of a custom package repository.  See the pacman manpage for
+ # tips on creating your own repositories.
+-#[custom]
+-#SigLevel = Optional TrustAll
+-#Server = file:///home/custompkgs
