@@ -1,5 +1,5 @@
 pkgname=pacman-contrib-git
-pkgver=0.0.1.r23.g7387d68
+pkgver=1.0.0.r3.g1603b07
 pkgrel=1
 
 pkgdesc='additional utilities based around pacman'
@@ -16,7 +16,7 @@ conflicts=('pacman-contrib')
 
 source=('git+https://git.archlinux.org/pacman-contrib.git')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd pacman-contrib
@@ -42,4 +42,7 @@ check() {
 package() {
     cd pacman-contrib
     make DESTDIR="$pkgdir" install
+
+    # Remove the terrible syntax highlighting for PKGBUILDs
+    rm -rf -- "$pkgdir"/usr/share/vim
 }
