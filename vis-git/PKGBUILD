@@ -1,5 +1,5 @@
 pkgname=vis-git
-pkgver=0.4.r28.g6557d0e
+pkgver=0.5.r48.ga4b64c5
 pkgrel=1
 
 pkgdesc='vim like text editor'
@@ -41,8 +41,7 @@ build() {
 
 check() {
     cd vis
-    # XXX digraph test failure, likely due to me using neovim instead of vim
-    make -C test || true
+    make -C test
 }
 
 package() {
