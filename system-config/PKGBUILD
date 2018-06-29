@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=12.3
+pkgver=13.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -24,6 +24,7 @@ source=('env-locale.sh'
         'mod-uvcvideo.conf'
         'mod-thinkpad_acpi.conf'
         'nft-nftables.conf'
+        'patch-makepkg.conf.patch'
         'patch-pacman.conf.patch'
         'sudo-wheel'
         'sysctl-swap.conf'
@@ -51,6 +52,7 @@ package_base-config() {
     install -Dm0644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm0644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
     install -Dm0644 patch-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
+    install -Dm0644 patch-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
     install -Dm0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
     install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
@@ -73,7 +75,7 @@ package_teapot-config() {
     install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
 
-    printf 'teapot\n' | install -Dm0644 -T /dev/stdin "$pkgdir"/etc/hostname
+    printf 'teapot\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
 }
 
 package_engine-config() {
@@ -86,7 +88,7 @@ package_engine-config() {
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
     install -Dm0644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
 
-    printf 'engine\n' | install -Dm0644 -T /dev/stdin "$pkgdir"/etc/hostname
+    printf 'engine\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
 }
 
 sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
@@ -94,8 +96,8 @@ sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
             'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
-            '9700e8f0f5a202d2a787e1202651c3ad0cd1d7af3dcb891907186900c61ceebd'
-            'e562987cf08f3f722e11e6054098933b0f8e714f5ccba6beb1da950b9adbdf7b'
+            'e03ee1956c15ab4041dc5a29c978d0017ac5d8bce782f813b55bd0193fa7672e'
+            '9e17874e5db1bc22a2fdc5bbb1902069f545f82d926db0ab7df6c962925f3178'
             'f18fb2629138504be8631f365d44f5de37e02e2eaa2d862fcdeed3df9350c571'
             '14a5257880b3d92aa018299d54e97bd356732aa22a24ca9f3db61a7d8dadc4a4'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
@@ -105,7 +107,8 @@ sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
             'f17d620ed2de0d5b568b6eb389f6c55852e615c8b26772e404242cbf3b857f41'
             '04b936fe10b6daa5dbc79c7e642aa9a43b2a9b2de94312bfc3b41ff04a1a9c80'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
-            'eda636a26e88a040448ed8d6f49325a45cd26ca5bd8f5f3e565b82ab02116fe5'
+            'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
+            'ff0834ac2bb8721f15ef933a21fe31bc91d062e0a81db2bfc6e3e2d9b414d335'
             '1d6e65e7dcf0af1a341a414d5659b5feaf5e5d9b3e53334d531d8ec7e52be5a4'
             '0c164df1a0702723c2e2a48fe7224b2e7318cd83253126c44293ff4c9ff0ba2e'
             'f3ac45e8e1c835886b3daa647033c54e889acc8766c9fbd7bccb80a006438f5d'

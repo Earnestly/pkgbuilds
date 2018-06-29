@@ -3,6 +3,7 @@ Operation = Install
 Operation = Upgrade
 Type = File
 Target = etc/pacman.conf
+Target = etc/makepkg.conf
 
 [Action]
 Description = Patching system configurations...

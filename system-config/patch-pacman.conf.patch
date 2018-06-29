@@ -63,7 +63,7 @@
 -# after the header, and they will be used before the default mirrors.
 +[earnestly]
 +SigLevel = PackageOptional
-+Server = file:///home/earnest/build/repo
++Server = file:///home/earnest/local/repo
  
 -#[testing]
 -#Include = /etc/pacman.d/mirrorlist
