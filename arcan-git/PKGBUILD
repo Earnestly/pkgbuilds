@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.5.4.6.r42.ge4981458
+pkgver=0.5.4.6.r43.g5d81c37e
 pkgrel=2
 
 pkgdesc='multimedia framework'
@@ -9,7 +9,7 @@ license=('GPL' 'BSD')
 
 depends=('ffmpeg' 'openal' 'sqlite3' 'luajit' 'apr' 'libusb' 'harfbuzz-icu'
          'libxkbcommon')
-makedepends=('git' 'cmake')
+makedepends=('git' 'cmake' 'ruby')
 
 provides=('arcan')
 conflicts=('arcan')
@@ -24,8 +24,14 @@ pkgver() {
 }
 
 build() {
-    cd arcan
+    cd arcan/doc
+    # Explicitly make ruby use UTF-8 encoding as when used in minimal
+    # environments (where LANG is not set)
+    ruby -Ku docgen.rb mangen
+
+    cd "$srcdir"/arcan
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
+          -DAPIMAN_DEST=/usr/share/man/arcan/man3 \
           -DVIDEO_PLATFORM=egl-dri src
     make VERBOSE=1
 }
