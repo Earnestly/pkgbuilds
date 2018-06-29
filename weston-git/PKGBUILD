@@ -1,5 +1,5 @@
 pkgname=weston-git
-pkgver=3.0.0.r129.g14a7e371
+pkgver=4.0.0.r139.g78a42116
 pkgrel=1
 
 pkgdesc='reference implementation of a wayland compositor'
@@ -25,8 +25,7 @@ pkgver() {
 
 build() {
     cd weston
-    # XXX requires passing -fPIC to build with -flto
-    CFLAGS=-fPIC ./autogen.sh --prefix=/usr \
+    ./autogen.sh --prefix=/usr \
         --libexecdir=/usr/lib/weston \
         --enable-demo-clients-install
     make
