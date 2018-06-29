@@ -1,5 +1,5 @@
 pkgname=ragel-git
-pkgver=7.0.0.10.r32.gdbc37f49
+pkgver=7.0.0.11.r5.g41b0fb39
 pkgrel=1
 
 pkgdesc='finite state machine generator for c, c++, and asm'
@@ -12,9 +12,9 @@ depends=('colm')
 provides=('ragel')
 conflicts=('ragel')
 
-source=('git://git.colm.net/ragel.git')
+source=('git://colm.net/ragel.git')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd ragel
