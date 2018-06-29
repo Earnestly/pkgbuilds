@@ -1,5 +1,5 @@
 pkgname=ponyc-git
-pkgver=0.4.0.r784.gf00f95b3
+pkgver=0.4.0.r1067.g106412cd
 pkgrel=1
 
 pkgdesc='actor model and capabilities programming language'
@@ -9,7 +9,7 @@ license=('BSD')
 
 options=('staticlibs' 'debug' '!strip')
 
-depends=('zlib' 'ncurses')
+depends=('zlib' 'ncurses' 'openssl')
 makedepends=('git' 'llvm')
 checkdepends=('pcre2')
 optdepends=('pcre2: Needed for the regex package.')
@@ -28,7 +28,7 @@ pkgver() {
 
 build() {
     cd ponyc
-    make config=release prefix=/usr
+    make verbose=1 arch=x86-64 default_pic=true config=release default_openssl=openssl_1.1.0 prefix=/usr
 
     mkdir docs
     build/release/ponyc packages/stdlib -r expr -g -o docs
@@ -36,8 +36,7 @@ build() {
 
 check() {
     cd ponyc
-    # XXX net/Broadcast can fail https://github.com/ponylang/ponyc/issues/602
-    make config=release prefix=/usr test || true
+    make verbose=1 arch=x86-64 default_pic=true config=release default_openssl=openssl_1.1.0 prefix=/usr test
 }
 
 package() {
