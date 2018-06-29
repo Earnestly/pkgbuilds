@@ -7,7 +7,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.27.9000.r44.g8b4a118222c
+pkgver=2.27.9000.r500.gd93f4ff16b
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -69,8 +69,6 @@ build() {
         --with-bugurl=https://bugs.archlinux.org/ \
         --enable-bind-now \
         --enable-multi-arch \
-        --enable-obsolete-rpc \
-        --enable-obsolete-nsl \
         --enable-lock-elision \
         --enable-stack-protector=strong \
         --enable-stackguard-randomization \
