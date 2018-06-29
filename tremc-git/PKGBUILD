@@ -1,6 +1,6 @@
 pkgname=tremc-git
-pkgver=r668.ge06d08d
-pkgrel=2
+pkgver=r672.gdfbde72
+pkgrel=1
 
 pkgdesc='curses frontend to transmission-daemon'
 url='https://github.com/louipc/tremc'

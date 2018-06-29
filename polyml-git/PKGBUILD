@@ -1,5 +1,5 @@
 pkgname=polyml-git
-pkgver=5.7.1.r50.g16ab2c09
+pkgver=5.7.1.r80.gdd7f37b1
 pkgrel=1
 
 pkgdesc='standard ml implementation'

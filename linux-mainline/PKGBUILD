@@ -1,5 +1,5 @@
 pkgname=linux-mainline
-pkgver=4.15.rc4
+pkgver=4.15.rc7
 pkgrel=1
 
 pkgdesc='linux kernel and modules'
