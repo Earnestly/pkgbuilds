@@ -1,5 +1,5 @@
 pkgname=colm-git
-pkgver=0.13.0.5.r12.g83e3cbcb
+pkgver=0.13.0.6.r3.g75ea06cb
 pkgrel=1
 
 pkgdesc='programming language designed for the analysis and transformation of computer languages'
@@ -9,24 +9,16 @@ license=('MIT')
 
 depends=('gcc-libs')
 
-source=('git://git.colm.net/colm.git'
-        'fix-test-compile.patch')
+source=('git://colm.net/colm.git')
 
 provides=('colm')
 conflicts=('colm')
 
-sha1sums=('SKIP'
-          'd0a6989269ed5d35afb09ee5a8aa47b4b7cfd26c')
+sha256sums=('SKIP')
 
 pkgver() {
     cd colm
-    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
-}
-
-prepare() {
-    cd colm
-    # XXX Awaiting moderation(?): http://www.colm.net/pipermail/colm
-    patch -Np1 -i "$srcdir"/fix-test-compile.patch
+    git describe --long --tags | sed 's/^colm-//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
 build() {
@@ -34,14 +26,6 @@ build() {
     autoreconf -fi
     ./configure --prefix=/usr
     make
-}
-
-check() {
-    cd colm/test
-    ./autogen.sh
-    ./configure
-    make
-    ./runtests
 }
 
 package() {
