@@ -1,6 +1,6 @@
 pkgname=pacman-git
-pkgver=5.0.2.r190.ge4f13e62
-pkgrel=2
+pkgver=5.1.0.r19.g0d6e82d3
+pkgrel=1
 
 pkgdesc='package manager with dependency support'
 url='http://www.archlinux.org/pacman/'
@@ -17,9 +17,13 @@ checkdepends=('python2' 'fakechroot')
 provides=("pacman=$pkgver")
 conflicts=('pacman')
 
-source=('git+https://projects.archlinux.org/git/pacman.git')
+source=('git+https://projects.archlinux.org/git/pacman.git'
+        'https://git.archlinux.org/svntogit/packages.git/plain/pacman/trunk/pacman.conf'
+        'https://git.archlinux.org/svntogit/packages.git/plain/pacman/trunk/makepkg.conf')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP'
+            '95b3b2416402059cf6acf3e046082e7ce261e2b88629231dbf579a4200d8a63b'
+            '650ddad24cad6afc4aecb4829cb8f06b9acb70c10a44f756fe8bd279949b518e')
 
 pkgver() {
     cd pacman
@@ -29,6 +33,7 @@ pkgver() {
 
 build() {
     cd pacman
+    #CFLAGS+=' -Wno-error=format-truncation'
     autoreconf -fi
     ./configure --prefix=/usr \
         --sysconfdir=/etc \
@@ -51,16 +56,6 @@ package() {
     cd pacman
     make DESTDIR="$pkgdir" install
 
-    # Tidy up makepkg.conf
-    _chost=$(gcc -dumpmachine)
-
-    # XXX Since Arch Linux dropped i686, this may need to be revisted.
-    case $CARCH in
-        i686)   _flags='-march=i686 ' ;;
-        x86_64) _flags='-march=x86-64 '
-    esac
-
-    sed -i "s|@CARCH[@]|$CARCH|g;
-            s|@CHOST[@]|$_chost|g;
-            s|@CARCHFLAGS[@]|$_flags|g" "$pkgdir"/etc/makepkg.conf
+    install -Dm0644 "$srcdir"/pacman.conf "$pkgdir"/etc/pacman.conf
+    install -Dm0644 "$srcdir"/makepkg.conf "$pkgdir"/etc/makepkg.conf
 }
