@@ -1,5 +1,5 @@
 pkgname=make-git
-pkgver=4.2.1.r69.g8a731d1
+pkgver=4.2.1.r78.g0ce880e
 pkgrel=1
 
 pkgdesc='GNU make utility to maintain groups of programs'
@@ -17,9 +17,10 @@ groups=('base-devel')
 provides=('make')
 conflicts=('make')
 
-source=('git+https://git.savannah.gnu.org/git/make.git')
+source=('git+https://git.savannah.gnu.org/git/make.git'
+        'git://git.sv.gnu.org/gnulib')
 
-sha256sums=('SKIP')
+sha256sums=('SKIP' 'SKIP')
 
 pkgver() {
     cd make
@@ -28,9 +29,10 @@ pkgver() {
 
 build() {
     cd make
+    # XXX Requires internet connection to downloads .po files.
+    ./bootstrap --gnulib-srcdir="$srcdir"/gnulib
     autoreconf -fi
     ./configure --prefix=/usr --with-guile
-    make update
     make
 }
 
