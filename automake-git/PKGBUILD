@@ -1,0 +1,42 @@
+pkgname=automake-git
+pkgver=1.15.1
+pkgrel=1
+
+pkgdesc='automatically create makefiles'
+url='http://www.gnu.org/software/automake'
+arch=('any')
+license=('GPL')
+
+groups=('base-devel')
+
+depends=('perl' 'bash')
+makedepends=('autoconf')
+# checkdepends=('dejagnu' 'gcc-fortran' 'cscope' 'lzip')
+
+provides=('automake')
+conflicts=('automake')
+
+source=('git+https://git.savannah.gnu.org/git/automake.git')
+
+sha256sums=('SKIP')
+
+build() {
+    cd automake
+    ./bootstrap
+    ./configure --prefix=/usr
+    make
+}
+
+# XXX Takes far too long and tests utterly trivial things.
+#     This is not an important program and if it breaks on some commit, I'll
+#     deal with that at the time instead.
+
+# check() {
+#     cd automake
+#     make check
+# }
+
+package() {
+    cd automake
+    make DESTDIR="$pkgdir" install
+}
