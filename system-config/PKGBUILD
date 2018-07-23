@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=13.1
+pkgver=13.2
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -46,13 +46,9 @@ package_base-config() {
     install -Dm0644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
     install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
-    install -Dm0755 hook-patch-system-configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch-system-configs.hook
-    install -Dm0755 hook-patch-system-configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch-system-configs
     install -Dm0644 locale-en_GB "$pkgdir"/etc/locales/en_GB
     install -Dm0644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm0644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
-    install -Dm0644 patch-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
-    install -Dm0644 patch-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
     install -Dm0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
     install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
@@ -66,11 +62,15 @@ package_teapot-config() {
     pkgdesc='system configurations for teapot'
     depends=('base-config' 'xf86-input-libinput' 'nftables')
 
+    install -Dm0755 hook-patch-system-configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch-system-configs.hook
+    install -Dm0755 hook-patch-system-configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch-system-configs
     install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
     install -Dm0644 hwdb-caps-as-ctrl-thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-thinkpad.hwdb
     install -Dm0644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
     install -Dm0644 mod-thinkpad_acpi.conf "$pkgdir"/etc/modprobe.d/thinkpad_acpi.conf
     install -Dm0644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
+    install -Dm0644 patch-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
+    install -Dm0644 patch-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
     install -Dm0644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
     install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
     install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
