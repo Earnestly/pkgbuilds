@@ -1,5 +1,5 @@
 pkgname=linux-mainline
-pkgver=4.15.rc7
+pkgver=4.18.rc6
 pkgrel=1
 
 pkgdesc='linux kernel and modules'
@@ -24,16 +24,14 @@ source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         '60-linux-mainline.hook.in'
         '90-linux-mainline.hook'
         'linux-mainline.preset'
-        'install-headers'
-        'fix-objtool-makefile.patch')
+        'install-headers')
 
 sha256sums=('SKIP'
-            'bfde21c325d39013463c38e9fa23d6d6481238b8509eea4ae38906127017e47d'
+            'f8e890eac9779a89009c1e2339f757e9781864df09805211fad005146fe2578b'
             '58c1c4e128c9b587289296fd6e362ca9c3a46f519e618aeccc068e1cd0bc21da'
             '40ce40c386fd7f0346b2bd15c827d535ac9729c9c33b94e25a30cf097accb0f3'
             '01f289d71128915cde0d734b863ffeb53613e27516e4121a99afe5b712936725'
-            '35f4935c67305b6bedef9c39d54688d82930185c224295bef0e25d0ceb05706d'
-            '8776c22a9167e2f92a32dd5ead2df06dbc38d1d0e5cd9a583182d8a706a0ebaf')
+            '4eea96f1f0ae3782393beeaf4d011ea8550b8e5861882e261c474aef6357b4d3')
 
 pkgver() {
     cd linux
@@ -45,11 +43,7 @@ prepare() {
     # Bypass makepkg by manually checking out the required tag as this allows
     # me to continue using the pkgver function which avoids the need to
     # maintain a version and tag.
-    _tag=$(git tag --sort=v:refname | tail -n1)
-    git checkout --no-track -fB build "$_tag"
-
-    # XXX https://bugzilla.kernel.org/show_bug.cgi?id=197847
-    patch -Np1 -i "$srcdir"/fix-objtool-makefile.patch
+    git checkout --no-track -fB build "$(git tag --sort=v:refname | tail -n1)"
 
     # Adapt Arch Linux's config to our mainline package.
     sed 's/-ARCH/-mainline/' "$srcdir"/config > .config

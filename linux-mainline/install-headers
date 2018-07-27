@@ -10,8 +10,13 @@ set -o errexit
 usage() {
     cat <<!
 usage: install-headers [-h] [-f from] dest
-       -f  where the linux directory is (default: cwd)
-       -h  this help message
+
+options
+    -f  where the linux directory is (default: cwd)
+    -h  this help message
+
+dest
+    directory
 !
 }
 
