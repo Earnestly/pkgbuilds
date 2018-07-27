@@ -1,5 +1,5 @@
 pkgname=sx-git
-pkgver=r24.gb8c45ed
+pkgver=1.1.r3.g887df36
 pkgrel=1
 
 pkgdesc='start an xserver'
@@ -19,7 +19,7 @@ sha256sums=('SKIP')
 
 pkgver() {
     cd sx
-    printf 'r%s.g%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --tags --long | sed 's/-/.r/; s/-/./'
 }
 
 package() {
