@@ -9,4 +9,4 @@ Target = usr/lib/modules/extramodules-VERSION-mainline/*
 [Action]
 Description = updating linux-mainline module dependencies
 When = PostTransaction
-Exec = /usr/bin/depmod VERSION-mainline
+Exec = /usr/bin/depmod -A VERSION-mainline

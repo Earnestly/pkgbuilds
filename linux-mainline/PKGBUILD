@@ -1,5 +1,5 @@
 pkgname=linux-mainline
-pkgver=4.18.rc6
+pkgver=4.18.rc7
 pkgrel=1
 
 pkgdesc='linux kernel and modules'
@@ -10,6 +10,7 @@ license=('GPL2')
 options=('!strip')
 
 backup=('etc/mkinitcpio.d/linux-mainline.preset')
+
 install='linux-mainline.install'
 
 depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
@@ -27,11 +28,11 @@ source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         'install-headers')
 
 sha256sums=('SKIP'
-            'f8e890eac9779a89009c1e2339f757e9781864df09805211fad005146fe2578b'
-            '58c1c4e128c9b587289296fd6e362ca9c3a46f519e618aeccc068e1cd0bc21da'
+            'aa7b6756f193f3b3a3fc4947e7a77b09e249df2e345e6495292055d757ba8be6'
+            '4eb6dfd9f905ca49403b41f2db00f2c55a72613663c9d225d58b853fddc0f8f4'
             '40ce40c386fd7f0346b2bd15c827d535ac9729c9c33b94e25a30cf097accb0f3'
             '01f289d71128915cde0d734b863ffeb53613e27516e4121a99afe5b712936725'
-            '4eea96f1f0ae3782393beeaf4d011ea8550b8e5861882e261c474aef6357b4d3')
+            'a0e4d099d10046a4db71cfa71ee563c2f2f9d2536679841762391c350392952c')
 
 pkgver() {
     cd linux
@@ -45,22 +46,24 @@ prepare() {
     # maintain a version and tag.
     git checkout --no-track -fB build "$(git tag --sort=v:refname | tail -n1)"
 
-    # Adapt Arch Linux's config to our mainline package.
-    sed 's/-ARCH/-mainline/' "$srcdir"/config > .config
+    # Before doing anything else, save our current clean checkout so that
+    # subsequent changes to files such as .config and depmod.sh won't mark the
+    # respository as dirty and result in a '+' being added to the localversion.
+    ./scripts/setlocalversion --save-scmversion
+
     make olddefconfig
 
-    # Neutralise scripts/depmod.sh as we need to run it after faffing about
-    # with extramodules directories rather than part of make module_install.
+    # Neutralise scripts/depmod.sh as we need to run the tool after faffing
+    # about with the extramodules directories instead of during the call to
+    # make module_install.
+    # NOTE: I could use make DEPMOD=/something/that/doesnt/exist module_install
+    #       but I'd rather not take the chance, no matter how slight.
     printf 'true\n' > scripts/depmod.sh
 }
 
 build() {
     cd linux
-
-    # Prevent scripts/setlocalversion from appending a '+' by setting
-    # LOCALVERSION.  This is necessary as any patches applied during prepare
-    # will mark the repository as dirty.
-    make LOCALVERSION= bzImage modules headers_check
+    make LOCALVERSION=-mainline bzImage modules headers_check
 }
 
 package() {
@@ -70,12 +73,6 @@ package() {
     make INSTALL_MOD_PATH="$pkgdir"/usr modules_install
     make INSTALL_HDR_PATH="$pkgdir"/usr headers_install
 
-    # These headers are provided by libdrm on Arch Linux
-    rm -rf "$pkgdir"/usr/include/drm
-
-    # Clean up unecessary files generated during headers_install
-    find "$pkgdir"/usr/include \( -name .install -o -name ..install.cmd \) -delete
-
     install -Dm0644 arch/x86/boot/bzImage "$pkgdir"/boot/vmlinuz-linux-mainline
 
     # Provide a "weak-modules" directory for modules that may not need to be
@@ -83,6 +80,12 @@ package() {
     ln -s ../extramodules-"${_kernel%.*}"-mainline "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/extramodules
     printf '%s\n' "$_kernel" > version
     install -Dm0644 version "$pkgdir"/usr/lib/modules/extramodules-"${_kernel%.*}"-mainline/version
+
+    # These headers are provided by libdrm on Arch Linux
+    rm -rf "$pkgdir"/usr/include/drm
+
+    # Clean up unecessary files generated during headers_install
+    find "$pkgdir"/usr/include \( -name .install -o -name ..install.cmd \) -delete
 
     # Remove the 'build' and 'source' symlinks which just point back to the
     # build directory.
@@ -94,17 +97,18 @@ package() {
     # depmod.sh script.
     depmod -b "$pkgdir"/usr -F System.map "$_kernel"-mainline
 
-    # Provide vmlinux as it may be useful for debugging and other reporting.
-    # E.g. gdb vmlinux /proc/kcore
+    # Provide an unstripped vmlinux as it may be useful for debugging and other
+    # reporting, e.g. `gdb vmlinux /proc/kcore'
     install -Dm0755 vmlinux "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build/vmlinux
 
-    # Documentation
+    # Documentation (this should probably be in /usr/share/doc).
     cp -a --no-preserve=ownership Documentation "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
 
     # Provide headers and tools for third-party modules.  There is no standard
     # make target for this.
     "$srcdir"/install-headers "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
 
+    # Provide mkinitcpio presets and pacman hooks for rebuilding the initramfs.
     install -Dm0644 "$srcdir"/linux-mainline.preset "$pkgdir"/etc/mkinitcpio.d/linux-mainline.preset
     install -Dm0644 "$srcdir"/90-linux-mainline.hook "$pkgdir"/usr/share/libalpm/hooks/90-linux-mainline.hook
 
