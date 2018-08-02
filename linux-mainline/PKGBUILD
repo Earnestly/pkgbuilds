@@ -1,6 +1,6 @@
 pkgname=linux-mainline
 pkgver=4.18.rc7
-pkgrel=1
+pkgrel=2
 
 pkgdesc='linux kernel and modules'
 url='https://www.kernel.org'
@@ -17,8 +17,8 @@ depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
 makedepends=('xmlto' 'inetutils' 'bc' 'libelf' 'git')
 optdepends=('crda: to set the correct wireless channels of your country')
 
-provides=('linux-api-headers')
-conflicts=('linux-api-headers')
+provides=('linux' 'linux-api-headers' 'linux-headers' 'linux-docs')
+conflicts=('linux' 'linux-api-headers' 'linux-headers' 'linux-docs')
 
 source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         'https://git.archlinux.org/svntogit/packages.git/plain/linux/trunk/config'
@@ -32,7 +32,7 @@ sha256sums=('SKIP'
             '4eb6dfd9f905ca49403b41f2db00f2c55a72613663c9d225d58b853fddc0f8f4'
             '40ce40c386fd7f0346b2bd15c827d535ac9729c9c33b94e25a30cf097accb0f3'
             '01f289d71128915cde0d734b863ffeb53613e27516e4121a99afe5b712936725'
-            'a0e4d099d10046a4db71cfa71ee563c2f2f9d2536679841762391c350392952c')
+            '0af2ca9d512d6874b4755bdb25b6a11abf5017ab03e3d256755cdf622f2ac127')
 
 pkgver() {
     cd linux
@@ -78,7 +78,7 @@ package() {
     # Provide a "weak-modules" directory for modules that may not need to be
     # rebuilt for minor kernel version changes such as from 4.15.0 to 4.15.1
     ln -s ../extramodules-"${_kernel%.*}"-mainline "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/extramodules
-    printf '%s\n' "$_kernel" > version
+    printf '%s\n' "$_kernel"-mainline > version
     install -Dm0644 version "$pkgdir"/usr/lib/modules/extramodules-"${_kernel%.*}"-mainline/version
 
     # These headers are provided by libdrm on Arch Linux

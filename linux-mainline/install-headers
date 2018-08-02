@@ -47,7 +47,8 @@ install -Dm0644 -t "$dest"/arch/x86/kernel arch/x86/kernel/asm-offsets.s
 install -Dm0644 -t "$dest"/drivers/md drivers/md/*.h
 install -Dm0644 -t "$dest"/net/mac80211 net/mac80211/*.h
 
-# install -Dm0644 -t "$dest"/drivers/media/dvb-core drivers/media/dvb-core/*.h
+cp -t "$dest" -a include scripts
+cp -t "$dest"/arch/x86 -a arch/x86/include
 
 # http://bugs.archlinux.org/task/13146
 install -Dm0644 -t "$dest"/drivers/media/i2c drivers/media/i2c/msp3400-driver.h
@@ -62,14 +63,11 @@ install -dm755 "$dest"/fs/mm
 install -dm755 "$dest"/fs/xfs
 
 # Add objtool for external module building and enabled VALIDATION_STACK option
-install -Dm0755 tools/objtool/objtool "$dest"/tools/objtool
+install -Dm0755 tools/objtool/objtool "$dest"/tools/objtool/objtool
 
 # Copy in Kconfig files.  Note this will not work if the destination is under
 # the linux directory tree.
 find . -name 'Kconfig*' -exec install -Dm0644 {} "$dest"/{} \;
-
-cp -t "$dest" -a include scripts
-cp -t "$dest"/arch/x86 -a arch/x86/include
 
 # Clean up any non-x86 architectures as Arch Linux doesn't support them.
 find "$dest"/arch ! \( -path "$dest" -o -path '*/x86*' -o -name arch \) -type d -exec rm -rf {} +
