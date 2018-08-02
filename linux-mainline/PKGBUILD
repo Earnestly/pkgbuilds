@@ -17,8 +17,8 @@ depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
 makedepends=('xmlto' 'inetutils' 'bc' 'libelf' 'git')
 optdepends=('crda: to set the correct wireless channels of your country')
 
-provides=('linux' 'linux-api-headers' 'linux-headers' 'linux-docs')
-conflicts=('linux' 'linux-api-headers' 'linux-headers' 'linux-docs')
+provides=('linux-api-headers')
+conflicts=('linux-api-headers')
 
 source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         'https://git.archlinux.org/svntogit/packages.git/plain/linux/trunk/config'
