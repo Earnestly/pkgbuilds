@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=2.1.r231.g629289602
+pkgver=2.2.r17.g6140aac57
 pkgrel=1
 
 pkgdesc='terminal based irc client'
@@ -37,13 +37,13 @@ build() {
     make VERBOSE=1
 }
 
-# XXX These tests require the en_US.UTF-8 locale and charmap
 check() {
     cd weechat
 
+    # XXX These tests require a UTF-8 locale, using en_US as a proxy for C.
     # XXX Currently there's no way to disable testing of specific plugins which
     #     we can't support.  Because of this some tests will fail.
-    ctest -V || true
+    LANG=en_US.UTF-8 ctest -V || true
 }
 
 package() {
