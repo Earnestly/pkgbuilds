@@ -1,0 +1,52 @@
+pkgname=acpi_call-mainline-git
+pkgver=1.1.0.r0.gac67445
+pkgrel=1
+
+pkgdesc='kernel module enabling calls to acpi methods through /proc/acpi/call'
+url='https://github.com/mkottman/acpi_call'
+arch=('x86_64')
+license=('GPL')
+
+depends=('linux-mainline')
+
+source=('git+https://github.com/mkottman/acpi_call')
+
+sha256sums=('SKIP')
+
+_extramodules=$(readlink -f "$(pacman -Qql linux-mainline | grep 'extra.*-mainline/$')")
+
+prepare() {
+    cd acpi_call
+
+    # https://github.com/mkottman/acpi_call/pull/65
+    # https://github.com/mkottman/acpi_call/pull/52
+    # https://github.com/mkottman/acpi_call/pull/49
+    sed -i 's|acpi/acpi.h|linux/acpi.h|' acpi_call.c
+
+    # https://github.com/mkottman/acpi_call/pull/75
+    # https://github.com/mkottman/acpi_call/pull/74
+    sed -i 's|asm/uaccess.h|linux/uaccess.h|' acpi_call.c
+}
+
+pkgver() {
+    cd acpi_call
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd acpi_call
+    read -r _kversion < "$_extramodules"/version
+    make KVERSION="$_kversion"
+}
+
+package() {
+    cd acpi_call
+
+    gzip -9 acpi_call.ko
+    install -Dm0644 -t "$pkgdir"/"$_extramodules" acpi_call.ko.gz
+
+    printf 'acpi_call\n' | install -Dm0644 /dev/stdin "$pkgdir"/usr/lib/modules-load.d/acpi_call.conf
+
+    install -dm0755 "$pkgdir"/usr/share/acpi_call
+    cp -a --no-preserve=ownership examples support "$pkgdir"/usr/share/acpi_call
+}
