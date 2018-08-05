@@ -1,6 +1,6 @@
 pkgname=linux-mainline
-pkgver=4.18.rc7
-pkgrel=2
+pkgver=4.18.0.rc7
+pkgrel=1
 
 pkgdesc='linux kernel and modules'
 url='https://www.kernel.org'
@@ -27,24 +27,38 @@ source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         'linux-mainline.preset'
         'install-headers')
 
+# Linus Torvalds
+# Greg Kroah-Hartman
+validpgpkeys=('ABAF11C65A2970B130ABE3C479BE3E4300411886'
+              '647F28654894E3BD457199BE38DBBDC86092693E')
+
 sha256sums=('SKIP'
             'aa7b6756f193f3b3a3fc4947e7a77b09e249df2e345e6495292055d757ba8be6'
             '4eb6dfd9f905ca49403b41f2db00f2c55a72613663c9d225d58b853fddc0f8f4'
             '40ce40c386fd7f0346b2bd15c827d535ac9729c9c33b94e25a30cf097accb0f3'
             '01f289d71128915cde0d734b863ffeb53613e27516e4121a99afe5b712936725'
-            '0af2ca9d512d6874b4755bdb25b6a11abf5017ab03e3d256755cdf622f2ac127')
+            '27d52500ac7eb8297c73422ddad19955ac127cd68e543c6350c76a5df321ab7c')
 
 pkgver() {
     cd linux
-    git tag --sort=v:refname | sed -n '$ {s/v//; s/-/./;p}'
+    make kernelversion | sed 's/-/./'
 }
 
 prepare() {
     cd linux
+    _tag="$(git tag --sort=v:refname | tail -n1)"
+
+    # Override the original source array so that I can make use of makepkg's
+    # internal signature verification routines.  However the main diagnostic
+    # reporting function (check_pgpsigs) depends on the source array content
+    # rather than allowing me to explicitly passing in the necessary netfiles.
+    source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git#tag=$_tag?signed")
+    check_pgpsigs all
+
     # Bypass makepkg by manually checking out the required tag as this allows
     # me to continue using the pkgver function which avoids the need to
     # maintain a version and tag.
-    git checkout --no-track -fB build "$(git tag --sort=v:refname | tail -n1)"
+    git checkout --no-track -fB build "$_tag"
 
     # Before doing anything else, save our current clean checkout so that
     # subsequent changes to files such as .config and depmod.sh won't mark the

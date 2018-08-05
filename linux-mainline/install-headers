@@ -65,9 +65,8 @@ install -dm755 "$dest"/fs/xfs
 # Add objtool for external module building and enabled VALIDATION_STACK option
 install -Dm0755 tools/objtool/objtool "$dest"/tools/objtool/objtool
 
-# Copy in Kconfig files.  Note this will not work if the destination is under
-# the linux directory tree.
-find . -name 'Kconfig*' -exec install -Dm0644 {} "$dest"/{} \;
+# Copy in Kconfig files.
+find . -name 'Kconfig*' -type f -exec install -Dm0644 {} "$dest"/{} \;
 
 # Clean up any non-x86 architectures as Arch Linux doesn't support them.
 find "$dest"/arch ! \( -path "$dest" -o -path '*/x86*' -o -name arch \) -type d -exec rm -rf {} +
