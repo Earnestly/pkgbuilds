@@ -9,23 +9,21 @@ license=('GPL')
 
 depends=('linux-mainline')
 
-source=('git+https://github.com/mkottman/acpi_call')
+source=('git+https://github.com/mkottman/acpi_call'
+        'https://github.com/mkottman/acpi_call/pull/75.patch')
 
-sha256sums=('SKIP')
-
-_extramodules=$(readlink -f "$(pacman -Qql linux-mainline | grep 'extra.*-mainline/$')")
+sha256sums=('SKIP'
+            'a34f80ba83b00bfe1943482d558ed1895e105114110c458b8ac898726bab0bb6')
 
 prepare() {
     cd acpi_call
-
-    # https://github.com/mkottman/acpi_call/pull/65
-    # https://github.com/mkottman/acpi_call/pull/52
     # https://github.com/mkottman/acpi_call/pull/49
-    sed -i 's|acpi/acpi.h|linux/acpi.h|' acpi_call.c
-
-    # https://github.com/mkottman/acpi_call/pull/75
+    # https://github.com/mkottman/acpi_call/pull/52
+    # https://github.com/mkottman/acpi_call/pull/65
     # https://github.com/mkottman/acpi_call/pull/74
-    sed -i 's|asm/uaccess.h|linux/uaccess.h|' acpi_call.c
+    # https://github.com/mkottman/acpi_call/pull/75
+    patch -Np1 -i "$srcdir"/75.patch
+
 }
 
 pkgver() {
@@ -35,15 +33,14 @@ pkgver() {
 
 build() {
     cd acpi_call
-    read -r _kversion < "$_extramodules"/version
+    read -r _kversion < /usr/lib/modules/extramodules-mainline/version
     make KVERSION="$_kversion"
 }
 
 package() {
     cd acpi_call
-
     gzip -9 acpi_call.ko
-    install -Dm0644 -t "$pkgdir"/"$_extramodules" acpi_call.ko.gz
+    install -Dm0644 acpi_call.ko.gz "$pkgdir"/usr/lib/modules/extramodules-mainline/acpi_call.ko.gz
 
     printf 'acpi_call\n' | install -Dm0644 /dev/stdin "$pkgdir"/usr/lib/modules-load.d/acpi_call.conf
 
