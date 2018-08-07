@@ -49,15 +49,15 @@ prepare() {
     _tag="$(git tag --sort=v:refname | tail -n1)"
 
     # Override the original source array so that I can make use of makepkg's
-    # internal signature verification routines.  However the main diagnostic
-    # reporting function (check_pgpsigs) depends on the source array content
-    # rather than allowing me to explicitly passing in the necessary netfiles.
+    # internal signature verification routines.  The main diagnostic reporting
+    # function (check_pgpsigs) depends on the source array content rather than
+    # allowing me to explicitly passing in the necessary netfiles.
     source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git#tag=$_tag?signed")
     check_pgpsigs all
 
-    # Bypass makepkg by manually checking out the required tag as this allows
-    # me to continue using the pkgver function which avoids the need to
-    # maintain a version and tag.
+    # Bypass makepkg by manually checking out the required tag so that I can
+    # continue to use to pkgver function without the need to maintain the
+    # versions manually.
     git checkout --no-track -fB build "$_tag"
 
     # Before doing anything else, save our current clean checkout so that
@@ -89,11 +89,8 @@ package() {
 
     install -Dm0644 arch/x86/boot/bzImage "$pkgdir"/boot/vmlinuz-linux-mainline
 
-    # Provide a "weak-modules" directory for modules that may not need to be
-    # rebuilt for minor kernel version changes such as from 4.15.0 to 4.15.1
-    ln -s ../extramodules-"${_kernel%.*}"-mainline "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/extramodules
-    printf '%s\n' "$_kernel"-mainline > version
-    install -Dm0644 version "$pkgdir"/usr/lib/modules/extramodules-"${_kernel%.*}"-mainline/version
+    ln -s ../extramodules-mainline "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/extramodules
+    printf '%s\n' "$_kernel"-mainline | install -Dm0644 /dev/stdin "$pkgdir"/usr/lib/modules/extramodules-mainline/version
 
     # These headers are provided by libdrm on Arch Linux
     rm -rf "$pkgdir"/usr/include/drm
@@ -107,7 +104,7 @@ package() {
     rm -f "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/source
 
     # Manually run depmode now that the dust has settled, this also allows us
-    # to provide the correct value for -b which avoids needing to modify the
+    # to provide the correct value for -b, avoiding the need to modify the
     # depmod.sh script.
     depmod -b "$pkgdir"/usr -F System.map "$_kernel"-mainline
 
