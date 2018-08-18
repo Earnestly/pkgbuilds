@@ -1,4 +1,0 @@
-post_remove() {
-    rm -f boot/initramfs-linux-mainline.img
-    rm -f boot/initramfs-linux-mainline-fallback.img
-}

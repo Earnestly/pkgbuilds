@@ -1,6 +1,6 @@
 pkgname=linux-mainline
-pkgver=4.18.0.rc7
-pkgrel=1
+pkgver=4.18.0.rc8
+pkgrel=4
 
 pkgdesc='linux kernel and modules'
 url='https://www.kernel.org'
@@ -9,9 +9,7 @@ license=('GPL2')
 
 options=('!strip')
 
-backup=('etc/mkinitcpio.d/linux-mainline.preset')
-
-install='linux-mainline.install'
+backup=("etc/mkinitcpio.d/$pkgname.preset")
 
 depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
 makedepends=('xmlto' 'inetutils' 'bc' 'libelf' 'git')
@@ -22,9 +20,7 @@ conflicts=('linux-api-headers')
 
 source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         'https://git.archlinux.org/svntogit/packages.git/plain/linux/trunk/config'
-        '60-linux-mainline.hook.in'
-        '90-linux-mainline.hook'
-        'linux-mainline.preset'
+        'generate-sundry'
         'install-headers')
 
 # Linus Torvalds
@@ -33,10 +29,8 @@ validpgpkeys=('ABAF11C65A2970B130ABE3C479BE3E4300411886'
               '647F28654894E3BD457199BE38DBBDC86092693E')
 
 sha256sums=('SKIP'
-            'aa7b6756f193f3b3a3fc4947e7a77b09e249df2e345e6495292055d757ba8be6'
-            '4eb6dfd9f905ca49403b41f2db00f2c55a72613663c9d225d58b853fddc0f8f4'
-            '40ce40c386fd7f0346b2bd15c827d535ac9729c9c33b94e25a30cf097accb0f3'
-            '01f289d71128915cde0d734b863ffeb53613e27516e4121a99afe5b712936725'
+            'bb700544d499a92dab141a218cc1eac62fdff0b67682748cb827035269c02a55'
+            'e86f2caba5f30ea9f5823e470e3ab84dcfe5647a42b6c365a784a53aed603a6f'
             '27d52500ac7eb8297c73422ddad19955ac127cd68e543c6350c76a5df321ab7c')
 
 pkgver() {
@@ -61,68 +55,62 @@ prepare() {
     git checkout --no-track -fB build "$_tag"
 
     # Before doing anything else, save our current clean checkout so that
-    # subsequent changes to files such as .config and depmod.sh won't mark the
-    # respository as dirty and result in a '+' being added to the localversion.
+    # subsequent changes to files such as .config won't mark the respository
+    # as dirty and result in a '+' being added to the localversion.
     ./scripts/setlocalversion --save-scmversion
 
     make olddefconfig
-
-    # Neutralise scripts/depmod.sh as we need to run the tool after faffing
-    # about with the extramodules directories instead of during the call to
-    # make module_install.
-    # NOTE: I could use make DEPMOD=/something/that/doesnt/exist module_install
-    #       but I'd rather not take the chance, no matter how slight.
-    printf 'true\n' > scripts/depmod.sh
 }
 
 build() {
     cd linux
-    make LOCALVERSION=-mainline bzImage modules headers_check
+    make LOCALVERSION="${pkgname#linux}" bzImage modules headers_check
 }
 
 package() {
     cd linux
-    _kernel=$(make kernelversion)
+    _version=$(make kernelversion)
+    _variant=${pkgname#linux}
+    _kernel=$_version$_variant
 
+    # Kernel image and modules
+    install -Dm0644 arch/x86/boot/bzImage "$pkgdir"/boot/vmlinuz-"$pkgname"
     make INSTALL_MOD_PATH="$pkgdir"/usr modules_install
+
+    # Remove the 'build' and 'source' symlinks which just point back to the
+    # build directory.
+    rm -f "$pkgdir"/usr/lib/modules/"$_kernel"/build
+    rm -f "$pkgdir"/usr/lib/modules/"$_kernel"/source
+
+    ln -s ../extramodules"$_variant" "$pkgdir"/usr/lib/modules/"$_kernel"/extramodules
+    printf '%s\n' "$_version" | install -Dm0644 /dev/stdin "$pkgdir"/usr/lib/modules/extramodules"$_variant"/version
+
+    # Provide an unstripped vmlinux as it may be useful for debugging and other
+    # reporting, e.g. `gdb vmlinux /proc/kcore'
+    install -Dm0755 vmlinux "$pkgdir"/usr/lib/modules/"$_kernel"/build/vmlinux
+
+    # Provide mkinitcpio presets and pacman hooks for rebuilding the initramfs
+    # and cleaning up.
+    "$srcdir"/generate-sundry -t "$srcdir" "$pkgname" "$_kernel"
+
+     install -Dm0644 "$srcdir"/"$pkgname".preset "$pkgdir"/etc/mkinitcpio.d/"$pkgname".preset
+     install -Dm0644 "$srcdir"/90-"$pkgname".hook "$pkgdir"/usr/share/libalpm/hooks/90-"$pkgname".hook
+     install -Dm0644 "$srcdir"/60-"$pkgname".hook "$pkgdir"/usr/share/libalpm/hooks/60-"$pkgname".hook
+     install -Dm0644 "$srcdir"/30-"$pkgname".hook "$pkgdir"/usr/share/libalpm/hooks/30-"$pkgname".hook
+
+    # Kernel API headers
     make INSTALL_HDR_PATH="$pkgdir"/usr headers_install
 
-    install -Dm0644 arch/x86/boot/bzImage "$pkgdir"/boot/vmlinuz-linux-mainline
+    # Provide internal headers and tools for third-party modules.  There is no
+    # standard make target for this.
+    "$srcdir"/install-headers "$pkgdir"/usr/lib/modules/"$_kernel"/build
 
-    ln -s ../extramodules-mainline "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/extramodules
-    printf '%s\n' "$_kernel"-mainline | install -Dm0644 /dev/stdin "$pkgdir"/usr/lib/modules/extramodules-mainline/version
-
-    # These headers are provided by libdrm on Arch Linux
-    rm -rf "$pkgdir"/usr/include/drm
+    # Documentation (this should probably be in /usr/share/doc).
+    cp -a --no-preserve=ownership Documentation "$pkgdir"/usr/lib/modules/"$_kernel"/build
 
     # Clean up unecessary files generated during headers_install
     find "$pkgdir"/usr/include \( -name .install -o -name ..install.cmd \) -delete
 
-    # Remove the 'build' and 'source' symlinks which just point back to the
-    # build directory.
-    rm -f "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
-    rm -f "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/source
-
-    # Manually run depmode now that the dust has settled, this also allows us
-    # to provide the correct value for -b, avoiding the need to modify the
-    # depmod.sh script.
-    depmod -b "$pkgdir"/usr -F System.map "$_kernel"-mainline
-
-    # Provide an unstripped vmlinux as it may be useful for debugging and other
-    # reporting, e.g. `gdb vmlinux /proc/kcore'
-    install -Dm0755 vmlinux "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build/vmlinux
-
-    # Documentation (this should probably be in /usr/share/doc).
-    cp -a --no-preserve=ownership Documentation "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
-
-    # Provide headers and tools for third-party modules.  There is no standard
-    # make target for this.
-    "$srcdir"/install-headers "$pkgdir"/usr/lib/modules/"$_kernel"-mainline/build
-
-    # Provide mkinitcpio presets and pacman hooks for rebuilding the initramfs.
-    install -Dm0644 "$srcdir"/linux-mainline.preset "$pkgdir"/etc/mkinitcpio.d/linux-mainline.preset
-    install -Dm0644 "$srcdir"/90-linux-mainline.hook "$pkgdir"/usr/share/libalpm/hooks/90-linux-mainline.hook
-
-    sed "s/VERSION/$_kernel/" "$srcdir"/60-linux-mainline.hook.in > "$srcdir"/60-linux-mainline.hook
-    install -Dm0644 "$srcdir"/60-linux-mainline.hook "$pkgdir"/usr/share/libalpm/hooks/60-linux-mainline.hook
+    # These headers are provided by libdrm on Arch Linux
+    rm -rf "$pkgdir"/usr/include/drm
 }

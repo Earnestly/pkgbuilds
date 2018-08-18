@@ -1,0 +1,97 @@
+#!/bin/sh --
+# generate-sundry - provide formatted hooks and presets for the given kernel
+
+set -o errexit
+
+usage() {
+    cat <<!
+usage: generate-sundry [-h] [-t dest] pkgname kernel
+
+options
+    -t  the target directory in which the files will be created
+    -h  this help message
+
+pkgname
+    the given name for the kernel, corresponding to the pkgname in a PKGBUILD,
+    e.g. linux-mainline
+
+kernel
+    the name of the kernel as it would appear under /lib/modules,
+    e.g.: 4.18.0-rc8-mainline
+!
+}
+
+while getopts ht: arg; do
+    case $arg in
+        t) dest=$OPTARG ;;
+        h) usage; exit ;;
+        *) usage >&2; exit 1
+    esac
+done
+
+shift $((OPTIND - 1))
+
+dest=${dest:-$PWD}
+
+if [ ! -d "$dest" ]; then
+    printf 'generate-sundry: %s: no such directory\n' "$dest" >&2
+    exit 1
+fi
+
+if [ ! "$1" ] || [ ! "$2" ]; then
+    printf 'usage: generate-sundry [-h] [-t dest] pkgname kernel\n' >&2
+    exit 1
+fi
+
+cat > "$dest"/30-"$1".hook <<!
+[Trigger]
+Type = Package
+Operation = Remove
+Target = $1
+
+[Action]
+Description = removing initramfs files for $1
+When = PreTransaction
+Exec = /usr/bin/sh -c 'rm -f /boot/initramfs-$1.img /boot/initramfs-$1-fallback.img'
+!
+
+cat > "$dest"/60-"$1".hook <<!
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = usr/lib/modules/$2/*
+Target = usr/lib/modules/extramodules${1#linux}/*
+
+[Action]
+Description = updating $1 module dependencies
+When = PostTransaction
+Exec = /usr/bin/depmod -A $2
+!
+
+cat > "$dest"/90-"$1".hook <<!
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Target = boot/vmlinuz-$1
+Target = usr/lib/initcpio/*
+
+[Action]
+Description = updating $1 initcpio
+When = PostTransaction
+Exec = /usr/bin/mkinitcpio -p $1
+!
+
+cat > "$dest"/"$1".preset <<!
+ALL_config="/etc/mkinitcpio.conf"
+ALL_kver="/boot/vmlinuz-$1"
+
+PRESETS=('default' 'fallback')
+
+default_image="/boot/initramfs-$1.img"
+
+fallback_image="/boot/initramfs-$1-fallback.img"
+fallback_options="-S autodetect"
+!
