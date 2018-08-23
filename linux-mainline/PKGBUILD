@@ -1,6 +1,6 @@
 pkgname=linux-mainline
 pkgver=4.18.0.rc8
-pkgrel=4
+pkgrel=5
 
 pkgdesc='linux kernel and modules'
 url='https://www.kernel.org'
@@ -14,9 +14,6 @@ backup=("etc/mkinitcpio.d/$pkgname.preset")
 depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
 makedepends=('xmlto' 'inetutils' 'bc' 'libelf' 'git')
 optdepends=('crda: to set the correct wireless channels of your country')
-
-provides=('linux-api-headers')
-conflicts=('linux-api-headers')
 
 source=('git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
         'https://git.archlinux.org/svntogit/packages.git/plain/linux/trunk/config'
@@ -64,7 +61,7 @@ prepare() {
 
 build() {
     cd linux
-    make LOCALVERSION="${pkgname#linux}" bzImage modules headers_check
+    make LOCALVERSION="${pkgname#linux}" bzImage modules
 }
 
 package() {
@@ -98,18 +95,12 @@ package() {
      install -Dm0644 "$srcdir"/60-"$pkgname".hook "$pkgdir"/usr/share/libalpm/hooks/60-"$pkgname".hook
      install -Dm0644 "$srcdir"/30-"$pkgname".hook "$pkgdir"/usr/share/libalpm/hooks/30-"$pkgname".hook
 
-    # Kernel API headers
-    make INSTALL_HDR_PATH="$pkgdir"/usr headers_install
-
     # Provide internal headers and tools for third-party modules.  There is no
     # standard make target for this.
     "$srcdir"/install-headers "$pkgdir"/usr/lib/modules/"$_kernel"/build
 
     # Documentation (this should probably be in /usr/share/doc).
     cp -a --no-preserve=ownership Documentation "$pkgdir"/usr/lib/modules/"$_kernel"/build
-
-    # Clean up unecessary files generated during headers_install
-    find "$pkgdir"/usr/include \( -name .install -o -name ..install.cmd \) -delete
 
     # These headers are provided by libdrm on Arch Linux
     rm -rf "$pkgdir"/usr/include/drm
