@@ -1,5 +1,5 @@
 pkgname=libinput-git
-pkgver=1.11.0.r99.g07a0d04f
+pkgver=1.11.902.r2.gc476524a
 pkgrel=1
 
 pkgdesc='library to handle input devices'
@@ -9,7 +9,7 @@ license=('MIT')
 
 depends=('mtdev' 'libevdev' 'libwacom' 'gtk3')
 optdepends=('python: needed for tool used to measure touchpad pressure')
-makedepends=('git' 'doxygen' 'meson')
+makedepends=('git' 'doxygen' 'meson' 'python-recommonmark')
 checkdepends=('check')
 
 provides=("libinput=$pkgver")

@@ -1,5 +1,5 @@
 pkgname=colm-git
-pkgver=0.13.0.6.r3.g75ea06cb
+pkgver=0.13.0.6.r77.gc53140a1
 pkgrel=1
 
 pkgdesc='programming language designed for the analysis and transformation of computer languages'

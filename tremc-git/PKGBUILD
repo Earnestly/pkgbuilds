@@ -1,5 +1,5 @@
 pkgname=tremc-git
-pkgver=r672.gdfbde72
+pkgver=r690.gbaf84c3
 pkgrel=1
 
 pkgdesc='curses frontend to transmission-daemon'

@@ -1,5 +1,5 @@
 pkgname=make-git
-pkgver=4.2.1.r78.g0ce880e
+pkgver=4.2.1.r97.ga1bb739
 pkgrel=1
 
 pkgdesc='GNU make utility to maintain groups of programs'

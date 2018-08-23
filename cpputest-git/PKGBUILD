@@ -1,5 +1,5 @@
 pkgname=cpputest-git
-pkgver=3.8.r228.g2b45d38c
+pkgver=3.8.r257.g6481ebc2
 pkgrel=1
 
 pkgdesc='unit testing and mocking framework for c/c++'
@@ -15,7 +15,7 @@ conflicts=('cpputest')
 
 source=('git+https://github.com/cpputest/cpputest')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd cpputest

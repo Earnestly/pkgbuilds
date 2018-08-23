@@ -1,5 +1,5 @@
 pkgname=ragel-git
-pkgver=7.0.0.11.r5.g41b0fb39
+pkgver=7.0.0.11.r9.g72c533ec
 pkgrel=1
 
 pkgdesc='finite state machine generator for c, c++, and asm'
