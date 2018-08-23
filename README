@@ -30,4 +30,4 @@ DEVIATIONS FROM ARCH LINUX
   - pulseaudio-git
 
     Disables practically every additional feature from dbus to esound support
-    leaving only the main POSIX functionality
+    leaving only the main POSIX functionality.
