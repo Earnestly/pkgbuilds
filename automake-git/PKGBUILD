@@ -1,5 +1,5 @@
 pkgname=automake-git
-pkgver=1.15.1
+pkgver=1.16.1.r7.ga348d8306
 pkgrel=1
 
 pkgdesc='automatically create makefiles'
@@ -19,6 +19,11 @@ conflicts=('automake')
 source=('git+https://git.savannah.gnu.org/git/automake.git')
 
 sha256sums=('SKIP')
+
+pkgver() {
+    cd automake
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
 
 build() {
     cd automake
