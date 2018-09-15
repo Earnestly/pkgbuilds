@@ -1,6 +1,6 @@
 pkgname=dmenu-pango-imlib-git
 pkgver=4.5.3.r9.ga9066ec
-pkgrel=1
+pkgrel=2
 
 pkgdesc='dynamic menu with pango and imlib support'
 url='https://github.com/Cloudef/dmenu-pango-imlib'
