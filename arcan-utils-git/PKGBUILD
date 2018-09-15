@@ -1,0 +1,49 @@
+pkgname=arcan-utils-git
+pkgver=0.5.5.pre1.r14.gf4ad0dc5
+pkgrel=1
+
+pkgdesc='experimental tools for arcan'
+url='https://arcan-fe.com/'
+arch=('i686' 'x86_64')
+license=('GPL' 'BSD')
+
+depends=('arcan')
+makedepends=('git' 'cmake' 'fuse3')
+optdepends=('fuse3: to mount the window configuration filesystem with arcan_cfgfs')
+
+provides=('arcan-utils')
+conflicts=('arcan-utils')
+
+source=('git+https://github.com/letoram/arcan')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd arcan
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd arcan
+    # Attempt to include all of the available tools not formally built with the
+    # main cmake.
+
+    # netproxy clones https://github.com/letoram/UDT during configure
+    # vrbridge probably needs openhmd, builds anyway
+    # kbdconv needs a copy of kbd source (keymap/common.h)
+    for tool in acfgfs aclip aloadimage leddec ltui shmmon vrbridge waybridge; do
+        env -C "$srcdir"/arcan/src/tools/"$tool" cmake -DCMAKE_INSTALL_PREFIX=/usr
+        env -C "$srcdir"/arcan/src/tools/"$tool" make VERBOSE=1
+    done
+}
+
+package() {
+    cd arcan
+
+    for tool in acfgfs aclip aloadimage shmmon vrbridge waybridge; do
+        make -C src/tools/"$tool" DESTDIR="$pkgdir" install
+    done
+
+    install -Dm0755 src/tools/leddec/leddec "$pkgdir"/usr/bin/arcan_leddec
+    install -Dm0755 src/tools/ltui/ltui "$pkgdir"/usr/bin/arcan_ltui
+}

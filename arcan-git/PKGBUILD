@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.5.5.pre1.r0.ga2736d00
+pkgver=0.5.5.pre1.r14.gf4ad0dc5
 pkgrel=1
 
 pkgdesc='multimedia framework'
@@ -9,8 +9,8 @@ license=('GPL' 'BSD')
 
 depends=('ffmpeg' 'openal' 'sqlite3' 'luajit' 'apr' 'libusb' 'harfbuzz-icu'
          'libxkbcommon')
-makedepends=('git' 'cmake' 'ruby' 'fuse3')
-optdepends=('fuse3: to mount the window configuration filesystem with arcan_cfgfs')
+makedepends=('git' 'cmake' 'ruby')
+optdepends=('arcan-utils: utilties such as acfgfs, aclip, and aloadimage')
 
 provides=('arcan')
 conflicts=('arcan')
@@ -35,28 +35,10 @@ build() {
           -DAPIMAN_DEST=/usr/share/man/arcan/man3 \
           -DVIDEO_PLATFORM=egl-dri src
     make VERBOSE=1
-
-    # Attempt to include all of the available tools not formally built with the
-    # main cmake.
-
-    # netproxy clones https://github.com/letoram/UDT during configure
-    # vrbridge probably needs openhmd, builds anyway
-    # kbdconv needs a copy of kbd source (keymap/common.h)
-    for tool in acfgfs aclip aloadimage leddec ltui shmmon vrbridge waybridge; do
-        env -C "$srcdir"/arcan/src/tools/"$tool" cmake -DCMAKE_INSTALL_PREFIX=/usr
-        env -C "$srcdir"/arcan/src/tools/"$tool" make VERBOSE=1
-    done
 }
 
 package() {
     cd arcan
     make DESTDIR="$pkgdir" install
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
-
-    for tool in acfgfs aclip aloadimage shmmon vrbridge waybridge; do
-        make -C src/tools/"$tool" DESTDIR="$pkgdir" install
-    done
-
-    install -Dm0755 src/tools/leddec/leddec "$pkgdir"/usr/bin/arcan_leddec
-    install -Dm0755 src/tools/ltui/ltui "$pkgdir"/usr/bin/arcan_ltui
 }
