@@ -2,17 +2,17 @@
 # locale-gen: generate system locales
 
 if [ ! -d /etc/locales ]; then
-    printf '/etc/locales: no such directory\n' >&2
+    printf 'local-gen: /etc/locales: no such directory\n' >&2
     exit 1
 fi
 
 localegen() {
-    printf '%s: generating locale\n' "$1"."$2" >&2
+    printf 'locale-gen: generating %s\n' "$1"."$2" >&2
 
     localedef -i "$1" -f "$2" -c "$1"."$2"
 
     case $? in
-        4) printf '%s: invalid locale\n' "$1"."$2" >&2
+        4) printf 'locale-gen: %s: invalid locale\n' "$1"."$2" >&2
     esac
 }
 
