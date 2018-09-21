@@ -1,6 +1,6 @@
 pkgname=colm-git
 pkgver=0.13.0.6.r77.gc53140a1
-pkgrel=1
+pkgrel=2
 
 pkgdesc='programming language designed for the analysis and transformation of computer languages'
 url='http://www.colm.net/open-source/colm'
@@ -8,6 +8,7 @@ arch=('i686' 'x86_64')
 license=('MIT')
 
 depends=('gcc-libs')
+makedepends=('git' 'asciidoc')
 
 source=('git://colm.net/colm.git')
 
@@ -26,11 +27,16 @@ build() {
     autoreconf -fi
     ./configure --prefix=/usr
     make
+    make -C doc
 }
 
 package() {
     cd colm
     make DESTDIR="$pkgdir" install
+    make -C doc DESTDIR="$pkgdir" install
+
+    rm -- "$pkgdir"/usr/share/doc/colm/colm.vim
     install -Dm0644 colm.vim "$pkgdir"/usr/share/vim/vimfiles/syntax/colm.vim
+
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
