@@ -1,0 +1,40 @@
+pkgname=bpftrace-git
+pkgver=0.8.r9.gc0084a2
+pkgrel=1
+
+pkgdesc='tracing language for linux ebpf'
+url='https://github.com/iovisor/bpftrace'
+arch=('x86_64')
+license=('Apache')
+
+depends=('bcc')
+makedepends=('git')
+
+provides=('bpftrace')
+conflicts=('bpftrace')
+
+source=('git+https://github.com/iovisor/bpftrace')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd bpftrace
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd bpftrace
+    cmake -DCMAKE_INSTALL_PREFIX=/usr
+    make VERBOSE=1
+}
+
+check() {
+    cd bpftrace
+    make test
+}
+
+package() {
+    cd bpftrace
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
