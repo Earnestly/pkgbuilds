@@ -1,5 +1,5 @@
 pkgname=pacman-git
-pkgver=5.1.1.r13.g7d05ffce
+pkgver=5.1.2.r94.ge1fc2f90
 pkgrel=1
 
 pkgdesc='package manager with dependency support'
@@ -17,7 +17,7 @@ checkdepends=('python2' 'fakechroot')
 provides=("pacman=$pkgver")
 conflicts=('pacman')
 
-source=('git+https://projects.archlinux.org/git/pacman.git'
+source=('git+https://git.archlinux.org/pacman.git'
         'https://git.archlinux.org/svntogit/packages.git/plain/pacman/trunk/pacman.conf'
         'https://git.archlinux.org/svntogit/packages.git/plain/pacman/trunk/makepkg.conf')
 
