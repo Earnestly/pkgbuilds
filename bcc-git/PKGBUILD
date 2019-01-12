@@ -1,5 +1,5 @@
 pkgname=bcc-git
-pkgver=0.6.1.r32.gfe26ca97
+pkgver=0.7.0.r102.g9f851e2a
 pkgrel=1
 
 pkgdesc='bpf compiler collection'
@@ -10,7 +10,8 @@ license=('Apache')
 depends=('libelf')
 makedepends=('git' 'llvm')
 # checkdepends=('python')
-optdepends=('python: required for many of the tools')
+optdepends=('python: required for many of the tools'
+            'linux-headers: required to compile ebpf programs')
 
 provides=('bcc')
 conflicts=('bcc')
