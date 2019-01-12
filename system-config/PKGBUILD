@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(base-config teapot-config engine-config)
-pkgver=13.4
+pkgver=13.5
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -62,7 +62,7 @@ package_teapot-config() {
     pkgdesc='system configurations for teapot'
     depends=('base-config' 'xf86-input-libinput' 'nftables')
 
-    install -Dm0755 hook-patch-system-configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch-system-configs.hook
+    install -Dm0644 hook-patch-system-configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch-system-configs.hook
     install -Dm0755 hook-patch-system-configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch-system-configs
     install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
     install -Dm0644 hwdb-caps-as-ctrl-thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-thinkpad.hwdb
@@ -108,7 +108,7 @@ sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
             '04b936fe10b6daa5dbc79c7e642aa9a43b2a9b2de94312bfc3b41ff04a1a9c80'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
             'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
-            'ff0834ac2bb8721f15ef933a21fe31bc91d062e0a81db2bfc6e3e2d9b414d335'
+            '78c4fb60864da0d42f4fb14d28a878c3be4e50530bb7d23f17a3e8bb7e24fe05'
             '1d6e65e7dcf0af1a341a414d5659b5feaf5e5d9b3e53334d531d8ec7e52be5a4'
             '0c164df1a0702723c2e2a48fe7224b2e7318cd83253126c44293ff4c9ff0ba2e'
             'f3ac45e8e1c835886b3daa647033c54e889acc8766c9fbd7bccb80a006438f5d'
