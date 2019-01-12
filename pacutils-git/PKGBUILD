@@ -1,6 +1,6 @@
 pkgname=pacutils-git
-pkgver=0.6.2.r0.gdb60ff5
-pkgrel=2
+pkgver=0.6.3.r0.geb57704
+pkgrel=1
 
 pkgdesc='ALPM front-end tools'
 url='https://github.com/andrewgregory/pacutils'

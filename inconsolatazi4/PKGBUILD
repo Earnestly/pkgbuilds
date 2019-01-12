@@ -1,6 +1,6 @@
 # pkgver=$(curl -s "$url" | awk '/Current version: / {print $3}')
 pkgname=inconsolatazi4
-pkgver=1.113
+pkgver=1.114
 pkgrel=1
 
 pkgdesc='opentype variant of inconsolata from ctan'

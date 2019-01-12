@@ -1,5 +1,5 @@
 pkgname=termite-git
-pkgver=13.r11.g3e2c10f
+pkgver=14.r0.g1b67c5c
 pkgrel=1
 
 pkgdesc='vte-based terminal'

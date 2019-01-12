@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.5.5.pre1.r14.gf4ad0dc5
+pkgver=0.5.5.2.r4.g276da676
 pkgrel=1
 
 pkgdesc='multimedia framework'
