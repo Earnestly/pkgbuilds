@@ -1,0 +1,62 @@
+pkgname=vim-git
+pkgver=8.1.0785.r0.g113e10721
+pkgrel=2
+
+pkgdesc='text editor'
+url='http://www.vim.org'
+arch=('x86_64')
+license=('custom:vim')
+
+depends=()
+makedepends=('git' 'lua' 'python' 'python2' 'ruby' 'tcl')
+optdepends=('lua' 'perl' 'python' 'python2' 'ruby' 'tcl')
+
+provides=('gvim' 'xxd' 'vim' 'vim-runtime')
+conflicts=('gvim' 'xxd' 'vim' 'vim-runtime')
+
+source=('git+https://github.com/vim/vim')
+
+sha256sums=("SKIP")
+
+pkgver() {
+    cd vim
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+prepare() {
+    cd vim
+    awk '/VIM LICENSE/,/at your option./' runtime/doc/uganda.txt > LICENSE
+}
+
+build() {
+    cd vim
+    ./configure --prefix=/usr \
+      --with-x \
+      --enable-cscope \
+      --enable-gui=no \
+      --enable-terminal \
+      --enable-multibyte \
+      --enable-tcpinterp=dynamic \
+      --enable-luainterp=dynamic \
+      --enable-rubyinterp=dynamic \
+      --enable-perlinterp=dynamic \
+      --enable-pythoninterp=dynamic \
+      --enable-python3interp=dynamic
+    make
+}
+
+check() {
+    cd vim
+    # Not happy running under env(1)
+    # TERM=xterm make test
+}
+
+package() {
+    cd vim
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+
+    # Provided by vi in Arch Linux
+    rm -f -- "$pkgdir"/usr/bin/ex "$pkgdir"/usr/bin/view
+    find "$pkgdir"/usr/share/man \( -name ex.1 -o -name view.1 \) -delete
+}
