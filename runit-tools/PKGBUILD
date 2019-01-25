@@ -2,9 +2,9 @@ pkgname=runit-tools
 pkgver=2.1.2
 pkgrel=2
 
-pkgdesc='UNIX init scheme with service supervision without the init'
+pkgdesc='unix init scheme with service supervision without the init'
 url='http://smarden.org/runit/'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('BSD')
 
 depends=('glibc')
@@ -13,7 +13,7 @@ conflicts=('runit')
 
 source=("http://smarden.org/runit/runit-$pkgver.tar.gz")
 
-sha1sums=('398f7bf995acd58797c1d4a7bcd75cc1fc83aa66')
+sha256sums=('6fd0160cb0cf1207de4e66754b6d39750cff14bb0aa66ab49490992c0c47ba18')
 
 prepare() {
     cd admin/runit-"$pkgver"
@@ -22,7 +22,7 @@ prepare() {
     sed -i 's:/service/:/var&:' src/sv.c;
 
     # This is a thing.
-    printf '%s %s\n' "${CC:-gcc}" "$CFLAGS" > src/conf-cc
+    printf '%s %s %s\n' "${CC:-gcc}" "$CPPFLAGS" "$CFLAGS" > src/conf-cc
     printf '%s %s\n' "${CC:-gcc}" "$LDFLAGS" > src/conf-ld
 }
 
