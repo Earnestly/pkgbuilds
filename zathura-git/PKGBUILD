@@ -16,8 +16,8 @@ optdepends=('zathura-pdf-poppler: PDF support'
             'zathura-ps: PostScript (PS) support'
             'zathura-cb: Comic Book (CB) support')
 
-provides=('zathura') 
-conflicts=('zathura') 
+provides=('zathura')
+conflicts=('zathura')
 
 source=('git+https://git.pwmt.org/pwmt/zathura.git#branch=develop')
 

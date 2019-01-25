@@ -1,5 +1,5 @@
 pkgname=cpputest-git
-pkgver=3.8.r281.g30e58f02
+pkgver=3.8.r286.g23a8ec83
 pkgrel=1
 
 pkgdesc='unit testing and mocking framework for c/c++'

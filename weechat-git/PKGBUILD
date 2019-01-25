@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=2.3.r72.g8629bf4b0
+pkgver=2.3.r92.geb0828ec6
 pkgrel=1
 
 pkgdesc='terminal based irc client'

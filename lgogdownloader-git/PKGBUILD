@@ -1,6 +1,6 @@
 pkgname=lgogdownloader-git
 pkgver=3.4.r7.g178ca66
-pkgrel=1
+pkgrel=2
 
 pkgdesc='unofficial downloader for gog.com'
 url='https://github.com/Sude-/lgogdownloader'
