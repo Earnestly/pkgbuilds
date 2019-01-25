@@ -1,10 +1,10 @@
 pkgname=ncurses-git
-pkgver=6.1.r47.gacb4184f
+pkgver=6.1.20190121.r0.ga9b714f6
 pkgrel=1
 
-pkgdesc='unofficial snapshots from ftp://invisible-island.net/ncurses/current/'
-url='http://ncurses.scripts.mit.edu/?p=ncurses.git'
-arch=('i686' 'x86_64')
+pkgdesc='terminal control based on srv4 curses'
+url='https://invisible-island.net/ncurses/ncurses.html'
+arch=('x86_64')
 license=('MIT')
 
 depends=('glibc' 'gcc-libs')
@@ -14,24 +14,28 @@ makedepends=('git')
 provides=('ncurses' 'libtinfo' 'libncursesw.so=6-64')
 conflicts=('ncurses' 'libtinfo')
 
-source=('git://ncurses.scripts.mit.edu/ncurses.git')
+source=('git+https://github.com/ThomasDickey/ncurses-snapshots?signed')
 
-sha1sums=('SKIP')
+# "Thomas Dickey <dickey@invisible-island.net>"
+validpgpkeys=('C52048C0C0748FEE227D47A2702353E0F7E48EDB')
+
+
+sha256sums=('SKIP')
 
 pkgver() {
-    cd ncurses
-    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
+    cd ncurses-snapshots
+    git describe --long --tags | sed 's/^v//; s/_/\./g; s/-/.r/; s/-/./'
 }
 
 build() {
-    cd ncurses
+    cd ncurses-snapshots
     ./configure --prefix=/usr \
         --with-shared \
         --with-normal \
-        --with-ticlib=tic \
         --with-cxx-shared \
         --with-cxx-binding \
-        --with-termlib=tinfo \
+        --with-manpage-format=normal \
+        --with-pkg-config-libdir=/usr/lib/pkgconfig \
         --without-ada \
         --without-debug \
         --enable-widec \
@@ -43,41 +47,31 @@ build() {
 }
 
 package() {
-    cd ncurses
-    # By default ncurses will assume the pkgconfig's directory is the same
-    # prefix used by the executable.  Because I restrict the initial
-    # environment to just HOME and PATH--where PATH is set to /bin--configure
-    # will find /bin/pkg-config and use /lib/pkgconfig, ignoring the --prefix
-    # or --libdir options.  So instead make sure to explicitly provide
-    # the correct path instead of relying on poor configure heuristics.
-    make PKG_CONFIG_LIBDIR=/usr/lib/pkgconfig DESTDIR="$pkgdir" install
+    cd ncurses-snapshots
+    # The target install.libs is needed to include the pkgconfig .pc files.
+    make DESTDIR="$pkgdir" install install.libs
 
     # Ensure that projects linking against non-wide curses libraries use the
     # wide character varients instead.
     for lib in ncurses ncurses++ form panel menu; do
         printf 'INPUT(-l%sw)\n' "$lib" > "$pkgdir"/usr/lib/lib"$lib".so
-        ln -s "$lib"w.pc "$pkgdir"/usr/lib/pkgconfig/"$lib".pc
+        ln -sf -- "$lib"w.pc "$pkgdir"/usr/lib/pkgconfig/"$lib".pc
     done
 
-    # Add the -ltinfo flag when linking ncurses as many upstream projects don't
-    # use pkg-config or ncurses-config to correctly determine the LDLIBS for
-    # ncurses.  This is a hack around Arch deciding to enable tinfo as a split
-    # library: https://bugs.archlinux.org/task/56000
-
-    # This symlink needs to be explicitly removed first because shell
-    # redirection will otherwise follow it.
-    rm -f -- "$pkgdir"/usr/lib/libncursesw.so
-    printf 'INPUT(libncursesw.so.%s -ltinfo)\n' "${pkgver:0:1}" > "$pkgdir"/usr/lib/libncursesw.so
+    for lib in tic tinfo; do
+        printf 'INPUT(libncursesw.so.%s)\n' "${pkgver:0:1}" > "$pkgdir"/usr/lib/lib"$lib".so
+        ln -sf libncursesw.so."${pkgver:0:1}" "$pkgdir"/usr/lib/lib"$lib".so."${pkgver:0:1}"
+        ln -sf ncursesw.pc "$pkgdir"/usr/lib/pkgconfig/"$lib".pc
+    done
 
     # Make projects link against ncurses instead when attempting to link with
     # curses.
     printf 'INPUT(-lncursesw)\n' > "$pkgdir"/usr/lib/libcursesw.so
-
     ln -sf libncurses.so "$pkgdir"/usr/lib/libcurses.so
 
     # Include some introduction and informal guides as they're quite nicely written.
     install -Dm0644 doc/hackguide.doc "$pkgdir"/usr/share/doc/"$pkgname"/hackguide.doc
     install -Dm0644 doc/ncurses-intro.doc "$pkgdir"/usr/share/doc/"$pkgname"/ncurses-intro.doc
 
-    install -Dm0755 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
