@@ -1,0 +1,78 @@
+pkgname=xterm-git
+pkgver=343b.r0.g2522314
+pkgrel=4
+
+pkgdesc='x terminal emulator with needle select patch'
+url='http://invisible-island.net/xterm/'
+arch=('x86_64')
+license=('MIT')
+
+depends=('libxft' 'libxaw' 'ncurses' 'xorg-luit' 'xbitmaps' 'libutempter'
+         'libxkbfile')
+
+# Based on binary
+# depends=('bzip2' 'expat' 'fontconfig' 'libutempter' 'libxaw' 'libxft' 'libxrender')
+# + xorg-luit (enable-mini-luit)
+
+provides=('xterm' 'xterm-needle-select')
+conflicts=('xterm' 'xterm-needle-select')
+
+source=('git+https://github.com/ThomasDickey/xterm-snapshots?signed'
+        'xterm-needle.patch')
+
+# "Thomas Dickey <dickey@invisible-island.net>"
+validpgpkeys=('C52048C0C0748FEE227D47A2702353E0F7E48EDB')
+
+sha256sums=('SKIP'
+            '4cf7c5e08381433efa4a0f24b4bf691d8d021bff5c6c25543c84f7ec09ee5c93')
+
+prepare() {
+    cd xterm-snapshots
+    patch -Np1 -i "$srcdir"/xterm-needle.patch
+}
+
+pkgver() {
+    cd xterm-snapshots
+    git describe --long --tags | sed -r 's/^xterm-//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd xterm-snapshots
+    ./configure --prefix=/usr \
+        --libdir=/etc \
+        --mandir=/usr/share/man \
+        --with-x \
+        --with-utempter \
+        --with-tty-group=tty \
+        --with-app-defaults=/usr/share/X11/app-defaults/ \
+        --enable-i18n \
+        --enable-luit \
+        --enable-logging \
+        --enable-dabbrev \
+        --enable-freetype \
+        --enable-warnings \
+        --enable-88-color \
+        --enable-256-color \
+        --enable-ansi-color \
+        --enable-mini-luit \
+        --enable-broken-st \
+        --enable-broken-osc \
+        --enable-tcap-query \
+        --enable-exec-xterm \
+        --enable-wide-chars \
+        --enable-doublechars \
+        --enable-narrowproto \
+        --enable-load-vt-fonts \
+        --enable-sixel-graphics \
+        --enable-regis-graphics \
+        --disable-imake \
+        --disable-full-tgetent
+    make
+}
+
+package() {
+    cd xterm-snapshots
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    install -Dm0644 -t "$pkgdir"/usr/share/applications ./*.desktop
+}
