@@ -1,25 +1,24 @@
 diff --git a/button.c b/button.c
-index 55d3111..be5be53 100644
+index 55d3111..13adc72 100644
 --- a/button.c
 +++ b/button.c
-@@ -2511,6 +2511,85 @@ HandleKeyboardSelectStart(Widget w,
+@@ -2511,6 +2511,83 @@ HandleKeyboardSelectStart(Widget w,
      }
  }
  
 +/* ARGSUSED */
 +void
 +HandleSelectNeedle(Widget w,
-+		   XEvent *event GCC_UNUSED,
-+		   String *params,
-+		   Cardinal *num_params)
++                   XEvent *event GCC_UNUSED,
++                   String *params,
++                   Cardinal *num_params)
 +{
 +    XtermWidget xw;
 +    String needle;
 +    size_t len;
 +
-+    if (!num_params || *num_params < 1) {
-+      return;
-+    }
++    if (!num_params || *num_params < 1)
++        return;
 +
 +    needle = params[0];
 +    len = strlen(needle);
@@ -36,18 +35,17 @@ index 55d3111..be5be53 100644
 +#endif
 +
 +        if (!isSameCELL(&screen->startH, &screen->endH)) {
-+          TRACE(("SelectNeedle: starting at current highlight\n"));
-+          /* If startH and endH differ over both row and column then some range
-+           * of cells are selected.
-+           *
-+           * We stay on the same row to check for multiple matches.
-+           */
-+          cell.col = screen->startH.col;
++            TRACE(("SelectNeedle: starting at current highlight\n"));
++            /* If startH and endH differ over both row and column then some range
++             * of cells are selected.
++             *
++             * We stay on the same row to check for multiple matches.
++             */
++            cell.col = screen->startH.col;
 +
-+          /* If we're at column 0 then assume the highlight is at the beginning
-+           * of the row and start again on the row above. */
-+          cell.row = cell.col == 0 ? screen->startH.row - 1 : screen->startH.row;
-+
++            /* If we're at column 0 then assume the highlight is at the beginning
++             * of the row and start again on the row above. */
++            cell.row = cell.col == 0 ? screen->startH.row - 1 : screen->startH.row;
 +        } else {
 +          /* Search the whole screen */
 +          cell.row = screen->max_row;
@@ -55,30 +53,30 @@ index 55d3111..be5be53 100644
 +        }
 +
 +        for (; cell.row >= 0; cell.row--) {
-+          TRACE(("SelectNeedle: row %d\n", cell.row));
-+          cell.col = cell.col == 0 ? screen->max_col : cell.col;
-+          ld = getLineData(screen, cell.row);
++            TRACE(("SelectNeedle: row %d\n", cell.row));
++            cell.col = cell.col == 0 ? screen->max_col : cell.col;
++            ld = getLineData(screen, cell.row);
 +
-+          for (; cell.col > 0; cell.col--) {
-+            size_t i;
-+            TRACE(("SelectNeedle: cur %d\n", cell.col));
-+            for (i = 0; i < len; ++i) {
-+              if (ld->charData[cell.col + i] != (unsigned)needle[i]) {
-+                break;
-+              }
-+            }
++            for (; cell.col > 0; cell.col--) {
++                size_t i;
++                TRACE(("SelectNeedle: cur %d\n", cell.col));
++                for (i = 0; i < len; ++i) {
++                    if (ld->charData[cell.col + i] != (unsigned)needle[i]) {
++                        break;
++                    }
++                }
 +
-+            /* needle found */
-+            if (i == len) {
++                    /* needle found */
++                if (i == len) {
 +#if OPT_FOCUS_EVENT
-+              SendFocusButton(xw, focus_event);
++                    SendFocusButton(xw, focus_event);
 +#endif
-+              TRACE(("SelectNeedle: found (%d,%d)\n", cell.row, cell.col));
-+              screen->selectUnit = Select_WORD;
-+              ComputeSelect(xw, &cell, &cell, False);
-+              return;
++                    TRACE(("SelectNeedle: found (%d,%d)\n", cell.row, cell.col));
++                    screen->selectUnit = Select_WORD;
++                    ComputeSelect(xw, &cell, &cell, False);
++                    return;
++                }
 +            }
-+          }
 +        }
 +
 +        DisownSelection(xw);
@@ -112,3 +110,18 @@ index 37baa05..757bd1a 100644
  extern void HandleSelectSet            PROTO_XT_ACTIONS_ARGS;
  extern void HandleSelectStart          PROTO_XT_ACTIONS_ARGS;
  extern void HandleStartExtend          PROTO_XT_ACTIONS_ARGS;
+diff --git a/xterm.man b/xterm.man
+index 59a0c29..e33c9dc 100644
+--- a/xterm.man
++++ b/xterm.man
+@@ -7012,6 +7012,10 @@ This action begins text selection at the current pointer location.
+ See
+ the section on \fBPOINTER USAGE\fP for information on making selections.
+ .TP 8
++.B "select-needle(\fIneedle\fP)"
++This action makes a word selection on the first occurrence of the \fIneedle\fP
++string preceding the current selection, if any, or the cursor.
++.TP 8
+ .B "send-signal(\fIsigname\fP)"
+ This action sends the signal named by \fIsigname\fP
+ to the \fI\*n\fP subprocess (the shell or program specified with
