@@ -1,0 +1,24 @@
+--- a/protoMakefile	2019-02-01 16:10:18.373378635 +0000
++++ b/protoMakefile	2019-02-01 16:12:07.182616515 +0000
+@@ -47,7 +47,8 @@
+ # Example (for Solaris 2.x with SPARCompiler C):
+ # CC = cc -c -O -s -Xc -DDONTFREE
+ 
+-CC = cc -std=c99 -c
++CFLAGS += -std=c99
++CPPFLAGS += -D_XOPEN_SOURCE
+ 
+ # Define LINK1 and LINK2 so that the command
+ #
+@@ -92,11 +93,7 @@
+ 
+ OBJS = buffer$O charset$O errmsg$O par$O reformat$O
+ 
+-.c$O:
+-	$(CC) $<
+-
+ par$E: $(OBJS)
+-	$(LINK1) $(OBJS) $(LINK2) par$E
+ 
+ buffer$O: buffer.c buffer.h errmsg.h
+ 

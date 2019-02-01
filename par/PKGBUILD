@@ -1,7 +1,6 @@
-# pkgver=$(curl -s "$url" | awk '/<title>/ { print $2 }')
 pkgname=par
 pkgver=1.52
-pkgrel=1
+pkgrel=2
 
 pkgdesc='paragraph reformatter'
 url='http://www.nicemice.net/par/'
@@ -10,13 +9,25 @@ license=('custom')
 
 depends=('glibc')
 
-source=("http://www.nicemice.net/par/Par${pkgver/./}.tar.gz")
+source=("http://www.nicemice.net/par/Par${pkgver/./}.tar.gz"
+        "http://sysmic.org/dl/par/par-$pkgver-i18n.4.patch"
+        'correct-makefile.patch')
 
-sha1sums=('4b83d2ec593bb45ee46d4b7c2bfc590e1f4a41a8')
+sha256sums=('33dcdae905f4b4267b4dc1f3efb032d79705ca8d2122e17efdecfd8162067082'
+            '2ab2d6039529aa3e7aff4920c1630003b8c97c722c8adc6d7762aa34e795861e'
+            'a70e7babc18d512aa8daf130e956665140996559c4aea3a2965ca60fe16a9bfd')
 
 prepare() {
     cd Par"${pkgver/./}"
     sed -n '67,85p' par.doc > LICENSE
+
+    # http://sysmic.org/dotclear/index.php?post/2006/06/22/55-add-multibyte-characters-support-in-par
+    patch -N -i "$srcdir"/par-"$pkgver"-i18n.4.patch
+    patch -Np1 -i "$srcdir"/correct-makefile.patch
+}
+
+pkgver() {
+    curl -s "$url" | awk '/<title>/ {print $2}'
 }
 
 build() {
