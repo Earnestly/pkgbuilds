@@ -1,0 +1,42 @@
+pkgname=tmux-git
+pkgver=2.8.r150.g4ab3b18b
+pkgrel=1
+
+pkgdesc='terminal multiplexer'
+url='http://tmux.github.io'
+arch=('i686' 'x86_64')
+license=('ISC')
+
+depends=('libevent' 'libutempter')
+makedepends=('git')
+
+provides=('tmux')
+conflicts=('tmux')
+
+source=('git+https://github.com/tmux/tmux.git')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd tmux
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+prepare() {
+    cd tmux
+    awk 'BEGIN{FS="* "} /Copy/,/SOFTWARE\.$/ {print $2}' tmux.h > LICENSE
+}
+
+build() {
+    cd tmux
+    autoreconf -fi
+    ./configure --prefix=/usr --enable-utempter
+    make
+}
+
+package() {
+    cd tmux
+    make DESTDIR="$pkgdir" install
+    install -Dm0644 example_tmux.conf "$pkgdir"/usr/share/tmux/tmux.conf
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
