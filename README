@@ -1,21 +1,6 @@
 pkgbuilds <https://github.com/Earnestly/pkgbuilds>
 
-WHY
-
-  Most of these packages were created because the ones found in the AUR were
-  not up to my standards. The majority of my packages are built from the latest
-  developmental branches for both less maintenance burden, as package versions
-  are programmatically generated, and for the newest fixes and bugs; hopefully
-  fixes more so than bugs.  Primarily this eases working with upstream as any
-  issues are reported against the latest code.
-
-  The pkgdesc format is losely based on man-pages(7) such as using short
-  lowercase, buzzword free descriptions similar to a manual's synopsis. Common
-  variables are grouped together to improve PKGBUILD readability.
-
-  I avoid abstractions at all costs unless it provides legitimate convenience.
-
-DEVIATIONS FROM ARCH LINUX
+Differences from Arch Linux
 
   While Arch Linux provides mostly complete packages I don't split packages
   into multiple variations.  E.g. Instead of six pulseaudio packages I only
@@ -27,7 +12,24 @@ DEVIATIONS FROM ARCH LINUX
     can provide an empty /etc/locales directory for users to add their locales
     as empty files with the name of the locale, e.g. /etc/locales/en_GB
 
+    If the file is not empty then the content can be used as the charmap.
+
   - pulseaudio-git
 
     Disables practically every additional feature from dbus to esound support
-    leaving only the main POSIX functionality.
+    leaving only the main POSIX functionality.  This doesn't include a lib32
+    libpulse which is problematic when using wine.
+
+  - vim-git
+
+    Built without gtk while still including x11 support with all available
+    dynamic interpreters.  Does not include downstream modification such as
+    archlinux.vim or change global vimrc locations.
+
+  - xterm-git
+
+    Include a patch which enables keyboard selection based on a search pattern.
+    This is a continuation of the work by fmang[1] and pbrisbin[2].
+
+    1. https://bbs.archlinux.org/viewtopic.php?id=181515
+    2. https://pbrisbin.com/posts/selecting_urls_via_keyboard_in_xterm/
