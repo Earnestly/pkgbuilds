@@ -30,11 +30,6 @@ sha256sums=('SKIP'
             'e86f2caba5f30ea9f5823e470e3ab84dcfe5647a42b6c365a784a53aed603a6f'
             '27d52500ac7eb8297c73422ddad19955ac127cd68e543c6350c76a5df321ab7c')
 
-pkgver() {
-    cd linux
-    make kernelversion | sed 's/-/./'
-}
-
 prepare() {
     cd linux
     _tag="$(git tag --sort=v:refname | tail -n1)"
@@ -58,6 +53,12 @@ prepare() {
 
     make olddefconfig
 }
+
+pkgver() {
+    cd linux
+    make kernelversion | sed 's/-/./'
+}
+
 
 build() {
     cd linux
