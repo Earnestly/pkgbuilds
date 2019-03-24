@@ -1,6 +1,6 @@
 pkgname=xterm-git
-pkgver=343b.r0.g2522314
-pkgrel=6
+pkgver=344.r0.ga9a0560
+pkgrel=3
 
 pkgdesc='x terminal emulator with needle select patch'
 url='http://invisible-island.net/xterm/'
@@ -24,7 +24,7 @@ source=('git+https://github.com/ThomasDickey/xterm-snapshots?signed'
 validpgpkeys=('C52048C0C0748FEE227D47A2702353E0F7E48EDB')
 
 sha256sums=('SKIP'
-            'dd38f3f516d24d4f6918fdc3fffd0ed907774953d07dc72d8e820fb1db476659')
+            '196924ff949a4124b036035fe9a0b203cc23f41d46bbe1f2bbffaba73b6bce90')
 
 prepare() {
     cd xterm-snapshots
@@ -66,9 +66,8 @@ build() {
         --enable-sixel-graphics \
         --enable-regis-graphics \
         --disable-imake \
-        --disable-full-tgetent \
-        CPPFLAGS=-DOPT_FOCUS_EVENT=1
-    make
+        --disable-full-tgetent
+    make OPT_FOCUS_EVENT=1
 }
 
 package() {

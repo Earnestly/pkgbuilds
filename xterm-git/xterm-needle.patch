@@ -1,15 +1,15 @@
 diff --git a/button.c b/button.c
-index 55d3111..13adc72 100644
+index 6ee8931..c30e44d 100644
 --- a/button.c
 +++ b/button.c
-@@ -2511,6 +2511,83 @@ HandleKeyboardSelectStart(Widget w,
+@@ -2517,6 +2517,83 @@ HandleKeyboardSelectStart(Widget w,
      }
  }
  
 +/* ARGSUSED */
 +void
 +HandleSelectNeedle(Widget w,
-+                   XEvent *event GCC_UNUSED,
++                   XEvent *event,
 +                   String *params,
 +                   Cardinal *num_params)
 +{
@@ -29,9 +29,12 @@ index 55d3111..13adc72 100644
 +        LineData *ld;
 +
 +#if OPT_FOCUS_EVENT
-+        // Fake a focus event to work around some window managers
-+        XFocusChangeEvent *focus_event = (XFocusChangeEvent *) event;
-+        focus_event->type = FocusIn;
++	/* Fake a focus event to workaround the situation where an existing
++	 * xterm already has a selection which prevents the current window
++	 * from selecting.  This is usually not a problem elsewhere as a
++	 * mouse click implicitly focuses the window. */
++	((XFocusChangeEvent *)event)->type = FocusIn;
++        SendFocusButton(xw, (XFocusChangeEvent *)event);
 +#endif
 +
 +        if (!isSameCELL(&screen->startH, &screen->endH)) {
@@ -68,9 +71,6 @@ index 55d3111..13adc72 100644
 +
 +                    /* needle found */
 +                if (i == len) {
-+#if OPT_FOCUS_EVENT
-+                    SendFocusButton(xw, focus_event);
-+#endif
 +                    TRACE(("SelectNeedle: found (%d,%d)\n", cell.row, cell.col));
 +                    screen->selectUnit = Select_WORD;
 +                    ComputeSelect(xw, &cell, &cell, False);
@@ -87,7 +87,7 @@ index 55d3111..13adc72 100644
  TrackDown(XtermWidget xw, XButtonEvent *event)
  {
 diff --git a/charproc.c b/charproc.c
-index 346a3dc..ea0450e 100644
+index 075e227..c5287fa 100644
 --- a/charproc.c
 +++ b/charproc.c
 @@ -269,6 +269,7 @@ static XtActionsRec actionsList[] = {
@@ -111,10 +111,10 @@ index 37baa05..757bd1a 100644
  extern void HandleSelectStart          PROTO_XT_ACTIONS_ARGS;
  extern void HandleStartExtend          PROTO_XT_ACTIONS_ARGS;
 diff --git a/xterm.man b/xterm.man
-index 59a0c29..e33c9dc 100644
+index eb14091..1f75b1b 100644
 --- a/xterm.man
 +++ b/xterm.man
-@@ -7012,6 +7012,10 @@ This action begins text selection at the current pointer location.
+@@ -7018,6 +7018,10 @@ This action begins text selection at the current pointer location.
  See
  the section on \fBPOINTER USAGE\fP for information on making selections.
  .TP 8
