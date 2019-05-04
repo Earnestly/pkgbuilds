@@ -1,0 +1,35 @@
+pkgname=dtach-git
+pkgver=0.9.r2.g748020b
+pkgrel=1
+
+pkgdesc='emulates the detach feature of screen'
+url='http://dtach.sourceforge.net'
+arch=('x86_64')
+license=('GPL')
+
+depends=('glibc')
+
+provides=('dtach')
+conflicts=('dtach')
+
+source=('git+https://github.com/crigler/dtach')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd dtach
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd dtach
+    autoreconf -fi
+    ./configure --prefix=/usr
+    make
+}
+
+package() {
+    cd dtach
+    install -Dm0755 dtach "$pkgdir"/usr/bin/dtach
+    install -Dm0644 dtach.1 "$pkgdir"/usr/share/man/man1/dtach.1
+}
