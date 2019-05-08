@@ -1,13 +1,13 @@
 pkgname=vim-git
-pkgver=8.1.0785.r0.g113e10721
-pkgrel=2
+pkgver=8.1.1295.r0.g98ffe4c6d
+pkgrel=1
 
 pkgdesc='text editor'
 url='http://www.vim.org'
 arch=('x86_64')
 license=('custom:vim')
 
-depends=()
+depends=('nawk' 'acl' 'gpm' 'libxt' 'hicolor-icon-theme')
 makedepends=('git' 'lua' 'python' 'python2' 'ruby' 'tcl')
 optdepends=('lua' 'perl' 'python' 'python2' 'ruby' 'tcl')
 
