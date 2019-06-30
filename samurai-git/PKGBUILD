@@ -1,0 +1,40 @@
+pkgname=samurai-git
+pkgver=0.6.r2.gb742afc
+pkgrel=1
+
+pkgdesc='ninja compatible build tool written in c'
+url='https://github.com/michaelforney/samurai'
+arch=('x86_64')
+license=('Apache')
+
+depends=('glibc')
+makedepends=('git')
+
+provides=('samurai')
+conflicts=('samurai')
+
+source=('git+https://github.com/michaelforney/samurai'
+        'https://github.com/michaelforney/samurai/pull/21.patch')
+
+sha256sums=('SKIP'
+            '4801bd123eaba643ffb83455540e01760c695b4cef74e972bf703bb07d539d72')
+prepare() {
+    cd samurai
+    # Implemented SAMUFLAGS https://github.com/michaelforney/samurai/pull/21
+    patch -Np1 -i "$srcdir"/21.patch
+}
+
+pkgver() {
+    cd samurai
+    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+}
+
+build() {
+    cd samurai
+    CFLAGS="$CPPFLAGS $CFLAGS" make
+}
+
+package() {
+    cd samurai
+    make DESTDIR="$pkgdir" PREFIX=/usr install
+}
