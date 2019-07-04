@@ -1,0 +1,40 @@
+pkgname=mblaze-git
+pkgver=0.5.1.r8.g68272af
+pkgrel=1
+
+pkgdesc='unix utilities to deal with maildir'
+url='https://github.com/chneukirchen/mblaze'
+arch=('x86_64')
+license=('CC0' 'MIT')
+
+depends=('awk')
+makedepends=('git')
+checkdepends=('perl')
+
+provides=('mblaze')
+conflicts=('mblaze')
+
+source=('git+https://github.com/chneukirchen/mblaze')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd mblaze
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd mblaze
+    make
+}
+
+check() {
+    cd mblaze
+    make check
+}
+
+package() {
+    cd mblaze
+    make DESTDIR="$pkgdir" PREFIX=/usr install
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+}

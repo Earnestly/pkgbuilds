@@ -1,0 +1,224 @@
+diff --git a/Namcap/rules/__init__.py b/Namcap/rules/__init__.py
+index dcc950f..1e05326 100644
+--- a/Namcap/rules/__init__.py
++++ b/Namcap/rules/__init__.py
+@@ -1,7 +1,7 @@
+-# 
++#
+ # namcap rules - __init__
+ # Copyright (C) 2003-2009 Jason Chu <jason@archlinux.org>
+-# 
++#
+ #   This program is free software; you can redistribute it and/or modify
+ #   it under the terms of the GNU General Public License as published by
+ #   the Free Software Foundation; either version 2 of the License, or
+@@ -15,7 +15,7 @@
+ #   You should have received a copy of the GNU General Public License
+ #   along with this program; if not, write to the Free Software
+ #   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-# 
++#
+ 
+ from types import ModuleType
+ import Namcap.ruleclass
+@@ -37,7 +37,6 @@ from . import (
+   libtool,
+   licensepkg,
+   lotsofdocs,
+-  mimefiles,
+   missingbackups,
+   pathdepends,
+   perllocal,
+diff --git a/Namcap/rules/mimefiles.py b/Namcap/rules/mimefiles.py
+deleted file mode 100644
+index f9d56f4..0000000
+--- a/Namcap/rules/mimefiles.py
++++ /dev/null
+@@ -1,40 +0,0 @@
+-# 
+-# namcap rules - mimefiles
+-# Copyright (C) 2009 Hugo Doria <hugo@archlinux.org>
+-# Copyright (C) 2011 Rémy Oudompheng <remy@archlinux.org>
+-# 
+-#   This program is free software; you can redistribute it and/or modify
+-#   it under the terms of the GNU General Public License as published by
+-#   the Free Software Foundation; either version 2 of the License, or
+-#   (at your option) any later version.
+-#
+-#   This program is distributed in the hope that it will be useful,
+-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-#   GNU General Public License for more details.
+-#
+-#   You should have received a copy of the GNU General Public License
+-#   along with this program; if not, write to the Free Software
+-#   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-
+-from Namcap.ruleclass import *
+-
+-class MimeDesktopRule(TarballRule):
+-	name = "mimedesktop"
+-	description = "Check for MIME desktop file depends"
+-	def analyze(self, pkginfo, tar):
+-		for entry in tar:
+-			if entry.issym():
+-				continue
+-			if not entry.name.startswith("usr/share/applications"):
+-				continue
+-			if not entry.name.endswith(".desktop"):
+-				continue
+-			with tar.extractfile(entry) as f:
+-				if not any(l.startswith(b"MimeType=") for l in f):
+-					continue
+-				pkginfo.detected_deps["desktop-file-utils"].append( ('desktop-file-utils-needed', ()) )
+-				break
+-
+-# vim: set ts=4 sw=4 noet:
+diff --git a/Namcap/rules/pathdepends.py b/Namcap/rules/pathdepends.py
+index 5bc4313..87f9758 100644
+--- a/Namcap/rules/pathdepends.py
++++ b/Namcap/rules/pathdepends.py
+@@ -1,7 +1,7 @@
+-# 
++#
+ # namcap rules - pathdepends
+ # Copyright (C) 2016 Kyle Keen <keenerd@gmail.com>
+-# 
++#
+ #   This program is free software; you can redistribute it and/or modify
+ #   it under the terms of the GNU General Public License as published by
+ #   the Free Software Foundation; either version 2 of the License, or
+@@ -15,7 +15,7 @@
+ #   You should have received a copy of the GNU General Public License
+ #   along with this program; if not, write to the Free Software
+ #   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
++#
+ 
+ """
+ This contains a collection of essentially one-line rules:
+@@ -41,9 +41,6 @@ class PathDependsRule(TarballRule):
+ 	{'path': '^usr/share/icons/hicolor$',
+ 		'dep':'hicolor-icon-theme',
+ 		'reason':'hicolor-icon-theme-needed-for-hicolor-dir'},
+-	{'path': '^usr/share/mime$',
+-		'dep':'shared-mime-info',
+-		'reason':'shared-mime-info-needed'},
+ 	]
+ 	def analyze(self, pkginfo, tar):
+ 		names = [entry.name for entry in tar]
+diff --git a/Namcap/tests/package/test_mimefiles.py b/Namcap/tests/package/test_mimefiles.py
+deleted file mode 100644
+index bfed439..0000000
+--- a/Namcap/tests/package/test_mimefiles.py
++++ /dev/null
+@@ -1,62 +0,0 @@
+-#
+-# namcap tests - mimefiles
+-# Copyright (C) 2011 Rémy Oudompheng <remy@archlinux.org>
+-# 
+-#   This program is free software; you can redistribute it and/or modify
+-#   it under the terms of the GNU General Public License as published by
+-#   the Free Software Foundation; either version 2 of the License, or
+-#   (at your option) any later version.
+-#
+-#   This program is distributed in the hope that it will be useful,
+-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-#   GNU General Public License for more details.
+-#
+-#   You should have received a copy of the GNU General Public License
+-#   along with this program; if not, write to the Free Software
+-#   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+-#   USA
+-# 
+-
+-import os
+-from Namcap.tests.makepkg import MakepkgTest
+-import Namcap.rules.mimefiles
+-
+-class MimeFilesTest(MakepkgTest):
+-	pkgbuild = """
+-pkgname=__namcap_test_mimefiles
+-pkgver=1.0
+-pkgrel=1
+-pkgdesc="A package"
+-arch=('i686' 'x86_64')
+-url="http://www.example.com/"
+-license=('GPL')
+-depends=('glibc')
+-source=()
+-options=(!purge !zipman)
+-build() {
+-  true
+-}
+-package() {
+-  mkdir -p "${pkgdir}/usr/share/applications"
+-  echo "MimeType=applcation/pdf" > "${pkgdir}/usr/share/applications/foobar.desktop"
+-}
+-"""
+-	def test_mimetype_in_desktop(self):
+-		"Package with desktop files and an missing dependency"
+-		pkgfile = "__namcap_test_mimefiles-1.0-1-%(arch)s.pkg.tar" % { "arch": self.arch }
+-		with open(os.path.join(self.tmpdir, "PKGBUILD"), "w") as f:
+-			f.write(self.pkgbuild)
+-		self.run_makepkg()
+-		pkg, r = self.run_rule_on_tarball(
+-				os.path.join(self.tmpdir, pkgfile),
+-				Namcap.rules.mimefiles.MimeDesktopRule
+-				)
+-		self.assertEqual(pkg.detected_deps,
+-				{"desktop-file-utils": [('desktop-file-utils-needed', ())] }
+-				)
+-		self.assertEqual(r.errors, [])
+-		self.assertEqual(r.warnings, [])
+-		self.assertEqual(r.infos, [])
+-
+-# vim: set ts=4 sw=4 noet:
+diff --git a/Namcap/tests/package/test_pathdepends.py b/Namcap/tests/package/test_pathdepends.py
+index 48f153c..7abe2a2 100644
+--- a/Namcap/tests/package/test_pathdepends.py
++++ b/Namcap/tests/package/test_pathdepends.py
+@@ -2,7 +2,7 @@
+ # namcap tests - glibfiles
+ # Copyright (C) 2011 Rémy Oudompheng <remy@archlinux.org>
+ # Copyright (C) 2016 Kyle Keen <keenerd@gmail.com>
+-# 
++#
+ #   This program is free software; you can redistribute it and/or modify
+ #   it under the terms of the GNU General Public License as published by
+ #   the Free Software Foundation; either version 2 of the License, or
+@@ -17,7 +17,7 @@
+ #   along with this program; if not, write to the Free Software
+ #   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ #   USA
+-# 
++#
+ 
+ import os
+ from Namcap.tests.makepkg import MakepkgTest
+@@ -50,10 +50,6 @@ package() {
+   # hicolor-icon-theme-needed-for-hicolor-dir
+   mkdir -p "${pkgdir}/usr/share/icons/hicolor/64x64/apps"
+   touch "${pkgdir}/usr/share/icons/hicolor/64x64/apps/example.png"
+-
+-  # shared-mime-info-needed
+-  mkdir -p "${pkgdir}/usr/share/mime/text"
+-  touch "${pkgdir}/usr/share/mime/text/example.xml"
+ }
+ """
+ 
+@@ -70,7 +66,6 @@ package() {
+ 				{'dconf': [('dconf-needed-for-glib-schemas', ())],
+ 				 'glib2': [('glib2-needed-for-gio-modules', ())],
+ 				 'hicolor-icon-theme': [('hicolor-icon-theme-needed-for-hicolor-dir', ())],
+-				 'shared-mime-info': [('shared-mime-info-needed', ())],
+ 				})
+ 		self.assertEqual(r.errors, [])
+ 		self.assertEqual(r.warnings, [])
+@@ -78,4 +73,3 @@ package() {
+ 
+ 
+ # vim: set ts=4 sw=4 noet:
+-
