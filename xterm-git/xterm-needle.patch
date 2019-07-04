@@ -29,12 +29,12 @@ index 6ee8931..c30e44d 100644
 +        LineData *ld;
 +
 +#if OPT_FOCUS_EVENT
-+	/* Fake a focus event to workaround the situation where an existing
-+	 * xterm already has a selection which prevents the current window
-+	 * from selecting.  This is usually not a problem elsewhere as a
-+	 * mouse click implicitly focuses the window. */
-+	((XFocusChangeEvent *)event)->type = FocusIn;
-+        SendFocusButton(xw, (XFocusChangeEvent *)event);
++    /* Fake a focus event to workaround the situation where an existing
++     * xterm already has a selection which prevents the current window
++     * from selecting.  This is usually not a problem elsewhere as a
++     * mouse click implicitly focuses the window. */
++    ((XFocusChangeEvent *)event)->type = FocusIn;
++    SendFocusButton(xw, (XFocusChangeEvent *)event);
 +#endif
 +
 +        if (!isSameCELL(&screen->startH, &screen->endH)) {

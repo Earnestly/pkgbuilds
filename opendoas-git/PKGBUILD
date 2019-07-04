@@ -1,5 +1,5 @@
 pkgname=opendoas-git
-pkgver=6.0.r38.g4b1b24b
+pkgver=6.0.r56.g8b2a776
 pkgrel=1
 
 pkgdesc='run commands as another user, alternative to sudo'
@@ -27,9 +27,7 @@ pkgver() {
 build() {
     cd OpenDoas
     ./configure --prefix=/usr --with-timestamp
-
-    # XXX https://github.com/Duncaen/OpenDoas/issues/9
-    make COPTS=-Wno-error
+    make
 }
 
 package() {

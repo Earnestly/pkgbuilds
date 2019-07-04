@@ -1,5 +1,5 @@
 pkgname=cloc-git
-pkgver=1.70.r11.g50ba7db
+pkgver=1.82.r12.gedbccdb
 pkgrel=1
 
 pkgdesc='count lines of code'

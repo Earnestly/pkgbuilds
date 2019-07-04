@@ -1,5 +1,5 @@
 pkgname=libinput-git
-pkgver=1.12.3.r51.gc4129240
+pkgver=1.13.0.r136.g1796fd92
 pkgrel=1
 
 pkgdesc='library to handle input devices'

@@ -1,5 +1,5 @@
 pkgname=pulseaudio-git
-pkgver=12.0.r258.ga5f25af04
+pkgver=12.2.r377.g6f8bf764a
 pkgrel=1
 
 pkgdesc='network transparent sound server'
@@ -26,7 +26,8 @@ sha256sums=('SKIP')
 
 pkgver() {
     cd pulseaudio
-    git describe --long --tags | sed 's/^v//; s/-/.r/; s/-/./'
+    _tag=$(git tag --sort=v:refname | tail -n1)
+    printf '%s.r%s.g%s' "${_tag#v}" "$(git rev-list "$_tag"..HEAD --count)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {

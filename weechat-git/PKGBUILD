@@ -1,6 +1,6 @@
 pkgname=weechat-git
-pkgver=2.3.r92.geb0828ec6
-pkgrel=1
+pkgver=2.5.r26.g98b5e9046
+pkgrel=2
 
 pkgdesc='terminal based irc client'
 url='http://www.weechat.org/'
@@ -33,7 +33,7 @@ build() {
         -DENABLE_JAVASCRIPT=OFF \
         -DENABLE_PYTHON3=ON \
         -DPYTHON_LIBRARY=/usr/lib/libpython"$_python".so \
-        -DENABLE_TESTS=ON
+        -DENABLE_TESTS=ON .
     make VERBOSE=1
 }
 

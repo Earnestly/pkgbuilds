@@ -1,5 +1,5 @@
 pkgname=youtube-dl-git
-pkgver=2019.01.17.r18.g07f9febc4
+pkgver=2019.06.21.r12.g3031b7c4e
 pkgrel=1
 
 pkgdesc='tool to download videos from different websites'
@@ -16,7 +16,12 @@ optdepends=('ffmpeg: video post-processing')
 provides=('youtube-dl')
 conflicts=('youtube-dl')
 
-source=('git+https://github.com/rg3/youtube-dl.git')
+source=('git+https://github.com/rg3/youtube-dl') #?signed')
+
+# Philipp Hagemeister
+# Sergey M. <dstftw@gmail.com>
+# validpgpkeys=('7D33D762FD6C35130481347FDB4B54CBA4826A18'
+#               'ED7F5BF46B3BBED81C87368E2C393E0F18A9236D')
 
 sha256sums=('SKIP')
 

@@ -1,5 +1,5 @@
 pkgname=curl-git
-pkgver=7.63.0.r101.g6bd5bc97f
+pkgver=7.65.1.r58.gbd4390b1a
 pkgrel=1
 
 pkgdesc='url retrieval utility and library'
@@ -40,7 +40,8 @@ build() {
         --enable-threaded-resolver \
         --enable-versioned-symbols \
         --disable-ldap \
-        --disable-ldaps
+        --disable-ldaps \
+        --disable-curldebug
     make
 }
 

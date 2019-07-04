@@ -1,5 +1,5 @@
 pkgname=pacutils-git
-pkgver=0.6.3.r0.geb57704
+pkgver=0.7.0.r14.gf23f4d3
 pkgrel=1
 
 pkgdesc='ALPM front-end tools'

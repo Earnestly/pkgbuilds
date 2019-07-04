@@ -1,5 +1,5 @@
 pkgname=reptyr-git
-pkgver=0.7.0.r0.gf4e92a9
+pkgver=0.7.0.r2.gd2b0b06
 pkgrel=1
 
 pkgdesc='reparent running programs to a new terminal'

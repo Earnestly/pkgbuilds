@@ -1,6 +1,6 @@
 pkgname=xterm-git
-pkgver=344.r0.ga9a0560
-pkgrel=3
+pkgver=346k.r0.g5ee64c1
+pkgrel=1
 
 pkgdesc='x terminal emulator with needle select patch'
 url='http://invisible-island.net/xterm/'
@@ -24,7 +24,7 @@ source=('git+https://github.com/ThomasDickey/xterm-snapshots?signed'
 validpgpkeys=('C52048C0C0748FEE227D47A2702353E0F7E48EDB')
 
 sha256sums=('SKIP'
-            '196924ff949a4124b036035fe9a0b203cc23f41d46bbe1f2bbffaba73b6bce90')
+            '0d90279deb1194ff5ac3a1a46e6d7933940ddf217f4bca5bc8287a325d166a0e')
 
 prepare() {
     cd xterm-snapshots

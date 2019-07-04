@@ -1,7 +1,7 @@
 post_install() {
-    cat <<! 
+    cat <<!
 To allow members of the wheel group to run commands as other users, create the
-file /etc/doas.conf with the following content: 
+file /etc/doas.conf with the following content:
 
     permit :wheel
 

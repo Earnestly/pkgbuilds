@@ -1,5 +1,5 @@
 pkgname=vim-git
-pkgver=8.1.1295.r0.g98ffe4c6d
+pkgver=8.1.1584.r0.g0a1f56fcf
 pkgrel=1
 
 pkgdesc='text editor'
