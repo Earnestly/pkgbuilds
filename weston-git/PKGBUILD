@@ -1,22 +1,21 @@
 pkgname=weston-git
-pkgver=5.0.0.r117.gfb61e45d
+pkgver=6.0.0.r92.gd93c0f70
 pkgrel=1
 
 pkgdesc='reference implementation of a wayland compositor'
 url='http://wayland.freedesktop.org'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('MIT')
 
-depends=('libxkbcommon' 'libunwind' 'libxcursor' 'libva' 'libinput' 'libwebp'
-         'pango' 'colord')
-makedepends=('git' 'wayland-protocols')
+depends=('libva' 'libinput' 'pango' 'colord' 'freerdp')
+makedepends=('git' 'meson' 'wayland-protocols')
 
 provides=('weston')
 conflicts=('weston')
 
 source=('git+https://anongit.freedesktop.org/git/wayland/weston')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd weston
@@ -25,14 +24,14 @@ pkgver() {
 
 build() {
     cd weston
-    ./autogen.sh --prefix=/usr \
+    meson --prefix=/usr \
         --libexecdir=/usr/lib/weston \
-        --enable-demo-clients-install
-    make
+        -Dsimple-dmabuf-drm=intel build
+    ninja -C build
 }
 
 package() {
     cd weston
-    make DESTDIR="$pkgdir" install
-    install -Dm644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
+    DESTDIR="$pkgdir" ninja -C build install
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
