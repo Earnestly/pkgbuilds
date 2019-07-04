@@ -1,12 +1,13 @@
-# pkgver=$(curl -s "$url" | awk '/Current version: / {print $3}')
 pkgname=inconsolatazi4
-pkgver=1.114
+pkgver=1.12
 pkgrel=1
 
-pkgdesc='opentype variant of inconsolata from ctan'
+pkgdesc='opentype variant of inconsolata'
 url='https://www.ctan.org/tex-archive/fonts/inconsolata'
 arch=('any')
 license=('OFL')
+
+group=('font')
 
 depends=('fontconfig')
 
@@ -14,12 +15,15 @@ source=('http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Regul
         'http://mirrors.ctan.org/fonts/inconsolata/opentype/Inconsolatazi4-Bold.otf'
         'http://mirrors.ctan.org/fonts/inconsolata/doc/OFL.txt')
 
-sha256sums=('39d12bcb97f9a1112eaa470893d423c3e90dcde2eea37bd88df82ab79c379cd7'
-            '5bc316126a481d5acc3e754ffeec75d889900d0185e17e65e306d8aaead00e6e'
+sha256sums=('fa4d0728e461e228e4c3b706cc0836f72cb146852a757127c92647d8c405b638'
+            '515b21ca6b972d929b7362dda30548764f7541eb31cba0dabbb666433cd6552f'
             '2785c333cd73316222d596ca535e8d2cc2d6a78833301c45b9b60aefdf28d213')
 
+pkgver() {
+    curl -s "$url" | awk '/Current version: / {print $3}'
+}
+
 package() {
-    install -Dm0644 Inconsolatazi4-Regular.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Regular.otf
-    install -Dm0644 Inconsolatazi4-Bold.otf "$pkgdir"/usr/share/fonts/Inconsolatazi4/Inconsolatazi4-Bold.otf
+    install -Dm0644 -t "$pkgdir"/usr/share/fonts/cff/"$pkgname" ./*.otf
     install -Dm0644 OFL.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
