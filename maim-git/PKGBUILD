@@ -1,5 +1,5 @@
 pkgname=maim-git
-pkgver=5.5.2.r13.gc7430de
+pkgver=5.5.3.r2.gc45b3bf
 pkgrel=1
 
 pkgdesc='take screenshots of the desktop, similar to scrot'
@@ -16,7 +16,7 @@ conflicts=('maim')
 
 source=('git+https://github.com/naelstrof/maim.git')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd maim
@@ -25,7 +25,7 @@ pkgver() {
 
 build() {
     cd maim
-    cmake -DCMAKE_INSTALL_PREFIX=/usr
+    cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr .
     make VERBOSE=1
 }
 

@@ -1,5 +1,5 @@
 pkgname=julius-git
-pkgver=r1250.gc7e51b7c
+pkgver=r1441.gf8d1bb83
 pkgrel=1
 
 pkgdesc='open source implementation of caesar 3'
@@ -24,7 +24,7 @@ pkgver() {
 
 build() {
     cd julius
-    cmake -DCMAKE_INSTALL_PREFIX=/usr
+    cmake -DCMAKE_INSTALL_PREFIX=/usr .
     make VERBOSE=1
 }
 

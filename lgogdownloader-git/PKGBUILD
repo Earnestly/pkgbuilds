@@ -1,6 +1,6 @@
 pkgname=lgogdownloader-git
-pkgver=3.4.r7.g178ca66
-pkgrel=2
+pkgver=3.5.r3.g65961de
+pkgrel=1
 
 pkgdesc='unofficial downloader for gog.com'
 url='https://github.com/Sude-/lgogdownloader'
@@ -24,7 +24,7 @@ pkgver() {
 
 build() {
     cd lgogdownloader
-    cmake -DCMAKE_INSTALL_PREFIX=/usr
+    cmake -DCMAKE_INSTALL_PREFIX=/usr .
     make VERBOSE=1
 }
 

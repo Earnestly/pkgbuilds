@@ -1,11 +1,11 @@
 pkgname=bemenu-git
-pkgver=r255.gb84ce02
-pkgrel=2
+pkgver=r286.gf464f0e
+pkgrel=1
 
 pkgdesc='dynamic menu library and client program inspired by dmenu'
 url='https://github.com/Cloudef/bemenu'
-arch=('i686' 'x86_64')
-license=('GPL3' 'LGPL3')
+arch=('x86_64')
+license=('GPL' 'LGPL')
 
 depends=('pango')
 makedepends=('git' 'cmake' 'libxkbcommon' 'libxinerama' 'wayland')
@@ -17,26 +17,19 @@ optdepends=('wayland: wayland support'
 provides=('bemenu')
 conflicts=('bemenu')
 
-source=('git+https://github.com/Cloudef/bemenu'
-        'fix-overlap.patch')
+source=('git+https://github.com/Cloudef/bemenu')
 
-sha256sums=('SKIP'
-            'ac6ecc01c7675b29b2c658f7d2fdae0427bc1d0f936a4e231d1d00f8e4798f23')
+sha256sums=('SKIP')
 
 pkgver() {
     cd bemenu
     printf 'r%s.g%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-    cd bemenu
-    patch -Np1 -i "$srcdir"/fix-overlap.patch
-}
-
 build() {
     cd bemenu
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=/usr/lib
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib .
     make VERBOSE=1
 }
 

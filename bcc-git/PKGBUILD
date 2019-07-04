@@ -1,5 +1,5 @@
 pkgname=bcc-git
-pkgver=0.8.0.r11.gd01f4593
+pkgver=0.10.0.r14.g35cb9fd1
 pkgrel=1
 
 pkgdesc='bpf compiler collection'
@@ -28,7 +28,7 @@ pkgver() {
 build() {
     cd bcc
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=/usr/lib
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib .
     make VERBOSE=1
 }
 
