@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.5.5.2.r4.g276da676
+pkgver=0.6.0.pre1.r60.g58a40bad
 pkgrel=1
 
 pkgdesc='multimedia framework'
@@ -7,10 +7,10 @@ url='https://arcan-fe.com/'
 arch=('i686' 'x86_64')
 license=('GPL' 'BSD')
 
-depends=('ffmpeg' 'openal' 'sqlite3' 'luajit' 'apr' 'libusb' 'harfbuzz-icu'
-         'libxkbcommon')
-makedepends=('git' 'cmake' 'ruby')
-optdepends=('arcan-utils: utilties such as acfgfs, aclip, and aloadimage')
+depends=('freetype2' 'openal' 'sqlite3' 'lua51' 'apr' 'sdl' 'libvncserver')
+
+makedepends=('git' 'cmake' 'ruby' 'fuse3')
+optdepends=('fuse3: to mount the window configuration filesystem with arcan_cfgfs')
 
 provides=('arcan')
 conflicts=('arcan')
@@ -25,15 +25,17 @@ pkgver() {
 }
 
 build() {
-    cd arcan/doc
-    # Explicitly make ruby use UTF-8 encoding as when used in minimal
-    # environments (where LANG is not set)
-    ruby -Ku docgen.rb mangen
+    cd arcan
 
-    cd "$srcdir"/arcan
+    # Explicitly make ruby use UTF-8 encoding explicitly when used in minimal
+    # environments where LANG is not set.
+    ruby -C doc -Ku docgen.rb mangen
+
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-          -DAPIMAN_DEST=/usr/share/man/arcan/man3 \
-          -DVIDEO_PLATFORM=egl-dri src
+        -DVIDEO_PLATFORM=sdl \
+        -DLUA_INCLUDE_DIR=/usr/include/lua5.1 \
+        -DDISABLE_HIJACK=OFF \
+        -DDISABLE_JIT=ON src
     make VERBOSE=1
 }
 
