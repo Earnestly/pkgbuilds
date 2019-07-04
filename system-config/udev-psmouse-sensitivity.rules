@@ -1,2 +1,0 @@
-# udev/rules.d/01-psmouse-sensitivity.rules
-ACTION=="add", KERNEL=="serio1", SUBSYSTEM=="serio", DRIVER=="psmouse", ATTR{sensitivity}="200"

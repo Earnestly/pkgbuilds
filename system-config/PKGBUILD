@@ -1,14 +1,15 @@
 pkgbase=system-config
-pkgname=(base-config teapot-config engine-config)
-pkgver=13.5
-pkgrel=1
+pkgname=(system-config-base system-config-teapot system-config-engine)
+pkgver=15
+pkgrel=3
 
 pkgdesc='system configurations'
 arch=('any')
 url='https://github.com/Earnestly'
 license=('custom')
 
-source=('env-locale.sh'
+source=('doas-wheel.conf'
+        'env-locale.sh'
         'env-nvidia.sh'
         'etc-zshenv'
         'etc-locale.conf'
@@ -24,43 +25,52 @@ source=('env-locale.sh'
         'mod-uvcvideo.conf'
         'mod-thinkpad_acpi.conf'
         'nft-nftables.conf'
+        'pacutils-pacreport.conf'
         'patch-makepkg.conf.patch'
         'patch-pacman.conf.patch'
         'sudo-wheel'
         'sysctl-swap.conf'
         'sysctl-dirty.conf'
         'sysctl-fq_codel.conf'
+        'sysctl-overcommit.conf'
         'udev-enable-bfq-scheduler.rules'
         'xorg-trackpoint.conf'
         'xorg-libinput-tweaks.conf'
         'xorg-libinput-noaccel.conf'
         'xorg-xwrapper.config')
 
-
-package_base-config() {
-    pkgdesc='common system configuration'
+package_system-config-base() {
+    pkgdesc='common system configurations'
     depends=('zsh' 'sudo')
 
-    # Named locale2.sh due to use of NoExtract=etc/profile.d/locale.sh
+    # Named locale2.sh due to NoExtract=etc/profile.d/locale.sh
     install -Dm0644 env-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
+
     install -Dm0644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
     install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
+    install -Dm0600 doas-wheel.conf "$pkgdir"/etc/doas.conf
     install -Dm0644 locale-en_GB "$pkgdir"/etc/locales/en_GB
     install -Dm0644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm0644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
-    install -Dm0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
+    install -Dm0644 pacutils-pacreport.conf "$pkgdir"/etc/pacreport.conf
+
+    # Make sure sudoers.d is 0700 instead of the default 0755.
+    install -dm0700 "$pkgdir"/etc/sudoers.d
+    install -m0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
+
     install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
     install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
+    install -Dm0644 sysctl-overcommit.conf "$pkgdir"/etc/sysctl.d/overcommit.conf
     install -Dm0644 udev-enable-bfq-scheduler.rules "$pkgdir"/etc/udev/rules.d/01-enable-bfq-scheduler.rules
     install -Dm0644 xorg-xwrapper.config "$pkgdir"/etc/X11/Xwrapper.config
 
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
 }
 
-package_teapot-config() {
+package_system-config-teapot() {
     pkgdesc='system configurations for teapot'
-    depends=('base-config' 'xf86-input-libinput' 'nftables')
+    depends=('system-config-base' 'xf86-input-libinput' 'nftables')
 
     install -Dm0644 hook-patch-system-configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch-system-configs.hook
     install -Dm0755 hook-patch-system-configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch-system-configs
@@ -78,9 +88,9 @@ package_teapot-config() {
     printf 'teapot\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
 }
 
-package_engine-config() {
+package_system-config-engine() {
     pkgdesc='system configurations for engine'
-    depends=('base-config' 'xf86-input-libinput' 'xf86-input-wacom' 'nftables'
+    depends=('system-config-base' 'xf86-input-libinput' 'xf86-input-wacom' 'nftables'
              'nvidia' 'nvidia-utils' 'nvidia-settings')
 
     install -Dm0644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
@@ -91,7 +101,8 @@ package_engine-config() {
     printf 'engine\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
 }
 
-sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
+sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
+            '762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
             'c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
             'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
@@ -107,12 +118,14 @@ sha256sums=('762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
             'f17d620ed2de0d5b568b6eb389f6c55852e615c8b26772e404242cbf3b857f41'
             '04b936fe10b6daa5dbc79c7e642aa9a43b2a9b2de94312bfc3b41ff04a1a9c80'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
+            '3dc836cffe52a2460c45667f08f0b8580d836253dbbcbf2e842e8c3b8f975c8b'
             'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
-            '78c4fb60864da0d42f4fb14d28a878c3be4e50530bb7d23f17a3e8bb7e24fe05'
+            '4162dd71a44301c4f7079d9481f9a3c713d00f01a0f35c6cbb71de50869b2dde'
             '1d6e65e7dcf0af1a341a414d5659b5feaf5e5d9b3e53334d531d8ec7e52be5a4'
             '0c164df1a0702723c2e2a48fe7224b2e7318cd83253126c44293ff4c9ff0ba2e'
             'f3ac45e8e1c835886b3daa647033c54e889acc8766c9fbd7bccb80a006438f5d'
             '6a3a3d076b01d99693edba864270ce85e125fed853ac79fe32827c499cdccbe6'
+            '7f70b50ef5d9c46196cf0f5e6ff287e4861bb0b8624a5c0914201058d2d281f2'
             'fa72ba0e0252414d9913cd002bbaf74c983cf0da20b648f8592efc91f939a018'
             'fddca78e68e9454a45c0b39bc07ee18bdc9ad34db49ec63bf102816ed18e9c65'
             'def18791c8aba7165603c48072be3b431212ed0dc67cf441833714c6858cfc25'
