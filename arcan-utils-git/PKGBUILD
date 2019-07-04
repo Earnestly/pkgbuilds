@@ -31,8 +31,8 @@ build() {
     # netproxy clones https://github.com/letoram/UDT during configure
     # vrbridge probably needs openhmd, builds anyway
     # kbdconv needs a copy of kbd source (keymap/common.h)
-    for tool in acfgfs aclip aloadimage leddec ltui shmmon vrbridge waybridge; do
-        env -C "$srcdir"/arcan/src/tools/"$tool" cmake -DCMAKE_INSTALL_PREFIX=/usr
+    for tool in acfgfs aclip aloadimage ltui shmmon vrbridge waybridge; do
+        env -C "$srcdir"/arcan/src/tools/"$tool" cmake -DCMAKE_INSTALL_PREFIX=/usr .
         env -C "$srcdir"/arcan/src/tools/"$tool" make VERBOSE=1
     done
 }
@@ -44,6 +44,5 @@ package() {
         make -C src/tools/"$tool" DESTDIR="$pkgdir" install
     done
 
-    install -Dm0755 src/tools/leddec/leddec "$pkgdir"/usr/bin/arcan_leddec
     install -Dm0755 src/tools/ltui/ltui "$pkgdir"/usr/bin/arcan_ltui
 }
