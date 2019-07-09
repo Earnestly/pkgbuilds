@@ -52,7 +52,7 @@ Target = $1
 [Action]
 Description = removing initramfs files for $1
 When = PreTransaction
-Exec = /usr/bin/sh -c 'rm -f /boot/initramfs-$1.img /boot/initramfs-$1-fallback.img'
+Exec = /bin/sh -c 'rm -f /boot/initramfs-$1.img /boot/initramfs-$1-fallback.img'
 !
 
 cat > "$dest"/60-"$1".hook <<!
@@ -67,7 +67,7 @@ Target = usr/lib/modules/extramodules${1#linux}/*
 [Action]
 Description = updating $1 module dependencies
 When = PostTransaction
-Exec = /usr/bin/depmod -A $2
+Exec = /usr/bin/depmod $2
 !
 
 cat > "$dest"/90-"$1".hook <<!
@@ -75,7 +75,7 @@ cat > "$dest"/90-"$1".hook <<!
 Type = File
 Operation = Install
 Operation = Upgrade
-Target = boot/vmlinuz-$1
+Target = usr/lib/modules/$2/vmlinuz
 Target = usr/lib/initcpio/*
 
 [Action]

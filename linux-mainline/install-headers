@@ -70,13 +70,3 @@ find . -name 'Kconfig*' -type f -exec install -Dm0644 {} "$dest"/{} \;
 
 # Clean up any non-x86 architectures as Arch Linux doesn't support them.
 find "$dest"/arch ! \( -path "$dest" -o -path '*/x86*' -o -name arch \) -type d -exec rm -rf {} +
-
-# Strip binaries from the included scripts.
-find "$dest" -type f -executable ! -name vmlinux -exec file -i {} + | while IFS=: read -r file mime; do
-    case $mime in
-        application/x-sharedlib\;*) strip $STRIP_SHARED "$file" ;;
-        application/x-archive\;*) strip $STRIP_STATIC "$file" ;;
-        application/x-executable\;*) strip $STRIP_BINARIES "$file" ;;
-        application/x-pie-executable\;*) strip $STRIP_SHARED "$file"
-    esac
-done
