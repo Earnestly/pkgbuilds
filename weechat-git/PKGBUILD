@@ -1,6 +1,6 @@
 pkgname=weechat-git
-pkgver=2.5.r26.g98b5e9046
-pkgrel=2
+pkgver=2.5.r48.g965173ded
+pkgrel=1
 
 pkgdesc='terminal based irc client'
 url='http://www.weechat.org/'
