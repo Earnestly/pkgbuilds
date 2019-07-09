@@ -1,20 +1,20 @@
 pkgname=pkgconf-git
-pkgver=1.4.2.r40.gab8df57
+pkgver=1.6.0.r7.gbe60112
 pkgrel=1
 
 pkgdesc='compiler and linker configuration'
-url='https://git.dereferenced.org/pkgconf/pkgconf'
-arch=('i686' 'x86_64')
+url='http://pkgconf.org'
+arch=('x86_64')
 license=('ISC')
 
 depends=('glibc')
 makedepends=('popt' 'git' 'meson')
-checkdepends=('kyua' 'atf')
+# checkdepends=('kyua' 'atf')
 
 provides=('pkg-config' 'pkgconf')
 conflicts=('pkg-config' 'pkgconf')
 
-source=('git+https://git.dereferenced.org/pkgconf/pkgconf')
+source=('git+https://github.com/pkgconf/pkgconf')
 
 sha256sums=('SKIP')
 
@@ -25,7 +25,7 @@ pkgver() {
 
 build() {
     cd pkgconf
-    meson --prefix=/usr --sysconfdir=/etc build
+    meson --prefix=/usr --sysconfdir=/etc -Dtests=false build
     ninja -C build
 }
 
@@ -33,14 +33,15 @@ check() {
     cd pkgconf
     # Prevent kyua from creating files under ~/.kyua by confining it to the
     # current directory instead.
-    HOME=$PWD ninja -C build test
+    # HOME=$PWD ninja -C build test
 }
 
 package() {
     cd pkgconf
     DESTDIR="$pkgdir" ninja -C build install
-    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 
     # Provide this as a drop-in replacement for pkg-config.
     ln -s /usr/bin/pkgconf "$pkgdir"/usr/bin/pkg-config
+
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
