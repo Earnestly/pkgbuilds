@@ -1,5 +1,5 @@
 pkgname=xterm-git
-pkgver=346k.r0.g5ee64c1
+pkgver=347a.r0.gf9c66ec
 pkgrel=1
 
 pkgdesc='x terminal emulator with needle select patch'
@@ -24,7 +24,7 @@ source=('git+https://github.com/ThomasDickey/xterm-snapshots?signed'
 validpgpkeys=('C52048C0C0748FEE227D47A2702353E0F7E48EDB')
 
 sha256sums=('SKIP'
-            '0d90279deb1194ff5ac3a1a46e6d7933940ddf217f4bca5bc8287a325d166a0e')
+            '570e892ae202bc40d834d9248c134e63cd05a0e812a8a140648af6d05ad02b20')
 
 prepare() {
     cd xterm-snapshots

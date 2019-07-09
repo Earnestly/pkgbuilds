@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.1.20190121.r0.ga9b714f6
+pkgver=6.1.20190706.r0.gb62675ca
 pkgrel=1
 
 pkgdesc='terminal control based on srv4 curses'

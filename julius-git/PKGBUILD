@@ -1,5 +1,5 @@
 pkgname=julius-git
-pkgver=r1441.gf8d1bb83
+pkgver=r1445.gb418aa9a
 pkgrel=1
 
 pkgdesc='open source implementation of caesar 3'
