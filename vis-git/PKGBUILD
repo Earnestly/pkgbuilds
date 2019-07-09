@@ -1,25 +1,23 @@
 pkgname=vis-git
-pkgver=0.5.r56.gf8c9f23
+pkgver=0.5.r62.ge136e34
 pkgrel=1
 
-pkgdesc='vim like text editor'
+pkgdesc='vi-like text editor'
 url='http://www.brain-dump.org/projects/vis/'
-arch=('i686' 'x86_64')
-license=('custom:ISC')
-
-backup=('etc/vis/visrc.lua')
+arch=('x86_64')
+license=('ISC')
 
 depends=('ncurses' 'libtermkey' 'lua' 'tre' 'lua-lpeg')
 makedepends=('git')
-# checkdepends=('vim')
+checkdepends=('vim')
 
-conflicts=('vis')
 provides=('vis')
+conflicts=('vis')
 
 source=('git+https://github.com/martanne/vis.git'
         'git+https://github.com/martanne/vis-test.git')
 
-sha1sums=('SKIP' 'SKIP')
+sha256sums=('SKIP' 'SKIP')
 
 prepare() {
     cd vis
@@ -41,11 +39,12 @@ build() {
 
 check() {
     cd vis
-    make -C test
+    # The digraph tests need a UTF-8 locale.
+    LANG=en_US.UTF-8 make -C test
 }
 
 package() {
     cd vis
     make DESTDIR="$pkgdir" install
-    install -Dm0644 lua/visrc.lua "$pkgdir"/etc/vis/visrc.lua
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/vis/LICENSE
 }
