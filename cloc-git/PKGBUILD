@@ -1,5 +1,5 @@
 pkgname=cloc-git
-pkgver=1.82.r13.g558fcc9
+pkgver=1.82.r14.g907674e
 pkgrel=1
 
 pkgdesc='count lines of code'
@@ -8,6 +8,7 @@ arch=('any')
 license=('GPL')
 
 depends=('perl-algorithm-diff' 'perl-regexp-common' 'perl-digest-md5')
+optdepends=('perl-parallel-forkmanager: parallel data processing')
 
 provides=('cloc')
 conflicts=('cloc')
@@ -26,8 +27,9 @@ pkgver() {
 prepare() {
     cd cloc
 
-    # https://github.com/AlDanial/cloc/issues/275#issuecomment-509561297
-    mv -f "$srcdir"/cloc_submodule_test Unix/cloc_submodule_test
+    # Can't link this.  Helps run more tests bit still fails on unrelated
+    # issues. https://github.com/AlDanial/cloc/issues/275#issuecomment-509561297
+    # mv -f "$srcdir"/cloc_submodule_test Unix/cloc_submodule_test
 
     # https://github.com/AlDanial/cloc/issues/275#issuecomment-509024247
     sed -i 's/^install-bin: test-perl$/install-bin:/' Unix/Makefile
