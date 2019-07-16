@@ -1,5 +1,5 @@
 pkgname=tmux-git
-pkgver=3.0.r148.g3a4cf62a
+pkgver=3.0.r161.gc9216493
 pkgrel=1
 
 pkgdesc='terminal multiplexer'

@@ -1,5 +1,5 @@
 pkgname=curl-git
-pkgver=7.65.1.r84.g24e92a71d
+pkgver=7.65.1.r91.g11d7fe118
 pkgrel=1
 
 pkgdesc='url retrieval utility and library'
