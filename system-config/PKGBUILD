@@ -1,92 +1,118 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=16
-pkgrel=3
+pkgver=18
+pkgrel=1
 
 pkgdesc='system configurations'
-arch=('any')
 url='https://github.com/Earnestly'
-license=('custom')
+arch=('any')
+license=('BlueOak')
 
-source=('doas-wheel.conf'
-        'env-locale.sh'
-        'env-nvidia.sh'
-        'etc-zshenv'
+source=('etc-doas.conf'
         'etc-locale.conf'
-        'etc-vconsole.conf'
+        'etc-nftables.conf'
         'etc-pacreport.conf'
-        'hook-patch-system-configs.hook'
-        'hook-patch-system-configs.scripts'
-        'hwdb-caps-as-ctrl-holtek-generic.hwdb'
-        'hwdb-caps-as-ctrl-thinkpad.hwdb'
-        'locale-en_GB'
-        'mod-i915.conf'
-        'mod-pcspkr.conf'
-        'mod-usbhid.conf'
-        'mod-uvcvideo.conf'
-        'mod-thinkpad_acpi.conf'
-        'nft-nftables.conf'
-        'patch-makepkg.conf.patch'
-        'patch-pacman.conf.patch'
-        'sudo-wheel'
-        'sysctl-swap.conf'
-        'sysctl-dirty.conf'
-        'sysctl-fq_codel.conf'
-        'sysctl-overcommit.conf'
-        'udev-enable-bfq-scheduler.rules'
-        'xorg-trackpoint.conf'
-        'xorg-libinput-tweaks.conf'
-        'xorg-libinput-noaccel.conf'
-        'xorg-nvidia.conf'
-        'xorg-xwrapper.config')
+        'etc-vconsole.conf'
+        'hwdb.d-61_capslock_as_ctrl_holtek.hwdb'
+        'hwdb.d-61_capslock_as_ctrl_thinkpad.hwdb'
+        'libalpm-hooks-patch_system_configs.hook'
+        'libalpm-scripts-patch_system_configs.scripts'
+        'locales-en_GB'
+        'modprobe.d-i915.conf'
+        'modprobe.d-iwlwifi.conf'
+        'modprobe.d-pcspkr.conf'
+        'modprobe.d-thinkpad_acpi.conf'
+        'modprobe.d-usbhid.conf'
+        'modprobe.d-uvcvideo.conf'
+        'patches-makepkg.conf.patch'
+        'patches-pacman.conf.patch'
+        'profile.d-locale.sh'
+        'profile.d-nvidia.sh'
+        'rules.d-51_bluetooth_powersave.rules'
+        'rules.d-51_pci_powersave.conf'
+        'rules.d-51_sata_powersave.conf'
+        'rules.d-51_usb_powersave.conf'
+        'rules.d-61_bfq.rules'
+        'rules.d-81_wifi_powersave.rules'
+        'sudoers.d-wheel'
+        'sysctl.d-dirty_bytes.conf'
+        'sysctl.d-fq_codel.conf'
+        'sysctl.d-laptop_mode.conf'
+        'sysctl.d-overcommit.conf'
+        'sysctl.d-swap.conf'
+        'X11-Xwrapper.config'
+        'xorg.conf.d-evdev.conf'
+        'xorg.conf.d-libinput.conf'
+        'xorg.conf.d-nvidia.conf'
+        'zsh-zshenv'
+        'LICENSE')
 
 package_system-config-base() {
     pkgdesc='common system configurations'
-    depends=('zsh' 'sudo')
+    depends=('zsh' 'sudo' 'tzdata')
 
     # Named locale2.sh due to NoExtract=etc/profile.d/locale.sh
-    install -Dm0644 env-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
+    install -Dm0644 profile.d-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
 
-    install -Dm0644 etc-zshenv "$pkgdir"/etc/zsh/zshenv
     install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
+    install -Dm0600 etc-doas.conf "$pkgdir"/etc/doas.conf
     install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
-    install -Dm0600 doas-wheel.conf "$pkgdir"/etc/doas.conf
-    install -Dm0644 locale-en_GB "$pkgdir"/etc/locales/en_GB
-    install -Dm0644 mod-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
-    install -Dm0644 mod-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
     install -Dm0644 etc-pacreport.conf "$pkgdir"/etc/pacreport.conf
 
-    # Make sure sudoers.d is 0700 instead of the default 0755.
-    install -dm0700 "$pkgdir"/etc/sudoers.d
-    install -m0600 sudo-wheel "$pkgdir"/etc/sudoers.d/wheel
+    install -Dm0644 zsh-zshenv "$pkgdir"/etc/zsh/zshenv
 
-    install -Dm0644 sysctl-dirty.conf "$pkgdir"/etc/sysctl.d/dirty.conf
-    install -Dm0644 sysctl-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
-    install -Dm0644 sysctl-overcommit.conf "$pkgdir"/etc/sysctl.d/overcommit.conf
-    install -Dm0644 udev-enable-bfq-scheduler.rules "$pkgdir"/etc/udev/rules.d/01-enable-bfq-scheduler.rules
-    install -Dm0644 xorg-xwrapper.config "$pkgdir"/etc/X11/Xwrapper.config
+    install -Dm0644 locales-en_GB "$pkgdir"/etc/locales/en_GB
+
+    install -Dm0644 modprobe.d-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
+    install -Dm0644 modprobe.d-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
+
+    install -Dm0700 sudoers.d-wheel "$pkgdir"/etc/sudoers.d/wheel
+
+    install -Dm0644 sysctl.d-dirty_bytes.conf "$pkgdir"/etc/sysctl.d/dirty_bytes.conf
+    install -Dm0644 sysctl.d-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
+    install -Dm0644 sysctl.d-overcommit.conf "$pkgdir"/etc/sysctl.d/overcommit.conf
+
+    install -Dm0644 rules.d-61_bfq.rules "$pkgdir"/etc/udev/rules.d/61_bfq.rules
+
+    install -Dm0644 xorg.conf.d-libinput.conf "$pkgdir"/etc/X11/xorg.conf.d/libinput.conf
+
+    install -Dm0644 X11-Xwrapper.config "$pkgdir"/etc/X11/Xwrapper.config
 
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
+
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
 
 package_system-config-teapot() {
     pkgdesc='system configurations for teapot'
     depends=('system-config-base' 'xf86-input-libinput' 'nftables')
 
-    install -Dm0644 hook-patch-system-configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch-system-configs.hook
-    install -Dm0755 hook-patch-system-configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch-system-configs
-    install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
-    install -Dm0644 hwdb-caps-as-ctrl-thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-thinkpad.hwdb
-    install -Dm0644 mod-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
-    install -Dm0644 mod-thinkpad_acpi.conf "$pkgdir"/etc/modprobe.d/thinkpad_acpi.conf
-    install -Dm0644 nft-nftables.conf "$pkgdir"/etc/nftables.conf
-    install -Dm0644 patch-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
-    install -Dm0644 patch-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
-    install -Dm0644 sysctl-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
-    install -Dm0644 xorg-trackpoint.conf "$pkgdir"/etc/X11/xorg.conf.d/13-trackpoint.conf
-    install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
+    install -Dm0644 etc-nftables.conf "$pkgdir"/etc/nftables.conf
+
+    install -Dm0644 patches-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
+    install -Dm0644 patches-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
+    install -Dm0644 libalpm-hooks-patch_system_configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch_system_configs.hook
+    install -Dm0755 libalpm-scripts-patch_system_configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch_system_configs
+
+    install -Dm0644 hwdb.d-61_capslock_as_ctrl_holtek.hwdb "$pkgdir"/etc/udev/hwdb.d/61_caps_as_ctrl_holtek.hwdb
+    install -Dm0644 hwdb.d-61_capslock_as_ctrl_thinkpad.hwdb "$pkgdir"/etc/udev/hwdb.d/61_caps_as_ctrl_thinkpad.hwdb
+
+    install -Dm0644 modprobe.d-i915.conf "$pkgdir"/etc/modprobe.d/i915.conf
+    install -Dm0644 modprobe.d-thinkpad_acpi.conf "$pkgdir"/etc/modprobe.d/thinkpad_acpi.conf
+
+    install -Dm0644 sysctl.d-swap.conf "$pkgdir"/etc/sysctl.d/swap.conf
+
+    install -Dm0644 xorg.conf.d-evdev.conf "$pkgdir"/etc/X11/xorg.conf.d/evdev.conf
 
     printf 'teapot\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
+
+    install -Dm0644 /dev/stdin "$pkgdir"/etc/hosts <<!
+127.0.0.1 localhost localhost
+::1       localhost localhost
+
+127.0.0.1 teapot    teapot
+::1       teapot    teapot
+!
 }
 
 package_system-config-engine() {
@@ -94,43 +120,58 @@ package_system-config-engine() {
     depends=('system-config-base' 'xf86-input-libinput' 'xf86-input-wacom' 'nftables'
              'nvidia' 'nvidia-utils' 'nvidia-settings')
 
-    install -Dm0644 env-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
-    install -Dm0644 hwdb-caps-as-ctrl-holtek-generic.hwdb "$pkgdir"/etc/udev/hwdb.d/61-caps-as-ctrl-holtek-generic.hwdb
-    install -Dm0644 xorg-nvidia.conf "$pkgdir"/etc/X11/xorg.conf.d/12-nvidia.conf
-    install -Dm0644 xorg-libinput-tweaks.conf "$pkgdir"/etc/X11/xorg.conf.d/11-libinput-tweaks.conf
-    install -Dm0644 xorg-libinput-noaccel.conf "$pkgdir"/etc/X11/xorg.conf.d/12-libinput-noaccel.conf
+    install -Dm0644 profile.d-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
+
+    install -Dm0644 hwdb.d-61_capslock_as_ctrl_holtek.hwdb "$pkgdir"/etc/udev/hwdb.d/61_capslock_as_ctrl_holtek.hwdb
+
+    install -Dm0644 xorg.conf.d-nvidia.conf "$pkgdir"/etc/X11/xorg.conf.d/nvidia.conf
 
     printf 'engine\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
+
+    install -Dm0644 /dev/stdin "$pkgdir"/etc/hosts <<!
+127.0.0.1 localhost localhost
+::1       localhost localhost
+
+127.0.0.1 engine    engine
+::1       engine    engine
+!
 }
 
 sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
-            '762d71b358f4c5a2033cc90305f569ffdc63052bc0a47669509d975125211810'
-            'c88726acdb7b2a7d51f8c3ada4c8dabb23ab75f7c82d64516551f267da37bd21'
-            'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
-            '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
+            'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
             '8ac0414ab254c9001e8bb4122ec23b91ed96a6fce8ac29397ecc8318023f7455'
-            'e03ee1956c15ab4041dc5a29c978d0017ac5d8bce782f813b55bd0193fa7672e'
-            '9e17874e5db1bc22a2fdc5bbb1902069f545f82d926db0ab7df6c962925f3178'
+            '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
             'f18fb2629138504be8631f365d44f5de37e02e2eaa2d862fcdeed3df9350c571'
             '14a5257880b3d92aa018299d54e97bd356732aa22a24ca9f3db61a7d8dadc4a4'
+            'e03ee1956c15ab4041dc5a29c978d0017ac5d8bce782f813b55bd0193fa7672e'
+            '9e17874e5db1bc22a2fdc5bbb1902069f545f82d926db0ab7df6c962925f3178'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-            'f9925917734d29150d50118651152e032e0415381dfabb5de0947d4062a5c8d9'
-            'e30f05181fa754a9b1071ef48bf50f0296d9cbe16a8ba097a95df40506af8ce3'
-            'f83b630e1fd67c37090932bd48154ba9f356c4fa519ddeca75b1f97f2bba3f73'
-            'f17d620ed2de0d5b568b6eb389f6c55852e615c8b26772e404242cbf3b857f41'
-            '04b936fe10b6daa5dbc79c7e642aa9a43b2a9b2de94312bfc3b41ff04a1a9c80'
-            'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
+            '98e86813a743daa6421fd5a0e6895d8ba358cbfc964403e79d8db84f1b0857c7'
+            '117e4de392d953c776141aa994b7add7f8670fc9b494907f7a08d36fa4bd8ae6'
+            '45fcf00e3f7177c42f18c7b5bf2ed2074c11d440404705e082a5f9eea52d30b8'
+            '28874576641b3cc1aa486e1bc9ed40eadfe8b13d6d3014016e31fedc5dc5195f'
+            '9f19d4d8d7eb4413f86a28dbda4fddb54bd3bcd398ad9c7d9e8c2b1d378e8a53'
+            'fecb3022b136610fdbd0cc9769a8246c07b8653692af0edaaa13a3c7df9e1461'
             'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
             '4162dd71a44301c4f7079d9481f9a3c713d00f01a0f35c6cbb71de50869b2dde'
+            '4f4058e2055b5277bee104f5cc72c06a8a697b4026b03ea3c634a2218c5b4432'
+            'fe5296c5c8cc579348c9912b228305d870b30c7b5b1141c299183b5fd515cb5c'
+            '15f3004fe788cc888534a8091d162c9d61fa7a1cb1def86fc5e81aea3540eae6'
+            '3a379ff95218b8c05a08c4069a12cdbf62764387b9bbe1a045d3f98f5eaf105b'
+            'c782256acfd0da5068598512b9186a69ea27597a83b48f9b60b975596c2e08ef'
+            '6aac500e7aea1d866edde407016c8773cd785d496cf0fc92887e35f2bf86176f'
+            '07a71ae496f6471543adcd057aeeaa35c135bce85fe3787afa99626dd6d6050e'
+            'a532bb5bfd282d4ab6f14d0f5171afd8f69b81eee53786ec4b759f79d701a4b6'
             '1d6e65e7dcf0af1a341a414d5659b5feaf5e5d9b3e53334d531d8ec7e52be5a4'
-            '0c164df1a0702723c2e2a48fe7224b2e7318cd83253126c44293ff4c9ff0ba2e'
-            'f3ac45e8e1c835886b3daa647033c54e889acc8766c9fbd7bccb80a006438f5d'
-            '6a3a3d076b01d99693edba864270ce85e125fed853ac79fe32827c499cdccbe6'
+            '851a959ba02a5701bf0de1b65caa99d61fef9c4654b7e2a210456e0dc323a9ed'
+            'd4fc4067c524f5b81cc09e0bc142a727685823f1ab8867cfa33cbe640e7f6041'
+            'f64169f1214078f87344a498da5c6af148fec37013c7108f878f6fad6938be7e'
             '7f70b50ef5d9c46196cf0f5e6ff287e4861bb0b8624a5c0914201058d2d281f2'
-            'fa72ba0e0252414d9913cd002bbaf74c983cf0da20b648f8592efc91f939a018'
-            'fddca78e68e9454a45c0b39bc07ee18bdc9ad34db49ec63bf102816ed18e9c65'
-            'def18791c8aba7165603c48072be3b431212ed0dc67cf441833714c6858cfc25'
-            'a2e65efdd328d1952692198667140aeb1be6269ba0f238c6d7970783c051348a'
-            'f4d33b79eec0256e123d947e7334b90caeed0b1f4ad732ee44bcc12b19b486f7'
-            '80a02a54f5a5cec1ecfaaef9d78a10a5d6d47c6bfcfc7d3f95d526e999408e92')
+            '1781e9ecf6fc8d9e317510c6719b1cee1f5a4af0f37cc4a7fe84f0dac9b63cfd'
+            '80a02a54f5a5cec1ecfaaef9d78a10a5d6d47c6bfcfc7d3f95d526e999408e92'
+            '66704d00c2c818151094db6dad52493c3809530770f595d47c2c748ab26ce386'
+            '21b930ef1120a5cdf08089dd5db8db0b638187982840f65701ecb756e8611afa'
+            '7bf347c190d1c73939c46f3d93cb1b5d5a1fb3fce044809fd2096a11037542d5'
+            'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
+            '8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004')

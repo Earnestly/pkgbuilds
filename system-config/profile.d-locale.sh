@@ -24,4 +24,4 @@ elif [ -s /etc/locale.conf ]; then
     fexport < /etc/locale.conf
 fi
 
-unset fexport
+unset -f fexport
