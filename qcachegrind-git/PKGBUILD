@@ -1,5 +1,5 @@
 pkgname=qcachegrind-git
-pkgver=19.04.0.r2.g46422e1
+pkgver=19.04.0.r3.gf75bd0a
 pkgrel=1
 
 pkgdesc='visualization of performance profiling data'

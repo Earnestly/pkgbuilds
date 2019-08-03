@@ -1,5 +1,5 @@
 pkgname=xterm-git
-pkgver=347a.r0.gf9c66ec
+pkgver=348b.r0.g5abe4f2
 pkgrel=1
 
 pkgdesc='x terminal emulator with needle select patch'

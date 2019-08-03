@@ -1,5 +1,5 @@
 pkgname=sxiv-git
-pkgver=25.r8.g6511d68
+pkgver=25.r10.g07300da
 pkgrel=1
 
 pkgdesc='x image viewer'
