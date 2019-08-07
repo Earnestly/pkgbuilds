@@ -1,11 +1,13 @@
---- /etc/pacman.conf	2019-06-23 13:15:13.184064369 +0100
-+++ /etc/pacman.conf	2019-06-23 13:16:57.056928174 +0100
-@@ -27,14 +27,15 @@
+diff --git a/etc/pacman.conf b/etc/pacman.conf
+index 8ce6919..10bfd87 100644
+--- a/etc/pacman.conf
++++ b/etc/pacman.conf
+@@ -27,14 +27,15 @@ Architecture = auto
  #IgnoreGroup =
  
  #NoUpgrade   =
 -#NoExtract   =
-+NoExtract    = usr/share/dbus-1/services/*.service etc/profile.d/locale.sh usr/share/vim/vimfiles/archlinux.vim
++NoExtract   = usr/share/dbus-1/services/*.service etc/profile.d/locale.sh usr/share/vim/vimfiles/archlinux.vim usr/lib/Xorg.wrap
  
  # Misc options
  #UseSyslog
@@ -19,7 +21,7 @@
  
  # By default, pacman accepts packages signed by keys that its local keyring
  # trusts (see pacman-key and its man page), as well as unsigned packages.
-@@ -69,8 +70,12 @@
+@@ -69,8 +70,12 @@ LocalFileSigLevel = Optional
  # repo name header and Include lines. You can add preferred servers immediately
  # after the header, and they will be used before the default mirrors.
  
@@ -34,7 +36,7 @@
  
  [core]
  Include = /etc/pacman.d/mirrorlist
-@@ -78,8 +83,8 @@
+@@ -78,8 +83,8 @@ Include = /etc/pacman.d/mirrorlist
  [extra]
  Include = /etc/pacman.d/mirrorlist
  
@@ -45,7 +47,7 @@
  
  [community]
  Include = /etc/pacman.d/mirrorlist
-@@ -87,11 +92,11 @@
+@@ -87,11 +92,11 @@ Include = /etc/pacman.d/mirrorlist
  # If you want to run 32 bit applications on your x86_64 system,
  # enable the multilib repositories as required here.
  
@@ -59,8 +61,5 @@
 +[multilib]
 +Include = /etc/pacman.d/mirrorlist
  
- # An example of a custom package repository.  See the pacman manpage for
- # tips on creating your own repositories.
-
  # An example of a custom package repository.  See the pacman manpage for
  # tips on creating your own repositories.

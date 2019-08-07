@@ -8,7 +8,7 @@ Target = etc/makepkg.conf
 [Action]
 Description = Patching system configurations...
 Depends = patch
-Depends = base-config
+Depends = system-config-base
 When = PostTransaction
 NeedsTargets
-Exec = /usr/share/libalpm/scripts/patch-system-configs
+Exec = /usr/share/libalpm/scripts/patch_system_configs
