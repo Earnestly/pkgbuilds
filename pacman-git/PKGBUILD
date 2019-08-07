@@ -1,5 +1,5 @@
 pkgname=pacman-git
-pkgver=5.1.3.r180.g39c20ad4
+pkgver=5.1.3.r197.g75837a27
 pkgrel=1
 
 pkgdesc='package manager with dependency support'
