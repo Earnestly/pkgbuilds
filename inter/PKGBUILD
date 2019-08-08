@@ -1,5 +1,5 @@
-pkgname=inter-ui
-pkgver=3.7
+pkgname=inter
+pkgver=3.9
 pkgrel=1
 
 pkgdesc='neo-grotesque sans-serif typeface'
@@ -12,13 +12,13 @@ group=('font')
 depends=('fontconfig')
 
 source=("https://github.com/rsms/inter/releases/download/v$pkgver/Inter-$pkgver.zip")
-sha256sums=('0eb097467954991e109d179e22f06b11ef462e632dac5ce65633aa6e7262fa40')
+sha256sums=('445f71a2c6d0a64c11649533346ded15eb28c1be97b5866910f786da78ab4dbb')
 
 pkgver() {
     curl -s https://api.github.com/repos/rsms/inter/releases/latest | jq -r '.name[1:]'
 }
 
 package() {
-    install -Dm0644 -t "$pkgdir"/usr/share/fonts/cff/inter-ui 'Inter (OTF)'/*.otf
-    install -Dm0644 LICENSE.txt "$pkgdir"/usr/share/licenses/inter-ui/LICENSE
+    install -Dm0644 -t "$pkgdir"/usr/share/fonts/cff/inter 'Inter (OTF)'/*.otf
+    install -Dm0644 LICENSE.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
