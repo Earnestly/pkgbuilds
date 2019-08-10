@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=18.4
+pkgver=19
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -34,6 +34,7 @@ source=('etc-doas.conf'
         'rules.d-51_usb_powersave.conf'
         'rules.d-61_bfq.rules'
         'rules.d-81_wifi_powersave.rules'
+        'sudoers.d-timeout'
         'sudoers.d-wheel'
         'sysctl.d-dirty_bytes.conf'
         'sysctl.d-fq_codel.conf'
@@ -54,10 +55,10 @@ package_system-config-base() {
     # Named locale2.sh due to NoExtract=etc/profile.d/locale.sh
     install -Dm0644 profile.d-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
 
-    install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm0600 etc-doas.conf "$pkgdir"/etc/doas.conf
-    install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
+    install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm0644 etc-pacreport.conf "$pkgdir"/etc/pacreport.conf
+    install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
 
     install -Dm0644 zsh-zshenv "$pkgdir"/etc/zsh/zshenv
 
@@ -66,6 +67,7 @@ package_system-config-base() {
     install -Dm0644 modprobe.d-pcspkr.conf "$pkgdir"/etc/modprobe.d/pcspkr.conf
     install -Dm0644 modprobe.d-usbhid.conf "$pkgdir"/etc/modprobe.d/usbhid.conf
 
+    install -Dm0700 sudoers.d-timeout "$pkgdir"/etc/sudoers.d/timeout
     install -Dm0700 sudoers.d-wheel "$pkgdir"/etc/sudoers.d/wheel
 
     install -Dm0644 sysctl.d-dirty_bytes.conf "$pkgdir"/etc/sysctl.d/dirty_bytes.conf
@@ -163,7 +165,8 @@ sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             '6aac500e7aea1d866edde407016c8773cd785d496cf0fc92887e35f2bf86176f'
             '07a71ae496f6471543adcd057aeeaa35c135bce85fe3787afa99626dd6d6050e'
             'a532bb5bfd282d4ab6f14d0f5171afd8f69b81eee53786ec4b759f79d701a4b6'
-            '1d6e65e7dcf0af1a341a414d5659b5feaf5e5d9b3e53334d531d8ec7e52be5a4'
+            '2979594a45718c874b2f902a7c5fc4232e9eafd7c70602b1caa07366fac96cb0'
+            '9db7f67e68218e51ee549cba0949aae86b6c14a48ac40b851cf76aba951f70a7'
             '851a959ba02a5701bf0de1b65caa99d61fef9c4654b7e2a210456e0dc323a9ed'
             'd4fc4067c524f5b81cc09e0bc142a727685823f1ab8867cfa33cbe640e7f6041'
             'f64169f1214078f87344a498da5c6af148fec37013c7108f878f6fad6938be7e'
