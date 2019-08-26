@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=19
+pkgver=19.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -142,7 +142,7 @@ package_system-config-engine() {
 sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
-            '8ac0414ab254c9001e8bb4122ec23b91ed96a6fce8ac29397ecc8318023f7455'
+            'b46480eba670d1fac6a7e3f70b896f55a49a8a338fc4e9e785b53b52a3a9646a'
             '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
             'f18fb2629138504be8631f365d44f5de37e02e2eaa2d862fcdeed3df9350c571'
             '14a5257880b3d92aa018299d54e97bd356732aa22a24ca9f3db61a7d8dadc4a4'
