@@ -1,0 +1,12 @@
+diff --git a/etc/hosts b/etc/hosts
+index 37a9306..25993c3 100644
+--- a/etc/hosts
++++ b/etc/hosts
+@@ -1,2 +1,5 @@
+-# Static table lookup for hostnames.
+-# See hosts(5) for details.
++127.0.0.1 localhost localhost
++::1       localhost localhost
++
++127.0.0.1 teapot    teapot
++::1       teapot    teapot
