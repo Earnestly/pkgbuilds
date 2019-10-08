@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=19.1
+pkgver=22
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -8,7 +8,8 @@ url='https://github.com/Earnestly'
 arch=('any')
 license=('BlueOak')
 
-source=('etc-doas.conf'
+source=('etc-dhclient.conf'
+        'etc-doas.conf'
         'etc-locale.conf'
         'etc-nftables.conf'
         'etc-pacreport.conf'
@@ -24,6 +25,8 @@ source=('etc-doas.conf'
         'modprobe.d-thinkpad_acpi.conf'
         'modprobe.d-usbhid.conf'
         'modprobe.d-uvcvideo.conf'
+        'patches-hosts-teapot.patch'
+        'patches-hosts-engine.patch'
         'patches-makepkg.conf.patch'
         'patches-pacman.conf.patch'
         'profile.d-locale.sh'
@@ -41,6 +44,7 @@ source=('etc-doas.conf'
         'sysctl.d-laptop_mode.conf'
         'sysctl.d-overcommit.conf'
         'sysctl.d-swap.conf'
+        'sysctl.d-sysrq.conf'
         'X11-Xwrapper.config'
         'xorg.conf.d-evdev.conf'
         'xorg.conf.d-libinput.conf'
@@ -52,7 +56,7 @@ package_system-config-base() {
     pkgdesc='common system configurations'
     depends=('zsh' 'sudo' 'tzdata')
 
-    # Named locale2.sh due to NoExtract=etc/profile.d/locale.sh
+    # Named locale2.sh due to NoExtract=etc/profile.d/locale.sh in pacman.conf
     install -Dm0644 profile.d-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
 
     install -Dm0600 etc-doas.conf "$pkgdir"/etc/doas.conf
@@ -73,6 +77,7 @@ package_system-config-base() {
     install -Dm0644 sysctl.d-dirty_bytes.conf "$pkgdir"/etc/sysctl.d/dirty_bytes.conf
     install -Dm0644 sysctl.d-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     install -Dm0644 sysctl.d-overcommit.conf "$pkgdir"/etc/sysctl.d/overcommit.conf
+    install -Dm0644 sysctl.d-sysrq.conf "$pkgdir"/etc/sysctl.d/sysrq.conf
 
     install -Dm0644 rules.d-61_bfq.rules "$pkgdir"/etc/udev/rules.d/61_bfq.rules
 
@@ -82,15 +87,17 @@ package_system-config-base() {
 
     ln -sf /usr/share/zoneinfo/Europe/London "$pkgdir"/etc/localtime
 
-    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgbase"/LICENSE
 }
 
 package_system-config-teapot() {
     pkgdesc='system configurations for teapot'
     depends=('system-config-base' 'xf86-input-libinput' 'nftables')
 
+    install -Dm0600 etc-dhclient.conf "$pkgdir"/etc/dhclient.conf
     install -Dm0644 etc-nftables.conf "$pkgdir"/etc/nftables.conf
 
+    install -Dm0644 patches-hosts-teapot.patch "$pkgdir"/usr/share/system-config/patches/hosts.patch
     install -Dm0644 patches-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
     install -Dm0644 patches-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
     install -Dm0644 libalpm-hooks-patch_system_configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch_system_configs.hook
@@ -107,14 +114,6 @@ package_system-config-teapot() {
     install -Dm0644 xorg.conf.d-evdev.conf "$pkgdir"/etc/X11/xorg.conf.d/evdev.conf
 
     printf 'teapot\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
-
-    install -Dm0644 /dev/stdin "$pkgdir"/etc/hosts <<!
-127.0.0.1 localhost localhost
-::1       localhost localhost
-
-127.0.0.1 teapot    teapot
-::1       teapot    teapot
-!
 }
 
 package_system-config-engine() {
@@ -124,29 +123,24 @@ package_system-config-engine() {
 
     install -Dm0644 profile.d-nvidia.sh "$pkgdir"/etc/profile.d/nvidia.sh
 
+    install -Dm0644 patches-hosts-engine.patch "$pkgdir"/usr/share/system-config/patches/hosts.patch
+
     install -Dm0644 hwdb.d-61_capslock_as_ctrl_holtek.hwdb "$pkgdir"/etc/udev/hwdb.d/61_capslock_as_ctrl_holtek.hwdb
 
     install -Dm0644 xorg.conf.d-nvidia.conf "$pkgdir"/etc/X11/xorg.conf.d/nvidia.conf
 
     printf 'engine\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
-
-    install -Dm0644 /dev/stdin "$pkgdir"/etc/hosts <<!
-127.0.0.1 localhost localhost
-::1       localhost localhost
-
-127.0.0.1 engine    engine
-::1       engine    engine
-!
 }
 
-sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
+sha256sums=('ab7c7aa0a260f64893ac9f6f58cdaac377b3f078039e91d154949e6755667437'
+            'f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
             'b46480eba670d1fac6a7e3f70b896f55a49a8a338fc4e9e785b53b52a3a9646a'
             '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
             'f18fb2629138504be8631f365d44f5de37e02e2eaa2d862fcdeed3df9350c571'
             '14a5257880b3d92aa018299d54e97bd356732aa22a24ca9f3db61a7d8dadc4a4'
-            '36e6947c36c0617b4c3da1c6e0ea98ca588f29894d80ccbb17ffd9d066b96c7d'
+            '13102f641f7b37ed5d1fb806878e5ac9fff365270df0a5ba938f804855e8aca9'
             '9e17874e5db1bc22a2fdc5bbb1902069f545f82d926db0ab7df6c962925f3178'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
             '98e86813a743daa6421fd5a0e6895d8ba358cbfc964403e79d8db84f1b0857c7'
@@ -155,6 +149,8 @@ sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             '28874576641b3cc1aa486e1bc9ed40eadfe8b13d6d3014016e31fedc5dc5195f'
             '9f19d4d8d7eb4413f86a28dbda4fddb54bd3bcd398ad9c7d9e8c2b1d378e8a53'
             'fecb3022b136610fdbd0cc9769a8246c07b8653692af0edaaa13a3c7df9e1461'
+            '7c8028eaf1dc549357bc7c541bc64f1d3f714833334e14f968bad82b6fbf5cbb'
+            '614174f384283fc8994bb82aa978a7fc949c9dc84ef04731b8a409a05b934036'
             'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
             'c10ea8528b52d579e86021eabba774de9b7a4364ce334650e86a72596129f396'
             '4f4058e2055b5277bee104f5cc72c06a8a697b4026b03ea3c634a2218c5b4432'
@@ -172,6 +168,7 @@ sha256sums=('f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             'f64169f1214078f87344a498da5c6af148fec37013c7108f878f6fad6938be7e'
             '7f70b50ef5d9c46196cf0f5e6ff287e4861bb0b8624a5c0914201058d2d281f2'
             '1781e9ecf6fc8d9e317510c6719b1cee1f5a4af0f37cc4a7fe84f0dac9b63cfd'
+            '0ab7f753eeba555c7aced864af12f5aaccc123818d5bec292113b2d3eb181864'
             '80a02a54f5a5cec1ecfaaef9d78a10a5d6d47c6bfcfc7d3f95d526e999408e92'
             '66704d00c2c818151094db6dad52493c3809530770f595d47c2c748ab26ce386'
             '21b930ef1120a5cdf08089dd5db8db0b638187982840f65701ecb756e8611afa'
