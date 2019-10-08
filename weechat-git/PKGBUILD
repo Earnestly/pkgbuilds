@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=2.5.r89.g210e86489
+pkgver=2.6.r50.gcddb314a1
 pkgrel=1
 
 pkgdesc='terminal based irc client'
@@ -27,12 +27,8 @@ pkgver() {
 
 build() {
     cd weechat
-    _python=$(python -c 'import sys; print("{}.{}m".format(*sys.version_info))')
-
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_JAVASCRIPT=OFF \
-        -DENABLE_PYTHON3=ON \
-        -DPYTHON_LIBRARY=/usr/lib/libpython"$_python".so \
         -DENABLE_TESTS=ON .
     make VERBOSE=1
 }
