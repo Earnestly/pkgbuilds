@@ -1,5 +1,5 @@
 pkgname=bpftrace-git
-pkgver=0.8.r9.gc0084a2
+pkgver=0.9.2.r4.gffbf6b2
 pkgrel=1
 
 pkgdesc='tracing language for linux ebpf'
@@ -7,8 +7,8 @@ url='https://github.com/iovisor/bpftrace'
 arch=('x86_64')
 license=('Apache')
 
-depends=('bcc')
-makedepends=('git')
+depends=('bcc' 'clang')
+makedepends=('git' 'cmake' 'llvm')
 
 provides=('bpftrace')
 conflicts=('bpftrace')
@@ -30,11 +30,17 @@ build() {
 
 check() {
     cd bpftrace
-    make test
+    # XXX Needs sudo to run these.
+    # make test
 }
 
 package() {
     cd bpftrace
     make DESTDIR="$pkgdir" install
+
+    # XXX Incorrect mandir: https://github.com/iovisor/bpftrace/issues/851
+    install -dm0755 "$pkgdir"/usr/share
+    mv -f -- "$pkgdir"/usr/man "$pkgdir"/usr/share
+
     install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
