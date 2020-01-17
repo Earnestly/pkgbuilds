@@ -1,5 +1,5 @@
 pkgname=lgogdownloader-git
-pkgver=3.5.r3.g65961de
+pkgver=3.5.r17.gde05d16
 pkgrel=1
 
 pkgdesc='unofficial downloader for gog.com'
@@ -24,7 +24,7 @@ pkgver() {
 
 build() {
     cd lgogdownloader
-    cmake -DCMAKE_INSTALL_PREFIX=/usr .
+    CFLAGS+=" -fmacro-prefix-map=$PWD/=" cmake -DCMAKE_INSTALL_PREFIX=/usr .
     make VERBOSE=1
 }
 

@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=2.6.r50.gcddb314a1
+pkgver=2.7.r29.g7cd566e8d
 pkgrel=1
 
 pkgdesc='terminal based irc client'
@@ -27,7 +27,7 @@ pkgver() {
 
 build() {
     cd weechat
-    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+    CFLAGS+=" -fmacro-prefix-map=$PWD/=" cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_JAVASCRIPT=OFF \
         -DENABLE_TESTS=ON .
     make VERBOSE=1

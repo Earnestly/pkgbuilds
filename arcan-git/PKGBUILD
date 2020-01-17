@@ -1,5 +1,5 @@
 pkgname=arcan-git
-pkgver=0.6.0.pre1.r87.g50c111ce
+pkgver=0.6.0.pre2.r68.g715848f9
 pkgrel=1
 
 pkgdesc='multimedia framework'
@@ -31,7 +31,7 @@ build() {
     # environments where LANG is not set.
     ruby -C doc -Ku docgen.rb mangen
 
-    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+    CFLAGS+=" -fmacro-prefix-map=$PWD/=" cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DVIDEO_PLATFORM=sdl \
         -DLUA_INCLUDE_DIR=/usr/include/lua5.1 \
         -DDISABLE_HIJACK=OFF \
