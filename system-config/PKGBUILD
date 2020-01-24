@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=22
+pkgver=22.1
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -132,7 +132,7 @@ package_system-config-engine() {
     printf 'engine\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
 }
 
-sha256sums=('ab7c7aa0a260f64893ac9f6f58cdaac377b3f078039e91d154949e6755667437'
+sha256sums=('85a276634aef1c2bdb01f8b8c2f00260f97924c4a576d267c0e1e0a7b20914b2'
             'f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
