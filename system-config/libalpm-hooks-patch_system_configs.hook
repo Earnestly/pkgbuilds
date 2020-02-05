@@ -5,6 +5,7 @@ Type = File
 Target = etc/hosts
 Target = etc/pacman.conf
 Target = etc/makepkg.conf
+Target = etc/nftables.conf
 
 [Action]
 Description = Patching system configurations...

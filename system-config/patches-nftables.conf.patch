@@ -1,0 +1,65 @@
+--- /etc/nftables.conf
++++ /etc/nftables.conf
+@@ -1,38 +1,30 @@
+-#!/usr/bin/nft -f
+-# ipv4/ipv6 Simple & Safe Firewall
+-# you can find examples in /usr/share/nftables/
+-
++# /etc/nftables.conf
++# A simple firewall
++ 
+ table inet filter {
+-  chain input {
+-    type filter hook input priority 0;
++    chain input {
++        type filter hook input priority 0;
+ 
+-    # allow established/related connections
+-    ct state {established, related} accept
++        # Allow established and related connections.
++        ct state {established, related} accept
+ 
+-    # early drop of invalid connections
+-    ct state invalid drop
++        # Drop invalid connections.
++        ct state invalid drop
+ 
+-    # allow from loopback
+-    iifname lo accept
+-
+-    # allow icmp
+-    ip protocol icmp accept
+-    ip6 nexthdr icmpv6 accept
+-
+-    # allow ssh
+-    tcp dport ssh accept
+-
+-    # everything else
+-    reject with icmpx type port-unreachable
+-  }
+-  chain forward {
+-    type filter hook forward priority 0;
+-    drop
+-  }
+-  chain output {
+-    type filter hook output priority 0;
+-  }
++        # Allow localhost.
++        iif lo accept
+ 
+-}
++        # Allow ICMP/ICMPv6.
++        ip protocol icmp accept
++        ip6 nexthdr icmpv6 accept
++
++        # Allow SSH (22) limited to 3 new connections per minute.
++        tcp dport 22 limit rate 3/minute log prefix "ssh connection: " group 2 accept
+ 
+-# vim:set ts=2 sw=2 et:
++        # Local HTTPD.
++        tcp dport 8080 accept
++
++        # Reject everything else.
++        reject
++    }
++}
