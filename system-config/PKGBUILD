@@ -1,6 +1,6 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=22.1
+pkgver=23
 pkgrel=1
 
 pkgdesc='system configurations'
@@ -12,7 +12,6 @@ source=('etc-dhclient.conf'
         'etc-doas.conf'
         'etc-locale.conf'
         'etc-nftables.conf'
-        'etc-pacreport.conf'
         'etc-vconsole.conf'
         'hwdb.d-61_capslock_as_ctrl_holtek.hwdb'
         'hwdb.d-61_capslock_as_ctrl_thinkpad.hwdb'
@@ -29,6 +28,7 @@ source=('etc-dhclient.conf'
         'patches-hosts-engine.patch'
         'patches-makepkg.conf.patch'
         'patches-pacman.conf.patch'
+        'patches-nftables.conf.patch'
         'profile.d-locale.sh'
         'profile.d-nvidia.sh'
         'rules.d-51_bluetooth_powersave.rules'
@@ -61,7 +61,6 @@ package_system-config-base() {
 
     install -Dm0600 etc-doas.conf "$pkgdir"/etc/doas.conf
     install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
-    install -Dm0644 etc-pacreport.conf "$pkgdir"/etc/pacreport.conf
     install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
 
     install -Dm0644 zsh-zshenv "$pkgdir"/etc/zsh/zshenv
@@ -98,8 +97,9 @@ package_system-config-teapot() {
     install -Dm0644 etc-nftables.conf "$pkgdir"/etc/nftables.conf
 
     install -Dm0644 patches-hosts-teapot.patch "$pkgdir"/usr/share/system-config/patches/hosts.patch
-    install -Dm0644 patches-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
     install -Dm0644 patches-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
+    install -Dm0644 patches-nftables.conf.patch "$pkgdir"/usr/share/system-config/patches/nftables.conf.patch
+    install -Dm0644 patches-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
     install -Dm0644 libalpm-hooks-patch_system_configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch_system_configs.hook
     install -Dm0755 libalpm-scripts-patch_system_configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch_system_configs
 
@@ -136,11 +136,10 @@ sha256sums=('85a276634aef1c2bdb01f8b8c2f00260f97924c4a576d267c0e1e0a7b20914b2'
             'f7dff6ac70e2fb8080082a733be21bad9d433c0677971e74fb245aab31410024'
             '337ad308b494e9d3261fc6b75fdd450917a2b14930f675824acf358a2dadc815'
             'bf9d6ba62e41cc317476c496e273d766209c1ff4fe4b0353ecf6c92f41d11568'
-            'b46480eba670d1fac6a7e3f70b896f55a49a8a338fc4e9e785b53b52a3a9646a'
             '2c09b43e51de87a82ff5eeb1c599ce25800b8d34810f14044bf73644e9f7b742'
             'f18fb2629138504be8631f365d44f5de37e02e2eaa2d862fcdeed3df9350c571'
             '14a5257880b3d92aa018299d54e97bd356732aa22a24ca9f3db61a7d8dadc4a4'
-            '13102f641f7b37ed5d1fb806878e5ac9fff365270df0a5ba938f804855e8aca9'
+            '963cc929287b51d442a6bf04a8458dc4b3749d2d15204c0083e360b5fddfd093'
             '9e17874e5db1bc22a2fdc5bbb1902069f545f82d926db0ab7df6c962925f3178'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
             '98e86813a743daa6421fd5a0e6895d8ba358cbfc964403e79d8db84f1b0857c7'
@@ -153,7 +152,8 @@ sha256sums=('85a276634aef1c2bdb01f8b8c2f00260f97924c4a576d267c0e1e0a7b20914b2'
             '614174f384283fc8994bb82aa978a7fc949c9dc84ef04731b8a409a05b934036'
             'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
             'c10ea8528b52d579e86021eabba774de9b7a4364ce334650e86a72596129f396'
-            '4f4058e2055b5277bee104f5cc72c06a8a697b4026b03ea3c634a2218c5b4432'
+            '2875ec318ca88011b716b940f9588c44da548bd11f1901789e5f5bd40d5b8934'
+            'dc749637f669a700477df32ebd28a477d1c6f71f457db9fb123ae4c871c54e75'
             'fe5296c5c8cc579348c9912b228305d870b30c7b5b1141c299183b5fd515cb5c'
             '15f3004fe788cc888534a8091d162c9d61fa7a1cb1def86fc5e81aea3540eae6'
             '3a379ff95218b8c05a08c4069a12cdbf62764387b9bbe1a045d3f98f5eaf105b'
