@@ -1,11 +1,7 @@
 #!/bin/sh --
 # locale.sh - set locale environments
 
-# POSIX with local, supported by busybox sh and dash
-# shellcheck disable=SC2039
-
 fexport() {
-    local k v
     while IFS='=' read -r k v; do
         case $k in
             LC_ALL) continue ;;
@@ -24,4 +20,5 @@ elif [ -s /etc/locale.conf ]; then
     fexport < /etc/locale.conf
 fi
 
+unset k v
 unset -f fexport
