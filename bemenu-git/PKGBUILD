@@ -1,5 +1,5 @@
 pkgname=bemenu-git
-pkgver=r303.g98f7c80
+pkgver=r330.gee700c1
 pkgrel=1
 
 pkgdesc='dynamic menu library and client program inspired by dmenu'
@@ -8,7 +8,7 @@ arch=('x86_64')
 license=('GPL' 'LGPL')
 
 depends=('pango')
-makedepends=('git' 'cmake' 'libxkbcommon' 'libxinerama' 'wayland')
+makedepends=('git' 'libxkbcommon' 'libxinerama' 'wayland')
 optdepends=('wayland: wayland support'
             'libxkbcommon: wayland support'
             'libxinerama: x11 support'
@@ -28,17 +28,15 @@ pkgver() {
 
 build() {
     cd bemenu
-    CFLAGS+=" -fmacro-prefix-map=$PWD/=" cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=/usr/lib .
-    make VERBOSE=1
+    make PREFIX=/usr
 }
 
 check() {
     cd bemenu
-    make test
+    # make test
 }
 
 package() {
     cd bemenu
-    make DESTDIR="$pkgdir" install
+    make PREFIX=/usr DESTDIR="$pkgdir" install
 }
