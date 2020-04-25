@@ -1,5 +1,5 @@
 pkgname=pyalpm-git
-pkgver=0.8.4.r100.gbca42ad
+pkgver=0.9.1.r3.g0008920
 pkgrel=1
 
 pkgdesc='libalpm bindings for python 3'
@@ -14,20 +14,13 @@ checkdepends=('python-pytest')
 provides=('pyalpm')
 conflicts=('pyalpm')
 
-source=('git+https://git.archlinux.org/pyalpm.git'
-        'pyalpm-rename-function-to-match.patch')
+source=('git+https://git.archlinux.org/pyalpm.git')
 
 # XXX Commits aren't signed.
 # Jelle van der Waa <jelle@vdwaa.nl>
 # validpgpkeys=('E499C79F53C96A54E572FEE1C06086337C50773E')
 
-sha256sums=('SKIP'
-            '690f943d4644e5d200e6a98af9103f6d1eb1d061239e3711d299bd45385c67ca')
-
-prepare() {
-    cd pyalpm
-    patch -Np1 -i "$srcdir"/pyalpm-rename-function-to-match.patch
-}
+sha256sums=('SKIP')
 
 pkgver() {
     cd pyalpm
@@ -41,7 +34,6 @@ build() {
 
 check() {
     cd pyalpm
-    # py.test: error: unrecognized arguments: --cov-report=term-missing --cov-report=html:test/coverage --cov=pycman
     make PYTEST_COVERAGE_OPTIONS= test
 }
 
