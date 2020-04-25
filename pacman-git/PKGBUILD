@@ -1,11 +1,13 @@
 pkgname=pacman-git
-pkgver=5.1.3.r197.g75837a27
+pkgver=5.2.1.r59.g3ea7fdd9
 pkgrel=1
 
 pkgdesc='package manager with dependency support'
 url='http://www.archlinux.org/pacman/'
 arch=('x86_64')
 license=('GPL')
+
+options=('debug' '!strip')
 
 groups=('base' 'base-devel')
 backup=('etc/pacman.conf' 'etc/makepkg.conf')
@@ -32,28 +34,27 @@ pkgver() {
 }
 
 build() {
-    cd pacman
-    autoreconf -fi
-    ./configure --prefix=/usr \
-        --sysconfdir=/etc \
-        --localstatedir=/var \
-        --with-ldconfig=/usr/bin/ldconfig \
-        --with-scriptlet-shell=/usr/bin/bash \
-        --enable-doc \
-        --enable-debug \
-        --enable-git-version
-    make
+    mkdir -p pacman/build
+    cd pacman/build
+    meson --prefix=/usr \
+          --buildtype=plain \
+          -Ddoc=enabled \
+          -Duse-git-version=true \
+          -Dscriptlet-shell=/usr/bin/bash \
+          -Dldconfig=/usr/bin/ldconfig \
+          ..
+    ninja
 }
 
 check() {
-    cd pacman
-    make check
+    cd pacman/build
+    ninja test
 }
 
 package() {
     # XXX Get bash completions sorted out
-    cd pacman
-    make DESTDIR="$pkgdir" install
+    cd pacman/build
+    DESTDIR="$pkgdir" ninja install
 
     install -Dm0644 "$srcdir"/pacman.conf "$pkgdir"/etc/pacman.conf
     install -Dm0644 "$srcdir"/makepkg.conf "$pkgdir"/etc/makepkg.conf
