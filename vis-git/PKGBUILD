@@ -1,5 +1,5 @@
 pkgname=vis-git
-pkgver=0.5.r62.ge136e34
+pkgver=0.5.r181.g08a550d
 pkgrel=1
 
 pkgdesc='vi-like text editor'
@@ -40,7 +40,7 @@ build() {
 check() {
     cd vis
     # The digraph tests need a UTF-8 locale.
-    LANG=en_US.UTF-8 make -C test
+    LC_ALL=en_US.UTF-8 make -C test
 }
 
 package() {
