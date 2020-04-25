@@ -57,7 +57,7 @@ Exec = /bin/sh -c 'rm -f /boot/initramfs-$1.img /boot/initramfs-$1-fallback.img'
 
 cat > "$dest"/60-"$1".hook <<!
 [Trigger]
-Type = File
+Type = Path
 Operation = Install
 Operation = Upgrade
 Operation = Remove
@@ -72,7 +72,7 @@ Exec = /usr/bin/depmod $2
 
 cat > "$dest"/90-"$1".hook <<!
 [Trigger]
-Type = File
+Type = Path
 Operation = Install
 Operation = Upgrade
 Target = usr/lib/modules/$2/vmlinuz
