@@ -1,5 +1,5 @@
 pkgname=vim-git
-pkgver=8.1.1821.r0.gf97d46f81
+pkgver=8.2.0613.r0.g1966c2488
 pkgrel=1
 
 pkgdesc='text editor'
@@ -8,8 +8,8 @@ arch=('x86_64')
 license=('custom:vim')
 
 depends=('nawk' 'acl' 'gpm' 'libxt' 'hicolor-icon-theme')
-makedepends=('git' 'lua' 'python' 'python2' 'ruby' 'tcl')
-optdepends=('lua' 'perl' 'python' 'python2' 'ruby' 'tcl')
+makedepends=('git' 'lua' 'python' 'ruby' 'tcl')
+optdepends=('lua' 'perl' 'python' 'ruby' 'tcl')
 
 provides=('gvim' 'xxd' 'vim' 'vim-runtime')
 conflicts=('gvim' 'xxd' 'vim' 'vim-runtime')
@@ -40,7 +40,6 @@ build() {
       --enable-luainterp=dynamic \
       --enable-rubyinterp=dynamic \
       --enable-perlinterp=dynamic \
-      --enable-pythoninterp=dynamic \
       --enable-python3interp=dynamic
     make
 }
