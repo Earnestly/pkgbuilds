@@ -1,5 +1,5 @@
 #!/bin/sh --
-# locale-gen: generate system locales
+# locale-gen - generate system locales
 
 if [ ! -d /etc/locales ]; then
     printf 'local-gen: /etc/locales: no such directory\n' >&2
@@ -19,11 +19,10 @@ localegen() {
 for locale in /etc/locales/*; do
     if [ -f "$locale" ]; then
         if [ -s "$locale" ]; then
-            while read -r charset; do
-
+            while read -r charmap; do
                 # This will run for empty lines.  Doing this means we can
                 # ensure at least a UTF-8 based locale is generated.
-                localegen "${locale##*/}" "${charset:-UTF-8}"
+                localegen "${locale##*/}" "${charmap:-UTF-8}"
             done < "$locale"
         else
             localegen "${locale##*/}" UTF-8
