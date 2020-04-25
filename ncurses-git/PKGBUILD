@@ -1,5 +1,5 @@
 pkgname=ncurses-git
-pkgver=6.1.20190803.r0.gee12e1a6
+pkgver=6.2.20200418.r0.g26de29e6
 pkgrel=1
 
 pkgdesc='terminal control based on srv4 curses'
@@ -9,14 +9,17 @@ license=('MIT')
 
 depends=('glibc' 'gcc-libs')
 makedepends=('git')
+# provides=('ncurses' 'libtinfo' 'libncurses++w.so=6-64' 'libformw.so=6-64'
+#           'libmenuw.so=6-64' 'libpanelw.so=6-64' 'libncursesw.so=6-64')
 
-# Library provides now needed for Arch Linux's readline package.
-provides=('ncurses' 'libtinfo' 'libncursesw.so=6-64')
-conflicts=('ncurses' 'libtinfo')
+provides=('ncurses' 'libtinfo' 'libncurses++w.so' 'libformw.so' 'libmenuw.so'
+          'libpanelw.so' 'libncursesw.so')
+provides=('ncurses' 'libtinfo' 'libncurses++w.so' 'libformw.so' 'libmenuw.so'
+          'libpanelw.so' 'libncursesw.so')
 
 source=('git+https://github.com/ThomasDickey/ncurses-snapshots?signed')
 
-# "Thomas Dickey <dickey@invisible-island.net>"
+# Thomas Dickey <dickey@invisible-island.net>
 validpgpkeys=('C52048C0C0748FEE227D47A2702353E0F7E48EDB')
 
 
