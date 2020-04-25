@@ -1,5 +1,5 @@
 pkgname=make-git
-pkgver=4.2.1.r116.g1c045bc
+pkgver=4.3.r13.g0c326a6
 pkgrel=1
 
 pkgdesc='GNU make utility to maintain groups of programs'
@@ -18,7 +18,7 @@ provides=('make')
 conflicts=('make')
 
 source=('git+https://git.savannah.gnu.org/git/make.git'
-        'git://git.sv.gnu.org/gnulib')
+        'git+https://git.savannah.gnu.org/git/gnulib.git')
 
 sha256sums=('SKIP' 'SKIP')
 
