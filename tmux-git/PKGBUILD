@@ -1,5 +1,5 @@
 pkgname=tmux-git
-pkgver=3.0.r15.g9b3fefc4
+pkgver=3.1.r281.g291b8574
 pkgrel=1
 
 pkgdesc='terminal multiplexer'
@@ -22,11 +22,6 @@ pkgver() {
     git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
-prepare() {
-    cd tmux
-    awk 'BEGIN{FS="* "} /Copy/,/SOFTWARE\.$/ {print $2}' tmux.h > LICENSE
-}
-
 build() {
     cd tmux
     autoreconf -fi
@@ -38,5 +33,5 @@ package() {
     cd tmux
     make DESTDIR="$pkgdir" install
     install -Dm0644 example_tmux.conf "$pkgdir"/usr/share/tmux/tmux.conf
-    install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+    install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
