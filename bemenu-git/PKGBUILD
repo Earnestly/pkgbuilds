@@ -1,5 +1,5 @@
 pkgname=bemenu-git
-pkgver=r330.gee700c1
+pkgver=r377.gbdfc2aa
 pkgrel=1
 
 pkgdesc='dynamic menu library and client program inspired by dmenu'
@@ -20,6 +20,16 @@ conflicts=('bemenu')
 source=('git+https://github.com/Cloudef/bemenu')
 
 sha256sums=('SKIP')
+
+prepare() {
+    cd bemenu
+    # curses: fix list indent with scrollbar
+    # cairo/curses: dmenu like indent for lists
+    # cairo: make scrollbar 1 character thick
+    git revert --no-edit -n b4fc82a3aacfce3eca4dabb1c3097e0743c76195 \
+                            bb7db3e2b73611e293afba44b2a04e08886416b5 \
+                            1c487ba808c785a150e4cb8e343ffdff60451f92
+}
 
 pkgver() {
     cd bemenu
