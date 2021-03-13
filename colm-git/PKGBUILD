@@ -1,16 +1,20 @@
 pkgname=colm-git
-pkgver=0.13.0.6.r96.g429d5e87
+pkgver=0.14.7.r0.ge88bda06
 pkgrel=1
 
 pkgdesc='programming language designed for the analysis and transformation of computer languages'
 url='http://www.colm.net/open-source/colm'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('MIT')
 
-depends=('gcc-libs')
-makedepends=('git' 'asciidoc')
+depends=('sh')
 
-source=('git://colm.net/colm.git')
+# XXX configure.ac only checks for gdc-8 through gdc-5 and not gdc itself.
+#     Because of this 'gcc-d' cannot be used for the time being.
+makedepends=('git' 'asciidoc' 'fig2dev' 'julia' 'go' 'ocaml' 'mono'
+             'java-environment-common' 'ruby')
+
+source=('git+https://github.com/adrian-thurston/colm')
 
 provides=('colm')
 conflicts=('colm')
@@ -27,16 +31,18 @@ build() {
     autoreconf -fi
     ./configure --prefix=/usr
     make
-    make -C doc
+}
+
+check() {
+    cd colm
+    ./test/runtests
 }
 
 package() {
     cd colm
     make DESTDIR="$pkgdir" install
-    make -C doc DESTDIR="$pkgdir" install
-
-    rm -- "$pkgdir"/usr/share/doc/colm/colm.vim
+    rm -f -- "$pkgdir"/usr/share/doc/colm/colm.vim
+    rm -f -- "$pkgdir"/usr/share/runtests
     install -Dm0644 colm.vim "$pkgdir"/usr/share/vim/vimfiles/syntax/colm.vim
-
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }
