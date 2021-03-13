@@ -1,5 +1,5 @@
 pkgname=curl-git
-pkgver=7.65.3.r68.g9b5f2ad32
+pkgver=7.75.0.r138.ga2bbc3ac8
 pkgrel=1
 
 pkgdesc='url retrieval utility and library'
@@ -25,7 +25,7 @@ pkgver() {
 
 build() {
     cd curl
-    ./buildconf
+    autoreconf -fi
 
     # XXX Explicitly disable brotli support instead of including it as a
     #     dependency to keep curl-git consistent with Arch Linux.
