@@ -1,5 +1,5 @@
 pkgname=weechat-git
-pkgver=2.7.r29.g7cd566e8d
+pkgver=3.1.r5.g5311c103d
 pkgrel=1
 
 pkgdesc='terminal based irc client'
@@ -9,9 +9,9 @@ license=('GPL3')
 
 depends=('curl' 'gnutls' 'libgcrypt' 'hicolor-icon-theme')
 makedepends=('git' 'asciidoc' 'source-highlight' 'aspell' 'cmake' 'lua' 'perl'
-             'python' 'ruby' 'tcl' 'guile' 'lua' 'php-embed')
+             'python' 'ruby' 'tcl' 'guile' 'lua')
 checkdepends=('cpputest')
-optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile' 'php-embed')
+optdepends=('aspell' 'lua' 'perl' 'python' 'ruby' 'tcl' 'guile')
 
 provides=('weechat')
 conflicts=('weechat')
@@ -29,17 +29,19 @@ build() {
     cd weechat
     CFLAGS+=" -fmacro-prefix-map=$PWD/=" cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DENABLE_JAVASCRIPT=OFF \
-        -DENABLE_TESTS=ON .
+        -DENABLE_PHP=OFF .
+        # -DENABLE_TESTS=ON .
     make VERBOSE=1
 }
 
 check() {
     cd weechat
 
+    # XXX https://github.com/cpputest/cpputest/issues/1355
     # XXX These tests require a UTF-8 locale, using en_US as a proxy for C.
     # XXX Currently there's no way to disable testing of specific plugins which
     #     we can't support.  Because of this some tests will fail.
-    LANG=en_US.UTF-8 ctest -V || true
+    # LANG=en_US.UTF-8 ctest -V || true
 }
 
 package() {
