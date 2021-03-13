@@ -1,21 +1,28 @@
 pkgname=sxiv-git
-pkgver=25.r10.g07300da
+pkgver=26.r0.g1d28627
 pkgrel=1
 
 pkgdesc='x image viewer'
 url='https://github.com/muennich/sxiv'
-arch=('i686' 'x86_64')
-license=('GPL2')
+arch=('x86_64')
+license=('GPL')
 
-depends=('libexif' 'imlib2')
+depends=('libexif' 'imlib2' 'libxft')
 makedepends=('git')
 
 provides=('sxiv')
 conflicts=('sxiv')
 
-source=('git+https://github.com/muennich/sxiv')
+source=('git+https://github.com/muennich/sxiv'
+        'greater-zoom-levels.diff')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP'
+            '5db25543cd6b3075bf99f3fb5d0faa2ed78ac7a5756318789aedb73c35a03deb')
+
+prepare() {
+    cd sxiv
+    patch -Np1 -i "$srcdir"/greater-zoom-levels.diff
+}
 
 pkgver() {
     cd sxiv
