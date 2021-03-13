@@ -1,34 +1,34 @@
-pkgname=antimicro-git
-pkgver=2.23.r14.gecec251
+pkgname=antimicrox-git
+pkgver=3.1.4.r17.gf4af7ef4
 pkgrel=1
 
 pkgdesc='map keyboard and mouse actions to gamepad buttons, inspired by qjoypad'
-url='https://github.com/AntiMicro/antimicro'
-arch=('i686' 'x86_64')
-license=('GPL3')
+url='https://github.com/AntiMicroX/antimicroX'
+arch=('x86_64')
+license=('GPL')
 
 depends=('libxtst' 'qt5-base' 'sdl2' 'libxkbcommon-x11')
-makedepends=('cmake' 'qt5-tools')
+makedepends=('cmake' 'qt5-tools' 'itstool' 'extra-cmake-modules')
 
-provides=('antimicro')
-conflicts=('antimicro')
+provides=('antimicroX')
+conflicts=('antimicroX')
 
-source=('git+https://github.com/AntiMicro/antimicro')
+source=('git+https://github.com/AntiMicroX/antimicroX')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
-    cd antimicro
+    cd antimicroX
     git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
 build() {
-    cd antimicro
+    cd antimicroX
     CFLAGS+=" -fmacro-prefix-map=$PWD/=" cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSE_SDL_2=ON
     make VERBOSE=1
 }
 
 package() {
-    cd antimicro
+    cd antimicroX
     make DESTDIR="$pkgdir" install
 }
