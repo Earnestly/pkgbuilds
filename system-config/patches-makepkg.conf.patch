@@ -1,7 +1,13 @@
---- /etc/makepkg.conf	2018-06-29 19:19:02.241627039 +0100
-+++ /etc/makepkg.conf	2018-06-29 19:19:54.094691113 +0100
-@@ -41,7 +41,7 @@
- CXXFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt"
+--- /etc/makepkg.conf
++++ /etc/makepkg.conf
+@@ -37,11 +37,11 @@
+ 
+ #-- Compiler and Linker Flags
+ CPPFLAGS="-D_FORTIFY_SOURCE=2"
+-CFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt"
+-CXXFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt"
++CFLAGS="-march=native -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt"
++CXXFLAGS=$CFLAGS
  LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
  #-- Make Flags: change this for DistCC/SMP systems
 -#MAKEFLAGS="-j2"
@@ -14,10 +20,17 @@
  #
  #-- Destination: specify a fixed directory where all packages will be placed
 -#PKGDEST=/home/packages
-+PKGDEST=$HOME/local/repo
++PKGDEST=$HOME/.local/srv/repo
  #-- Source cache: specify a fixed directory where source files will be cached
 -#SRCDEST=/home/sources
-+SRCDEST=$HOME/local/src
++SRCDEST=$HOME/.local/src
  #-- Source packages: specify a fixed directory where all src packages will be placed
  #SRCPKGDEST=/home/srcpackages
  #-- Log files: specify a fixed directory where all log files will be placed
+@@ -141,5 +141,5 @@
+ # WARNING: Do NOT modify these variables unless you know what you are
+ #          doing.
+ #
+-PKGEXT='.pkg.tar.xz'
++PKGEXT='.pkg.tar.zst'
+ SRCEXT='.src.tar.gz'
