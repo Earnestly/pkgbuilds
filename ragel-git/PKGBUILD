@@ -1,10 +1,10 @@
 pkgname=ragel-git
-pkgver=7.0.0.11.r169.g120c0ca7
+pkgver=7.0.0.11.r3442.gcc16042c
 pkgrel=1
 
-pkgdesc='finite state machine generator for c, c++, and asm'
+pkgdesc='finite state machine generator'
 url='http://www.colm.net/open-source/ragel'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('GPL')
 
 depends=('colm')
@@ -12,7 +12,7 @@ depends=('colm')
 provides=('ragel')
 conflicts=('ragel')
 
-source=('git://colm.net/ragel.git')
+source=('git+https://github.com/adrian-thurston/ragel')
 
 sha256sums=('SKIP')
 
@@ -23,7 +23,10 @@ pkgver() {
 
 build() {
     cd ragel
-    autoreconf -fi
+    # XXX Requires that automake --add-missing is run first.
+    # autoreconf -fi
+
+    ./autogen.sh
     ./configure --prefix=/usr
     make
 }
