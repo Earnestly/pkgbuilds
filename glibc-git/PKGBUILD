@@ -7,7 +7,7 @@
 #   UTF-8, this would cut down testing time.
 
 pkgname=glibc-git
-pkgver=2.31.9000.r357.gf721171632d
+pkgver=2.33.9000.r125.g3c66792667
 pkgrel=1
 
 pkgdesc='gnu c library'
@@ -132,6 +132,9 @@ package() {
     # Strip the remaining static libraries.
     find "$pkgdir"/usr/lib -name '*.a' -type f -exec strip $STRIP_STATIC {} + 2> /dev/null || true
 
-    # Provided by tzdata now.
+    # Provided by tzdata.
     rm -f "$pkgdir"/usr/bin/tzselect "$pkgdir"/usr/bin/zdump "$pkgdir"/usr/bin/zic
+
+    # Provided by libxcrypt.
+    rm -f "$pkgdir"/usr/include/crypt.h "$pkgdir"/usr/lib/libcrypt.a "$pkgdir"/usr/lib/libcrypt.so
 }
