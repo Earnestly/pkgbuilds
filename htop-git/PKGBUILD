@@ -1,0 +1,35 @@
+pkgname=htop-vi-git
+pkgver=3.0.5.r150.g31e59cc6
+pkgrel=1
+
+pkgdesc='interactive process viewer'
+url='https://htop.dev'
+arch=('x86_64')
+license=('GPL')
+
+depends=('glibc' 'ncurses')
+makedepends=('git')
+
+provides=('htop')
+conflicts=('htop')
+
+source=('git+https://github.com/htop-dev/htop')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd htop
+    git describe --tags --long | sed 's/-/.r/; s/-/./'
+}
+
+build() {
+    cd htop
+    autoreconf -fi
+    ./configure --prefix=/usr --enable-cgroup --enable-unicode
+    make
+}
+
+package() {
+    cd htop
+    make DESTDIR="$pkgdir" install
+}
