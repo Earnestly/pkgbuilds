@@ -1,7 +1,7 @@
 pkgbase=system-config
 pkgname=(system-config-base system-config-teapot system-config-engine)
-pkgver=23
-pkgrel=1
+pkgver=25
+pkgrel=2
 
 pkgdesc='system configurations'
 url='https://github.com/Earnestly'
@@ -39,6 +39,7 @@ source=('etc-dhclient.conf'
         'rules.d-81_wifi_powersave.rules'
         'sudoers.d-timeout'
         'sudoers.d-wheel'
+        'sysctl.d-dmesg_restrict.conf'
         'sysctl.d-dirty_bytes.conf'
         'sysctl.d-fq_codel.conf'
         'sysctl.d-laptop_mode.conf'
@@ -54,11 +55,12 @@ source=('etc-dhclient.conf'
 
 package_system-config-base() {
     pkgdesc='common system configurations'
-    depends=('zsh' 'sudo' 'tzdata')
+    depends=('zsh' 'sudo' 'tzdata' 'dhclient')
 
     # Named locale2.sh due to NoExtract=etc/profile.d/locale.sh in pacman.conf
     install -Dm0644 profile.d-locale.sh "$pkgdir"/etc/profile.d/locale2.sh
 
+    install -Dm0600 etc-dhclient.conf "$pkgdir"/etc/dhclient.conf
     install -Dm0600 etc-doas.conf "$pkgdir"/etc/doas.conf
     install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
     install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
@@ -73,6 +75,7 @@ package_system-config-base() {
     install -Dm0700 sudoers.d-timeout "$pkgdir"/etc/sudoers.d/timeout
     install -Dm0700 sudoers.d-wheel "$pkgdir"/etc/sudoers.d/wheel
 
+    install -Dm0644 sysctl.d-dmesg_restrict.conf "$pkgdir"/etc/sysctl.d/dmesg_restrict.conf
     install -Dm0644 sysctl.d-dirty_bytes.conf "$pkgdir"/etc/sysctl.d/dirty_bytes.conf
     install -Dm0644 sysctl.d-fq_codel.conf "$pkgdir"/etc/sysctl.d/fq_codel.conf
     install -Dm0644 sysctl.d-overcommit.conf "$pkgdir"/etc/sysctl.d/overcommit.conf
@@ -93,13 +96,13 @@ package_system-config-teapot() {
     pkgdesc='system configurations for teapot'
     depends=('system-config-base' 'xf86-input-libinput' 'nftables')
 
-    install -Dm0600 etc-dhclient.conf "$pkgdir"/etc/dhclient.conf
     install -Dm0644 etc-nftables.conf "$pkgdir"/etc/nftables.conf
 
     install -Dm0644 patches-hosts-teapot.patch "$pkgdir"/usr/share/system-config/patches/hosts.patch
     install -Dm0644 patches-makepkg.conf.patch "$pkgdir"/usr/share/system-config/patches/makepkg.conf.patch
     install -Dm0644 patches-nftables.conf.patch "$pkgdir"/usr/share/system-config/patches/nftables.conf.patch
     install -Dm0644 patches-pacman.conf.patch "$pkgdir"/usr/share/system-config/patches/pacman.conf.patch
+
     install -Dm0644 libalpm-hooks-patch_system_configs.hook "$pkgdir"/usr/share/libalpm/hooks/patch_system_configs.hook
     install -Dm0755 libalpm-scripts-patch_system_configs.scripts "$pkgdir"/usr/share/libalpm/scripts/patch_system_configs
 
@@ -113,7 +116,7 @@ package_system-config-teapot() {
 
     install -Dm0644 xorg.conf.d-evdev.conf "$pkgdir"/etc/X11/xorg.conf.d/evdev.conf
 
-    printf 'teapot\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
+    printf 'teapot\n' | install -Dm0644 /dev/fd/0 "$pkgdir"/etc/hostname
 }
 
 package_system-config-engine() {
@@ -129,7 +132,7 @@ package_system-config-engine() {
 
     install -Dm0644 xorg.conf.d-nvidia.conf "$pkgdir"/etc/X11/xorg.conf.d/nvidia.conf
 
-    printf 'engine\n' | install -Dm0644 /dev/stdin "$pkgdir"/etc/hostname
+    printf 'engine\n' | install -Dm0644 /dev/fd/0 "$pkgdir"/etc/hostname
 }
 
 sha256sums=('85a276634aef1c2bdb01f8b8c2f00260f97924c4a576d267c0e1e0a7b20914b2'
@@ -150,10 +153,10 @@ sha256sums=('85a276634aef1c2bdb01f8b8c2f00260f97924c4a576d267c0e1e0a7b20914b2'
             'fecb3022b136610fdbd0cc9769a8246c07b8653692af0edaaa13a3c7df9e1461'
             '7c8028eaf1dc549357bc7c541bc64f1d3f714833334e14f968bad82b6fbf5cbb'
             '614174f384283fc8994bb82aa978a7fc949c9dc84ef04731b8a409a05b934036'
-            'e79ee1891c19b816b800dedab8030448c2ca5a4331a542a830cf16eac699b8de'
-            'c10ea8528b52d579e86021eabba774de9b7a4364ce334650e86a72596129f396'
+            'fa685d33b2b5571cfea5eb1e2b1ce86234c03fd9f8987c5c96d49b0f468eac65'
+            '527f1c60ae1cd8419a021379324fb8f050b19b6f285efd296cc5170b346316aa'
             '2875ec318ca88011b716b940f9588c44da548bd11f1901789e5f5bd40d5b8934'
-            'dc749637f669a700477df32ebd28a477d1c6f71f457db9fb123ae4c871c54e75'
+            'd4e1cda48c2d4a5d18cd8c9e63198f2983a05b1808a408565acab0a652d41753'
             'fe5296c5c8cc579348c9912b228305d870b30c7b5b1141c299183b5fd515cb5c'
             '15f3004fe788cc888534a8091d162c9d61fa7a1cb1def86fc5e81aea3540eae6'
             '3a379ff95218b8c05a08c4069a12cdbf62764387b9bbe1a045d3f98f5eaf105b'
@@ -163,15 +166,16 @@ sha256sums=('85a276634aef1c2bdb01f8b8c2f00260f97924c4a576d267c0e1e0a7b20914b2'
             'a532bb5bfd282d4ab6f14d0f5171afd8f69b81eee53786ec4b759f79d701a4b6'
             '2979594a45718c874b2f902a7c5fc4232e9eafd7c70602b1caa07366fac96cb0'
             '9db7f67e68218e51ee549cba0949aae86b6c14a48ac40b851cf76aba951f70a7'
+            'a02994ce5496f81352bcf6c08febe67d132e2e0051bfda002f3f8bf2a1c1860c'
             '851a959ba02a5701bf0de1b65caa99d61fef9c4654b7e2a210456e0dc323a9ed'
             'd4fc4067c524f5b81cc09e0bc142a727685823f1ab8867cfa33cbe640e7f6041'
             'f64169f1214078f87344a498da5c6af148fec37013c7108f878f6fad6938be7e'
             '7f70b50ef5d9c46196cf0f5e6ff287e4861bb0b8624a5c0914201058d2d281f2'
             '1781e9ecf6fc8d9e317510c6719b1cee1f5a4af0f37cc4a7fe84f0dac9b63cfd'
-            '0ab7f753eeba555c7aced864af12f5aaccc123818d5bec292113b2d3eb181864'
+            'e51754a5bf3b0a15e735ba49c7282891ae1db07465fe9941d76cdac3eede37c8'
             '80a02a54f5a5cec1ecfaaef9d78a10a5d6d47c6bfcfc7d3f95d526e999408e92'
             '66704d00c2c818151094db6dad52493c3809530770f595d47c2c748ab26ce386'
             '21b930ef1120a5cdf08089dd5db8db0b638187982840f65701ecb756e8611afa'
             '7bf347c190d1c73939c46f3d93cb1b5d5a1fb3fce044809fd2096a11037542d5'
-            'f6f0c7a9cf710c0c2722c3f42d9eca690c8206bfe4660d33f99e321de52e9cce'
+            '3b26e1b25ca1572430ce7a95f0decae39015f7ac167bfff7edcce300ed58115e'
             '8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004')
