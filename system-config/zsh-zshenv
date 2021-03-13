@@ -1,4 +1,3 @@
-# /etc/zsh/zshenv
 if [[ ! $ZDOTDIR ]]; then
-    export ZDOTDIR=$HOME/local/cfg/zsh
+    export ZDOTDIR=$HOME/.local/etc/zsh
 fi
