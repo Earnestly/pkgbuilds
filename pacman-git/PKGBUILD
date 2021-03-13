@@ -1,5 +1,5 @@
 pkgname=pacman-git
-pkgver=5.2.1.r59.g3ea7fdd9
+pkgver=6.0.0alpha1.r76.gede73f4d
 pkgrel=1
 
 pkgdesc='package manager with dependency support'
@@ -26,6 +26,12 @@ source=('git+https://git.archlinux.org/pacman.git'
 sha256sums=('SKIP'
             '95b3b2416402059cf6acf3e046082e7ce261e2b88629231dbf579a4200d8a63b'
             '650ddad24cad6afc4aecb4829cb8f06b9acb70c10a44f756fe8bd279949b518e')
+
+prepare() {
+    cd pacman
+    # Dull version colour numbers in summary
+    git revert --no-edit -n b323528491470ff77815fea97289c2cbf7e29689
+}
 
 pkgver() {
     cd pacman
