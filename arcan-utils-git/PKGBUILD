@@ -1,14 +1,14 @@
 pkgname=arcan-utils-git
-pkgver=0.5.5.pre1.r14.gf4ad0dc5
+pkgver=0.6.0.pre2.r88.g3a5260f4
 pkgrel=1
 
 pkgdesc='experimental tools for arcan'
 url='https://arcan-fe.com/'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('GPL' 'BSD')
 
 depends=('arcan')
-makedepends=('git' 'cmake' 'fuse3')
+makedepends=('git' 'cmake' 'fuse3' 'hidapi')
 optdepends=('fuse3: to mount the window configuration filesystem with arcan_cfgfs')
 
 provides=('arcan-utils')
@@ -32,7 +32,7 @@ build() {
     # vrbridge probably needs openhmd, builds anyway
     # kbdconv needs a copy of kbd source (keymap/common.h)
     CFLAGS+=" -fmacro-prefix-map=$PWD/="
-    for tool in acfgfs aclip aloadimage ltui shmmon vrbridge waybridge; do
+    for tool in acfgfs aclip aloadimage shmmon vrbridge; do
         env -C "$srcdir"/arcan/src/tools/"$tool" cmake -DCMAKE_INSTALL_PREFIX=/usr .
         env -C "$srcdir"/arcan/src/tools/"$tool" make VERBOSE=1
     done
@@ -41,9 +41,7 @@ build() {
 package() {
     cd arcan
 
-    for tool in acfgfs aclip aloadimage shmmon vrbridge waybridge; do
+    for tool in acfgfs aclip aloadimage shmmon vrbridge; do
         make -C src/tools/"$tool" DESTDIR="$pkgdir" install
     done
-
-    install -Dm0755 src/tools/ltui/ltui "$pkgdir"/usr/bin/arcan_ltui
 }

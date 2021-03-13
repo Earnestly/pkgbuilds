@@ -1,5 +1,5 @@
 pkgname=perf-tools-git
-pkgver=r200.g98d42a2
+pkgver=r206.gcb42511
 pkgrel=1
 
 pkgdesc='performance analysis tools based on linux perf_events and ftrace'

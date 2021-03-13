@@ -1,5 +1,5 @@
 pkgname=automake-git
-pkgver=1.16.1.r9.g20f739e6f
+pkgver=1.16.3.r19.g4a1220129
 pkgrel=1
 
 pkgdesc='automatically create makefiles'

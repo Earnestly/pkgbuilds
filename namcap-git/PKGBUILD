@@ -1,5 +1,5 @@
 pkgname=namcap-git
-pkgver=r450.g97e816e
+pkgver=r457.g28fdd26
 pkgrel=1
 
 pkgdesc='pacman package analyzer'

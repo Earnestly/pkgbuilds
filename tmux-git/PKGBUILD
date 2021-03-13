@@ -1,5 +1,5 @@
 pkgname=tmux-git
-pkgver=3.1.r281.g291b8574
+pkgver=3.2.rc.r13.g7019937b
 pkgrel=1
 
 pkgdesc='terminal multiplexer'
@@ -19,7 +19,7 @@ sha256sums=('SKIP')
 
 pkgver() {
     cd tmux
-    git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
+    git describe --long | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
 build() {

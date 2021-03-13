@@ -1,5 +1,5 @@
 pkgname=lgogdownloader-git
-pkgver=3.5.r17.gde05d16
+pkgver=3.7.r15.ge43d1c4
 pkgrel=1
 
 pkgdesc='unofficial downloader for gog.com'
@@ -8,14 +8,14 @@ arch=('i686' 'x86_64')
 license=('WTFPL')
 
 depends=('boost-libs' 'jsoncpp' 'liboauth' 'rhash' 'tinyxml2' 'htmlcxx')
-makedepends=('boost' 'help2man' 'git')
+makedepends=('cmake' 'boost' 'help2man' 'git')
 
 provides=('lgogdownloader')
 conflicts=('lgogdownloader')
 
 source=('git+https://github.com/Sude-/lgogdownloader.git')
 
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
     cd lgogdownloader

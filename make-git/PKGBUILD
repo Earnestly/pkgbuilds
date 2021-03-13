@@ -1,10 +1,10 @@
 pkgname=make-git
-pkgver=4.3.r13.g0c326a6
+pkgver=4.3.r46.g9043b28
 pkgrel=1
 
 pkgdesc='GNU make utility to maintain groups of programs'
 url='https://www.gnu.org/software/make/'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('GPL')
 
 options=('!makeflags')
@@ -32,6 +32,11 @@ build() {
     # XXX Requires internet connection to downloads .po files.
     ./bootstrap --gnulib-srcdir="$srcdir"/gnulib
     autoreconf -fi
+
+    # XXX lib/alloca.h:49:18: error: ignoring return value of '__builtin_alloca' declared with attribute 'warn_unused_result' [-Werror=unused-result]
+    #     cc1: error: function may return address of local variable [-Werror=return-local-addr]
+    CFLAGS="$CFLAGS -Wno-unused-result -Wno-return-local-addr"
+
     ./configure --prefix=/usr --with-guile
     make
 }

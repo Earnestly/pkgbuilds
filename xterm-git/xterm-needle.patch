@@ -1,8 +1,8 @@
 diff --git a/button.c b/button.c
-index 6ee8931..c30e44d 100644
+index 33020b4..da0a119 100644
 --- a/button.c
 +++ b/button.c
-@@ -2517,6 +2517,83 @@ HandleKeyboardSelectStart(Widget w,
+@@ -2536,6 +2536,83 @@ HandleKeyboardSelectStart(Widget w,
      }
  }
  
@@ -29,12 +29,12 @@ index 6ee8931..c30e44d 100644
 +        LineData *ld;
 +
 +#if OPT_FOCUS_EVENT
-+    /* Fake a focus event to workaround the situation where an existing
-+     * xterm already has a selection which prevents the current window
-+     * from selecting.  This is usually not a problem elsewhere as a
-+     * mouse click implicitly focuses the window. */
-+    ((XFocusChangeEvent *)event)->type = FocusIn;
-+    SendFocusButton(xw, (XFocusChangeEvent *)event);
++        /* Fake a focus event to workaround the situation where an existing
++         * xterm already has a selection which prevents the current window
++         * from selecting.  This is usually not a problem elsewhere as a
++         * mouse click implicitly focuses the window. */
++        ((XFocusChangeEvent *)event)->type = FocusIn;
++        SendFocusButton(xw, (XFocusChangeEvent *)event);
 +#endif
 +
 +        if (!isSameCELL(&screen->startH, &screen->endH)) {
@@ -69,11 +69,11 @@ index 6ee8931..c30e44d 100644
 +                    }
 +                }
 +
-+                    /* needle found */
++                /* needle found */
 +                if (i == len) {
 +                    TRACE(("SelectNeedle: found (%d,%d)\n", cell.row, cell.col));
 +                    screen->selectUnit = Select_WORD;
-+                    ComputeSelect(xw, &cell, &cell, False);
++                    ComputeSelect(xw, &cell, &cell, False, True);
 +                    return;
 +                }
 +            }
@@ -87,10 +87,10 @@ index 6ee8931..c30e44d 100644
  TrackDown(XtermWidget xw, XButtonEvent *event)
  {
 diff --git a/charproc.c b/charproc.c
-index 075e227..c5287fa 100644
+index bae169a..dc373f2 100644
 --- a/charproc.c
 +++ b/charproc.c
-@@ -269,6 +269,7 @@ static XtActionsRec actionsList[] = {
+@@ -276,6 +276,7 @@ static XtActionsRec actionsList[] = {
      { "select-cursor-start",	HandleKeyboardSelectStart },
      { "select-end",		HandleSelectEnd },
      { "select-extend",		HandleSelectExtend },
@@ -99,10 +99,10 @@ index 075e227..c5287fa 100644
      { "select-start",		HandleSelectStart },
      { "send-signal",		HandleSendSignal },
 diff --git a/xterm.h b/xterm.h
-index 37baa05..757bd1a 100644
+index 8eb4a4e..65eedc8 100644
 --- a/xterm.h
 +++ b/xterm.h
-@@ -840,6 +840,7 @@ extern void HandleKeyboardSelectStart  PROTO_XT_ACTIONS_ARGS;
+@@ -905,6 +905,7 @@ extern void HandleKeyboardSelectStart  PROTO_XT_ACTIONS_ARGS;
  extern void HandleKeyboardStartExtend  PROTO_XT_ACTIONS_ARGS;
  extern void HandleSelectEnd            PROTO_XT_ACTIONS_ARGS;
  extern void HandleSelectExtend         PROTO_XT_ACTIONS_ARGS;
@@ -111,10 +111,10 @@ index 37baa05..757bd1a 100644
  extern void HandleSelectStart          PROTO_XT_ACTIONS_ARGS;
  extern void HandleStartExtend          PROTO_XT_ACTIONS_ARGS;
 diff --git a/xterm.man b/xterm.man
-index eb14091..1f75b1b 100644
+index c1f9d24..6412042 100644
 --- a/xterm.man
 +++ b/xterm.man
-@@ -7018,6 +7018,10 @@ This action begins text selection at the current pointer location.
+@@ -7273,6 +7273,10 @@ This action begins text selection at the current pointer location.
  See
  the section on \fBPOINTER USAGE\fP for information on making selections.
  .TP 8
@@ -122,6 +122,6 @@ index eb14091..1f75b1b 100644
 +This action makes a word selection on the first occurrence of the \fIneedle\fP
 +string preceding the current selection, if any, or the cursor.
 +.TP 8
- .B "send-signal(\fIsigname\fP)"
+ .B "send\-signal(\fIsigname\fP)"
  This action sends the signal named by \fIsigname\fP
  to the \fI\*n\fP subprocess (the shell or program specified with

@@ -1,5 +1,5 @@
 pkgname=mawk-git
-pkgver=r114.gf448f23
+pkgver=r120.g3f5bd9c
 pkgrel=1
 
 pkgdesc='an implementation of new/posix awk'

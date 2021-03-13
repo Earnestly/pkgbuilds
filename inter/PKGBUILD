@@ -1,5 +1,5 @@
 pkgname=inter
-pkgver=3.9
+pkgver=3.15
 pkgrel=1
 
 pkgdesc='neo-grotesque sans-serif typeface'
@@ -12,13 +12,13 @@ group=('font')
 depends=('fontconfig')
 
 source=("https://github.com/rsms/inter/releases/download/v$pkgver/Inter-$pkgver.zip")
-sha256sums=('445f71a2c6d0a64c11649533346ded15eb28c1be97b5866910f786da78ab4dbb')
+sha256sums=('1534288eb599f57acbf2c5ac0010da9495c2ee53116e08d799555c6f8ee22156')
 
 pkgver() {
     curl -s https://api.github.com/repos/rsms/inter/releases/latest | jq -r '.name[1:]'
 }
 
 package() {
-    install -Dm0644 -t "$pkgdir"/usr/share/fonts/cff/inter 'Inter (OTF)'/*.otf
+    install -Dm0644 -t "$pkgdir"/usr/share/fonts/cff/inter 'Inter Desktop'/*.otf
     install -Dm0644 LICENSE.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }

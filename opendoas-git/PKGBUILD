@@ -1,5 +1,5 @@
 pkgname=opendoas-git
-pkgver=6.0.r61.g9a9495d
+pkgver=6.8.1.r4.g9a25a6d
 pkgrel=1
 
 pkgdesc='run commands as another user, alternative to sudo'

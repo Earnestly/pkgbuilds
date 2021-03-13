@@ -1,5 +1,5 @@
 pkgname=julius-git
-pkgver=r1671.gb1ab1cd0
+pkgver=r2437.g6d4c82ec
 pkgrel=1
 
 pkgdesc='open source implementation of caesar 3'
@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 license=('AGPL')
 
 depends=('sdl2_mixer')
-makedepends=('git')
+makedepends=('git' 'cmake')
 
 provides=('julius')
 conflicts=('julius')

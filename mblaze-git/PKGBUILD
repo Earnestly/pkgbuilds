@@ -1,5 +1,5 @@
 pkgname=mblaze-git
-pkgver=0.5.1.r9.g5ee756f
+pkgver=1.1.r9.g709f8f1
 pkgrel=1
 
 pkgdesc='unix utilities to deal with maildir'

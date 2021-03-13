@@ -1,15 +1,15 @@
 pkgname=mtree-git
-pkgver=1.0.4.r4.ge11b065
+pkgver=1.0.4.r5.g1b1f819
 pkgrel=1
 
 pkgdesc='map a directory hierarchy'
-url='https://github.com/archiecobbs/mtree-port'
+url='https://github.com/archiecobbs/nmtree'
 arch=('i686' 'x86_64')
 license=('BSD')
 
 depends=('openssl')
 
-source=('git+https://github.com/archiecobbs/mtree-port')
+source=('git+https://github.com/archiecobbs/nmtree')
 
 provides=('mtree')
 conflicts=('mtree')
@@ -17,23 +17,23 @@ conflicts=('mtree')
 sha256sums=('SKIP')
 
 pkgver() {
-    cd mtree-port
+    cd nmtree
     git describe --long --tags | sed 's/^v//; s/\([^-]*-g\)/r\1/; s/-/./g'
 }
 
 build() {
-    cd mtree-port
+    cd nmtree
     autoreconf -fi
     ./configure --prefix=/usr
     make
 }
 
 package() {
-    cd mtree-port
+    cd nmtree
     make DESTDIR="$pkgdir" doc_DATA= install
 
-    # libarchive provides an mtree.5 which differs from BSDs mtree format
-    mv "$pkgdir"/usr/share/man/man5/mtree.5 "$pkgdir"/usr/share/man/man5/mtree-port.5
+    # libarchive provides an mtree.5 manual.
+    mv -- "$pkgdir"/usr/share/man/man5/mtree.5 "$pkgdir"/usr/share/man/man5/nmtree.5
 
     install -Dm0644 COPYING "$pkgdir"/usr/share/licenses/"$pkgname"/COPYING
 }

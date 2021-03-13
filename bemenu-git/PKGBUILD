@@ -1,5 +1,5 @@
 pkgname=bemenu-git
-pkgver=r377.gbdfc2aa
+pkgver=r397.ge74224a
 pkgrel=1
 
 pkgdesc='dynamic menu library and client program inspired by dmenu'

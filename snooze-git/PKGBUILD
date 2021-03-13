@@ -1,0 +1,33 @@
+pkgname=snooze-git
+pkgver=0.5.r1.ga7ead9f
+pkgrel=1
+
+pkgdesc='run a command at a particular time'
+url='https://github.com/leahneukirchen/snooze'
+arch=('x86_64')
+license=('CC0')
+
+depends=('glibc')
+makedepends=('git')
+
+provides=('snooze')
+conflicts=('snooze')
+
+source=('git+https://github.com/leahneukirchen/snooze')
+
+sha256sums=('SKIP')
+
+pkgver() {
+    cd snooze
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+    cd snooze
+    make
+}
+
+package() {
+    cd snooze
+    make DESTDIR="$pkgdir" PREFIX=/usr install
+}

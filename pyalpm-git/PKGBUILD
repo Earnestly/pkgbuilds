@@ -1,5 +1,5 @@
 pkgname=pyalpm-git
-pkgver=0.9.1.r3.g0008920
+pkgver=0.9.1.r9.ge25c8cf
 pkgrel=1
 
 pkgdesc='libalpm bindings for python 3'

@@ -1,5 +1,5 @@
 pkgname=cpputest-git
-pkgver=3.8.r325.gffbae66e
+pkgver=4.0.r76.g51e34fea
 pkgrel=1
 
 pkgdesc='unit testing and mocking framework for c/c++'
@@ -19,7 +19,8 @@ sha256sums=('SKIP')
 
 pkgver() {
     cd cpputest
-    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+    _tag=$(git tag --sort=v:refname | tail -n1)
+    printf '%s.r%s.g%s' "${_tag#v}" "$(git rev-list "$_tag"..HEAD --count)" "$(git rev-parse --short HEAD)"
 }
 
 build() {

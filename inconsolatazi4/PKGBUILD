@@ -1,5 +1,5 @@
 pkgname=inconsolatazi4
-pkgver=1.12
+pkgver=1.121
 pkgrel=1
 
 pkgdesc='opentype variant of inconsolata'
