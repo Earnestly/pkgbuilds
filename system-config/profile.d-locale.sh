@@ -4,7 +4,7 @@
 fexport() {
     while IFS='=' read -r k v; do
         case $k in
-            LC_ALL) continue ;;
+            LC_ALL) ;;
             LANG*|LC_*) export "$k"="$v"
         esac
     done
